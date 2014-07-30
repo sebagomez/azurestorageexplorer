@@ -1,0 +1,15 @@
+v1.6 - 08/23/08
+===============================================================================
+* Updated show / hide select code.
+
+v1.5
+===============================================================================
+* Modal now displays properly again in Safari
+* Modal doesn't disable scrollbars
+* Modal scrolls with page
+
+v1.4
+===============================================================================
+* Added CHANGELOG
+* Made sure modal is centered in IE 6 (was a bug before)
+* Added releases directory

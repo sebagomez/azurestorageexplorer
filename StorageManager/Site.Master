@@ -1,0 +1,85 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="StorageManager.Site" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+	<title>Windows Azure Web Storage Explorer</title>
+	<meta name="keywords" content="azure, windows azure, storage, storage account, storage explorer, explorer, web explorer, web" />
+	<meta name="description" content="Web tool that lets you manage your Windows Azure storage account content" />
+	<meta name="msvalidate.01" content="5E614FD9F898C0A4287BF595E1F85892" /> <!-- Bing indexing -->
+	<link rel="stylesheet" type="text/css" href="Resources/StorageExplorer.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+	<asp:ContentPlaceHolder ID="head" runat="server">
+	</asp:ContentPlaceHolder>
+</head>
+<body>
+	<form id="form1" runat="server" style="height:100%">
+	<div id="container">
+		<div id="content">
+			<table style="width: 100%; height: 100%">
+				<tr style="height: 150px">
+					<td class="style1">
+						<a href="Default.aspx">
+							<img alt="" src="images/WindowsAzure_transparent1_just.png" border="0" alt="Windows Azure Web Storage Explorer" /></a>
+					</td>
+					<td align="left" valign="middle">
+						<asp:Image ID="Image1" runat="server" ImageUrl="~/images/logo20.png" />
+					</td>
+					<td valign="bottom" align="right">
+						<asp:LinkButton ID="btnExit" runat="server" Font-Names="Arial" Font-Size="X-Small"
+							OnClick="btnExit_Click">Exit</asp:LinkButton>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<!--
+						<a href="http://www.twitter.com/sebagomez" target="_blank">
+							<img src="http://twitter-badges.s3.amazonaws.com/follow_bird-a.png" alt="Follow sebagomez on Twitter"
+								border="0" /></a>
+					-->
+						<br />
+						<asp:Menu ID="Menu1" runat="server">
+							<StaticMenuItemStyle Font-Names="Arial" />
+							<Items>
+								<asp:MenuItem NavigateUrl="/?type=blob" Text="Blobs" Value="Blobs"></asp:MenuItem>
+								<asp:MenuItem NavigateUrl="/?type=table" Text="Tables" Value="Tables"></asp:MenuItem>
+								<asp:MenuItem NavigateUrl="/?type=queue" Text="Queues" Value="Queues"></asp:MenuItem>
+							</Items>
+						</asp:Menu>
+					</td>
+					<td colspan="2" valign="top">
+						<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+						</asp:ContentPlaceHolder>
+					</td>
+				</tr>
+				<!--
+				<tr valign="baseline">
+					<td class="style1" valign="top">&nbsp;</td>
+					<td colspan="2">test</td>
+				</tr>
+				-->
+			</table>
+		</div>
+		<div id="footer">
+			<asp:Label ID="devBy" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="#666666">Developed by <a href="http://twitter.com/sebagomez">@sebagomez</a> </asp:Label>
+			</br>
+			<asp:Label ID="source" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="#666666">Source code available <a href="http://storageexplorer.codeplex.com/">here</a> </asp:Label>
+		</div>
+	</div>
+	</form>
+    
+<!-- Google Analytics -->
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-350181-15', 'azurestorage.azurewebsites.net');
+		ga('send', 'pageview');
+
+	</script>
+</body>
+</html>
