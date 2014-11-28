@@ -1,0 +1,9 @@
+bin/
+obj/
+.svn/
+WeMovedCloudService/
+AzureStorageService/
+packages/
+publish.bat
+*.user
+*.suo

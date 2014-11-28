@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="http://www.microsoft.com/windowsazure/getstarted/" style="font-size: x-small; font-family: Arial, Helvetica, sans-serif;" target="_blank">(Need an account?)</a>
+				<a href="http://azure.microsoft.com/en-us/documentation/" style="font-size: x-small; font-family: Arial, Helvetica, sans-serif;" target="_blank">(Need an account?)</a>
 			</td>
 			<td align="left">
 				<asp:Button ID="btnOK" runat="server" Text="Enter" OnClick="btnOK_Click"

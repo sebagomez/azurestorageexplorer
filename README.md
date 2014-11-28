@@ -17,10 +17,13 @@ RowKey:1
 Title:Die Hard
 
 To query the entities from a table use the following syntax: `<PropertyName> [operator] <ProepertyValue>`
-Where the valid operators are: eq (equals), gt (greater than), ge (greater or equal), lt (less than), le (less or equal) and ne (not equal)
+Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).  
 To query action movies use the following:
 > PartitionKey eq 'Action'
 
 If you don't write a query the system will retrieve every Entity on the Table
 
 Try it live at http://azurestorage.azurewebsites.net
+
+Or deploy it to your own Azure WebSite  
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer)
