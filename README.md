@@ -1,8 +1,14 @@
+Try it live at http://azurestorage.azurewebsites.net
+
+Or deploy it to your own Azure WebSite  
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer) <-- coolest Azure feature ever!
+
 Azure Storage Explorer
 ======================
 Windows Azure Web Storage Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Windows Azure Storage account. You'll no longer have to install a local client to do that. It's developed in C#.
 
-![Screenshot](http://i.imgur.com/Rm6v8QK.png)
+![Screenshot](GitMain.png)
+
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
 
@@ -21,9 +27,6 @@ Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greate
 To query action movies use the following:
 > PartitionKey eq 'Action'
 
+![Screenshot](Tables.png)
+
 If you don't write a query the system will retrieve every Entity on the Table
-
-Try it live at http://azurestorage.azurewebsites.net
-
-Or deploy it to your own Azure WebSite  
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer)
