@@ -1,7 +1,7 @@
 Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it to your own Azure WebSite  
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer) <-- coolest Azure feature ever!
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer) <-- [coolest Azure feature](http://sgomez.blogspot.com.uy/2014/11/deploy-to-azure-button-wow.html) ever!
 
 Azure Storage Explorer
 ======================
