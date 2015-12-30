@@ -23,7 +23,7 @@
 							<img alt="" src="images/WindowsAzure_transparent1_just.png" border="0" alt="Windows Azure Web Storage Explorer" /></a>
 					</td>
 					<td align="left" valign="middle">
-						<asp:Image ID="Image1" runat="server" ImageUrl="~/images/logo20.png" />
+						<asp:Image ID="Image1" runat="server" ImageUrl="images/logo20.png" />
 					</td>
 					<td valign="bottom" align="right">
 						<asp:LinkButton ID="btnExit" runat="server" Font-Names="Arial" Font-Size="X-Small"
