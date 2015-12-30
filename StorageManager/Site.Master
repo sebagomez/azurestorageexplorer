@@ -25,6 +25,11 @@
 					<td align="left" valign="middle">
 						<asp:Image ID="Image1" runat="server" ImageUrl="images/logo20.png" />
 					</td>
+					<% if(Request.Cookies.AllKeys.Contains("account")) { %>
+					<td>
+						Account: <%= Request.Cookies["account"].Value %>
+					</td>
+					<% } %>
 					<td valign="bottom" align="right">
 						<asp:LinkButton ID="btnExit" runat="server" Font-Names="Arial" Font-Size="X-Small"
 							OnClick="btnExit_Click">Exit</asp:LinkButton>
