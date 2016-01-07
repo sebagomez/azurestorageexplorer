@@ -6,9 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using StorageManager.Helpers;
 using StorageHelper;
-using Microsoft.WindowsAzure.StorageClient;
-using System.Diagnostics;
-//using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace StorageManager
 {

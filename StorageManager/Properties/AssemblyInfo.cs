@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Windows Azure Web Storage Manager")]
+[assembly: AssemblyTitle("Microsoft Azure Web Storage Manager")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("@sebagomez")]
-[assembly: AssemblyProduct("Windows Azure Web Storage Manager")]
-[assembly: AssemblyCopyright("Copyright ©  2009 - 2014")]
+[assembly: AssemblyProduct("Microsoft Azure Web Storage Manager")]
+[assembly: AssemblyCopyright("Copyright ©  2009 - 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +30,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.7.*")]
+[assembly: AssemblyVersion("0.9.*")]
 //[assembly: AssemblyFileVersion("1.0.0.*")]

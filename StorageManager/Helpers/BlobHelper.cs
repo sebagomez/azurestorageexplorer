@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StorageHelper;
-using Microsoft.WindowsAzure.StorageClient;
 using System.ComponentModel;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace StorageManager.Helpers
 {
@@ -29,17 +29,17 @@ namespace StorageManager.Helpers
             if (cont == null)
                 return list;
 
-            BlobRequestOptions opt = new BlobRequestOptions();
-            opt.BlobListingDetails = BlobListingDetails.All;
-            opt.UseFlatBlobListing = true;
+            //BlobRequestOptions opt = new BlobRequestOptions();
+            //opt.BlobListingDetails = BlobListingDetails.All;
+            //opt.UseFlatBlobListing = true;
 
-            foreach (IListBlobItem blob in cont.ListBlobs(opt))
+            foreach (IListBlobItem blob in cont.ListBlobs(null,true, BlobListingDetails.All))
             {
                 CloudBlockBlob b = blob as CloudBlockBlob;
                 if (b == null)
                     continue;
 
-                b.FetchAttributes(opt);
+                //b.FetchAttributes(opt);
 
                 BlobHelper bh = new BlobHelper();
                 bh.Url = b.Uri.ToString();
@@ -47,7 +47,7 @@ namespace StorageManager.Helpers
                 bh.Size = b.Properties.Length;
                 bh.Type = b.Properties.ContentType;
                 bh.BlobType = b.Properties.BlobType.ToString();
-                bh.LastModfied = b.Properties.LastModifiedUtc;
+                bh.LastModfied = b.Properties.LastModified.HasValue ? new DateTime(b.Properties.LastModified.Value.Ticks) : DateTime.MinValue;
                 bh.ETag = b.Properties.ETag;
                 list.Add(bh);
             }

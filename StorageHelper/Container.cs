@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
 using System.IO;
 using StorageHelper.Util;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace StorageHelper
 {
@@ -52,7 +52,8 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlobContainer cont = new CloudBlobContainer(containerName, blobClient);
+			Uri uri = new Uri(string.Format(blobClient.BaseUri + "{0}", containerName));
+			CloudBlobContainer cont = new CloudBlobContainer(uri, blobClient.Credentials);
 			cont.Create();
 
 			if (publicAccess)
@@ -69,7 +70,8 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlobContainer cont = new CloudBlobContainer(containerName, blobClient);
+			Uri uri = new Uri(string.Format(blobClient.BaseUri + "{0}", containerName));
+			CloudBlobContainer cont = new CloudBlobContainer(uri, blobClient.Credentials);
 
 			AsyncCallback callback = new AsyncCallback(ResponseReceived);
 
@@ -88,9 +90,9 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlockBlob blockBlob = blobClient.GetBlockBlobReference(blobUrl);
+			ICloudBlob blobRef = blobClient.GetBlobReferenceFromServer(new Uri(blobUrl));
 
-			blockBlob.Delete();
+			blobRef.Delete();
 		}
 
 		public static void CreateBlob(string account, string key, string container, string fileName, Stream fileContent)
@@ -99,7 +101,7 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlockBlob blockBlob = new CloudBlockBlob(container + "\\" + fileName, blobClient);
+			CloudBlockBlob blockBlob = new CloudBlockBlob(new Uri(container + "\\" + fileName), blobClient.Credentials);
 
 			if (fileContent.Length < (64 * 1024 * 1024)) // 64 MB
 				blockBlob.UploadFromStream(fileContent);
@@ -107,7 +109,7 @@ namespace StorageHelper
 			{
 				string tmpPath = Path.GetRandomFileName();
 				fileContent.CopyTo(tmpPath);
-				blockBlob.UploadFile(tmpPath);
+				blockBlob.UploadFromFile(tmpPath, FileMode.Open);
 			}
 		}
 
@@ -117,10 +119,11 @@ namespace StorageHelper
 				return null;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlockBlob blockBlob = blobClient.GetBlockBlobReference(blobUrl);
+			ICloudBlob blob = blobClient.GetBlobReferenceFromServer(new Uri( blobUrl));
 
 			string tmpPath = Path.GetTempFileName();
-			blockBlob.DownloadToFile(tmpPath);
+			blob.DownloadToFile(tmpPath, FileMode.Create);
+
 			return tmpPath;
 		}
 	}

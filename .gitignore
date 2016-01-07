@@ -1,6 +1,7 @@
 bin/
 obj/
 .svn/
+.vs/
 WeMovedCloudService/
 AzureStorageService/
 packages/

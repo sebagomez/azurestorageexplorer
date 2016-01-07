@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace StorageHelper
 {
@@ -23,10 +23,11 @@ namespace StorageHelper
 
 			CloudQueueClient queueClient = Client.GetQueueClient(account, key);
 			CloudQueue queue = queueClient.GetQueueReference(queueName);
+			queue.FetchAttributes();
 
-			if (queue.RetrieveApproximateMessageCount() > 0)
+			if (queue.ApproximateMessageCount.HasValue && queue.ApproximateMessageCount.Value > 0)
 			{
-				foreach (CloudQueueMessage message in queue.PeekMessages(queue.RetrieveApproximateMessageCount()))
+				foreach (CloudQueueMessage message in queue.PeekMessages(queue.ApproximateMessageCount.Value))
 					yield return message;
 			}
 			else
@@ -39,10 +40,10 @@ namespace StorageHelper
 			CloudQueue queue = queueClient.GetQueueReference(queueName);
 			queue.FetchAttributes();
 
-			if (queue.RetrieveApproximateMessageCount() > 0)
+			if (queue.ApproximateMessageCount.HasValue && queue.ApproximateMessageCount.Value > 0)
 			{
 				bool found = false;
-				foreach (CloudQueueMessage message in queue.GetMessages(queue.RetrieveApproximateMessageCount(), new TimeSpan(0,0, 0, 0,250)))
+				foreach (CloudQueueMessage message in queue.GetMessages(queue.ApproximateMessageCount.Value, new TimeSpan(0,0, 0, 0,250)))
 				{
 					if (message.Id == messageId)
 					{
@@ -64,7 +65,7 @@ namespace StorageHelper
 
 			CloudQueueClient queueClient = Client.GetQueueClient(account, key);
 			CloudQueue queue = queueClient.GetQueueReference(queueName);
-			queue.CreateIfNotExist();
+			queue.CreateIfNotExists();
 		}
 
 		public static void Delete(string account, string key, string queueName)

@@ -3,8 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-	<title>Windows Azure Web Storage Explorer</title>
-	<meta name="keywords" content="azure, windows azure, storage, storage account, storage explorer, explorer, web explorer, web" />
+	<title>Azure Web Storage Explorer</title>
+	<meta name="keywords" content="azure, azure, storage, storage account, storage explorer, explorer, web explorer, web" />
 	<meta name="description" content="Web tool that lets you manage your Windows Azure storage account content" />
 	<meta name="msvalidate.01" content="5E614FD9F898C0A4287BF595E1F85892" />
 	<!-- Bing indexing -->

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using Microsoft.WindowsAzure.Storage.Blob;
 using StorageHelper;
-using Microsoft.WindowsAzure.StorageClient;
 
 namespace StorageManager.Helpers
 {
-    public class ContainerHelper
+	public class ContainerHelper
     {
         public string Name { get; set; }
 

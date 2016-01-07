@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Services.Client;
-using System.Net;
 using System.Data.Services.Common;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace StorageHelper
 {
 	[DataServiceKey("PartitionKey", "RowKey")]
-	public class TableEntity
+	public class TableEntity : ITableEntity
 	{
 		public string PartitionKey { get; set; }
 		public string RowKey { get; set; }
+		public DateTimeOffset Timestamp { get; set; }
+		public string ETag { get; set; }
 
 		Dictionary<string, string> m_properties = new Dictionary<string, string>();
 
@@ -37,7 +39,14 @@ namespace StorageHelper
 
 		public string Values
 		{
-			get { return this.ToString(); }
+			get
+			{
+				StringBuilder builder = new StringBuilder();
+				foreach (string key in m_properties.Keys)
+					builder.AppendFormat("{0}={1};", key, m_properties[key]);
+
+				return builder.ToString();
+			}
 		}
 
 		public override string ToString()
@@ -53,10 +62,10 @@ namespace StorageHelper
 		{
 			TableEntity entity = new TableEntity();
 
-			string[] lines = data.Split(new string[] { "\r\n" },StringSplitOptions.RemoveEmptyEntries);
+			string[] lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 			if (lines.Count<string>() < 1)
-				throw new Exception(string.Format("'{0}' is not a valid input",data));
+				throw new Exception(string.Format("'{0}' is not a valid input", data));
 
 			foreach (string line in lines)
 			{
@@ -64,7 +73,7 @@ namespace StorageHelper
 				Debug.Assert(values.Length == 2);
 
 				if (values.Count<string>() != 2)
-					throw new Exception(string.Format("'{0}' is not a valid input",line));
+					throw new Exception(string.Format("'{0}' is not a valid input", line));
 
 				if (values[0] == "PartitionKey")
 					entity.PartitionKey = values[1];
@@ -82,5 +91,15 @@ namespace StorageHelper
 			return entity;
 		}
 
+		public void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
+		{
+			foreach (var p in properties)
+				this[p.Key] = p.Value.StringValue;
+		}
+
+		public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
+		{
+			throw new NotImplementedException("Not implemented by sebagomez");
+		}
 	}
 }

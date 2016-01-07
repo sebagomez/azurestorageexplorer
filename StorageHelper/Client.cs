@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
-using Microsoft.WindowsAzure;
-using System.Security.Cryptography;
 using System.Globalization;
+using System.Security.Cryptography;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace StorageHelper
 {
 	public class Client
 	{
-		static StorageCredentialsAccountAndKey s_credentials = null;
+		static StorageCredentials s_credentials = null;
 		static CloudStorageAccount s_storageAccount = null;
 		static CloudBlobClient s_blobClient = null;
 		static CloudTableClient s_tableClient = null;
@@ -28,8 +28,9 @@ namespace StorageHelper
 			Uri queueUri = new Uri(string.Format("http://{0}.queue.core.windows.net", account));
 			Uri tableUri = new Uri(string.Format("http://{0}.table.core.windows.net", account));
 
-			s_credentials = new StorageCredentialsAccountAndKey(account, key);
-			s_storageAccount = new CloudStorageAccount(s_credentials, blobUri, queueUri, tableUri);
+			s_credentials = new StorageCredentials(account, key);
+			//s_storageAccount = new CloudStorageAccount(s_credentials, blobUri, queueUri, tableUri);
+			s_storageAccount = new CloudStorageAccount(s_credentials, true);
 
 			s_blobClient = s_storageAccount.CreateCloudBlobClient();
 			s_tableClient = s_storageAccount.CreateCloudTableClient();

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StorageHelper;
-using Microsoft.WindowsAzure.StorageClient;
 using System.ComponentModel;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace StorageManager.Helpers
 {

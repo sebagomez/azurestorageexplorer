@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StorageHelper;
-using Microsoft.WindowsAzure.StorageClient;
 using System.Data;
 
 namespace StorageManager.Helpers
@@ -27,6 +26,15 @@ namespace StorageManager.Helpers
 		public static DSEntities Query(string account, string key, string table, string query)
 		{
 			return GetDataSet(StorageHelper.Table.Query(account, key, table, query));
+		}
+
+		public static List<JsonTableData> QueryEntities(string account, string key, string table, string query)
+		{
+			List<JsonTableData> list = new List<JsonTableData>();
+			foreach (TableEntity data in StorageHelper.Table.Query(account, key, table, query))
+				list.Add(JsonTableData.FromTableEntity(data));
+
+			return list;
 		}
 
 		static DSEntities GetDataSet(IEnumerable<TableEntity> list)
