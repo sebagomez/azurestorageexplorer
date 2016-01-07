@@ -4,6 +4,7 @@ obj/
 .vs/
 WeMovedCloudService/
 AzureStorageService/
+PublishProfiles/
 packages/
 publish.bat
 *.user
