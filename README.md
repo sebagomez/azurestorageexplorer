@@ -23,9 +23,11 @@ RowKey:1
 Title:Die Hard
 
 To query the entities from a table use the following syntax: `<PropertyName> [operator] <ProepertyValue>`
-Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).  
+Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).   
 To query action movies use the following:
-> PartitionKey eq 'Action'
+> PartitionKey eq 'Action'  
+
+*Please note there's a <kbd>space</kbd> character before and after the **eq** operator.*
 
 ![Screenshot](Tables.png)
 
