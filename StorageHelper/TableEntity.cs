@@ -94,7 +94,7 @@ namespace StorageHelper
 		public void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
 		{
 			foreach (var p in properties)
-				this[p.Key] = p.Value.StringValue;
+				this[p.Key] = p.Value.PropertyAsObject.ToString();
 		}
 
 		public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
