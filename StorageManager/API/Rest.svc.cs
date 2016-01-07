@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using StorageHelper;
 using StorageManager.Helpers;
 
 namespace StorageManager.API
@@ -10,9 +8,6 @@ namespace StorageManager.API
 	[ServiceContract]
 	public class Rest
 	{
-		const string TEST_ACCOUNT = "genexus";
-		const string TEST_KEY = "/xMipzvPdXNtAFHOaNIEKumJZnhkbnu/yJGfcvOUqkABYmcIuWpdjzgRN+qYFnk5941U7Hfw9vk+MsstgvdPjw==";
-
 		[OperationContract]
 		[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/containers?account={account}&key={key}")]
 		public List<ContainerHelper> GetContainers(string account, string key)

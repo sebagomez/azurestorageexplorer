@@ -122,7 +122,9 @@
     <Content Include="Resources\style.css" />
     <Content Include="Resources\subModal.css" />
     <Content Include="Resources\subModal.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="404.aspx.cs">
@@ -239,8 +241,6 @@
       <DependentUpon>DSEntities.xsd</DependentUpon>
     </None>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\azurestorage - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\azurestorage - Web Deploy.pubxml" />
     <None Include="Resources\LICENSE" />
     <Content Include="404.aspx" />
     <Content Include="Controls\UC_Entities.ascx" />
