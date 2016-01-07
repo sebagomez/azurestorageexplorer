@@ -27,7 +27,7 @@ Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greate
 To query action movies use the following:
 > PartitionKey eq 'Action'  
 
-*Please note there's a <kbd>space</kbd> character before and after the **eq** operator.*
+*Please note there's a <kbd>space</kbd> character before and after the eq operator.*
 
 ![Screenshot](Tables.png)
 
