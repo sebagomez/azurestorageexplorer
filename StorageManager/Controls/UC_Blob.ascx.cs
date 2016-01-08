@@ -3,6 +3,7 @@ using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.WindowsAzure.Storage;
 using StorageHelper;
 using StorageManager.Helpers;
 
@@ -66,26 +67,30 @@ namespace StorageManager.Controls
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
-            try
-            {
+			try
+			{
 				UCHelper.CleanUpLabels(new Label[] { lblMessage, lblError });
 
-                if (FileUpload.HasFile)
-                {
-                    string container = Request.QueryString["container"];
-                    Container.CreateBlob(Request.Cookies[SiteHelper.ACCOUNT].Value, 
-										Request.Cookies[SiteHelper.KEY].Value, 
-										container, 
-										FileUpload.FileName, 
+				if (FileUpload.HasFile)
+				{
+					string container = Request.QueryString["container"];
+					Container.CreateBlob(Request.Cookies[SiteHelper.ACCOUNT].Value,
+										Request.Cookies[SiteHelper.KEY].Value,
+										container,
+										FileUpload.FileName,
 										FileUpload.FileContent);
 
-                    grdBlobs.DataBind();
-                }
-            }
-            catch (Exception ex)
-            {
-                lblError.Text = ex.Message;
-            }
+					grdBlobs.DataBind();
+				}
+			}
+			catch (StorageException sex)
+			{
+				lblError.Text = sex.RequestInformation.HttpStatusMessage;
+			}
+			catch (Exception ex)
+			{
+				lblError.Text = ex.Message;
+			}
         }
 
 		protected void grdBlobs_RowDataBound(object sender, GridViewRowEventArgs e)

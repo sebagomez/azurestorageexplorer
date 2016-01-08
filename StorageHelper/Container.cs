@@ -95,21 +95,26 @@ namespace StorageHelper
 			blobRef.Delete();
 		}
 
-		public static void CreateBlob(string account, string key, string container, string fileName, Stream fileContent)
+		public static void CreateBlob(string account, string key, string containerName, string fileName, Stream fileContent)
 		{
-			if (string.IsNullOrEmpty(container))
+			if (string.IsNullOrEmpty(containerName))
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			CloudBlockBlob blockBlob = new CloudBlockBlob(new Uri(container + "\\" + fileName), blobClient.Credentials);
+			CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+			CloudBlockBlob blob = container.GetBlockBlobReference(fileName);
+
+			//CloudBlockBlob blockBlob = new CloudBlockBlob(new Uri(blobClient.BaseUri + "\\" + container + "\\" + fileName), blobClient.Credentials);
+			//Uri blobUri = new Uri(blobClient.BaseUri + containerName + "\\" + fileName);
+			//ICloudBlob blobRef = blobClient.GetBlobReferenceFromServer(blobUri);
 
 			if (fileContent.Length < (64 * 1024 * 1024)) // 64 MB
-				blockBlob.UploadFromStream(fileContent);
+				blob.UploadFromStream(fileContent);
 			else
 			{
 				string tmpPath = Path.GetRandomFileName();
 				fileContent.CopyTo(tmpPath);
-				blockBlob.UploadFromFile(tmpPath, FileMode.Open);
+				blob.UploadFromFile(tmpPath, FileMode.Open);
 			}
 		}
 
