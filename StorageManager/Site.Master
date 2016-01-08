@@ -57,6 +57,8 @@
 				</table>
 			</div>
 			<div id="footer">
+				<asp:Label ID="lblVersion" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="#666666"></asp:Label>
+				<br/>
 				<asp:Label ID="devBy" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="#666666">Developed by <a href="http://twitter.com/sebagomez">@sebagomez</a> </asp:Label>
 			</div>
 		</div>

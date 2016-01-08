@@ -67,6 +67,15 @@ namespace StorageManager {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
         
         /// <summary>
+        /// lblVersion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblVersion;
+        
+        /// <summary>
         /// devBy control.
         /// </summary>
         /// <remarks>

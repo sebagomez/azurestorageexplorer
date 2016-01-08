@@ -70,7 +70,7 @@ namespace StorageManager.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Web Storage Explorer.
+        ///   Looks up a localized string similar to Azure Web Storage Explorer.
         /// </summary>
         internal static string Title {
             get {
@@ -79,7 +79,7 @@ namespace StorageManager.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Web Storage Explorer v{0} build {1}.
+        ///   Looks up a localized string similar to Azure Web Storage Explorer v{0} build {1}.
         /// </summary>
         internal static string TitleVersion {
             get {
