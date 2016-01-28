@@ -33,7 +33,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" style="width:110px">
 							<% if (Request.Cookies.AllKeys.Contains("account"))
 								{ %>
 							<label class="account">Account: <%= Request.Cookies["account"].Value %></label>
