@@ -48,7 +48,7 @@ namespace StorageManager.Controls
 			{
 				UCHelper.CleanUpLabels(new Label[] { lblMessage, lblError });
 				if (args.CommandName == "TableClick")
-					Response.Redirect("default.aspx?type=table&table=" + args.CommandArgument.ToString());
+					Response.Redirect("Default.aspx?type=table&table=" + args.CommandArgument.ToString());
 				else if (args.CommandName == "DeleteTable")
 					DeleteTable(args.CommandArgument.ToString());
 			}
@@ -63,7 +63,7 @@ namespace StorageManager.Controls
 			StorageHelper.Table.Delete(Request.Cookies[SiteHelper.ACCOUNT].Value, 
 										Request.Cookies[SiteHelper.KEY].Value, 
 										tableName);
-			Response.Redirect("default.aspx?type=table");
+			Response.Redirect("Default.aspx?type=table");
 		}
 	}
 }

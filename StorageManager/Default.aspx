@@ -17,7 +17,7 @@
 
         <table style="width: 100%; height:100%">
             <tr>
-                <td style="width:35%" valign="top">
+                <td style="width:18%" valign="top">
                     <uc1:UC_Containers ID="UC_Containers1" runat="server" />
                     <uc3:UC_Tables ID="UC_Tables1" runat="server" />
                     <uc5:UC_Queues ID="UC_Queues1" runat="server" />

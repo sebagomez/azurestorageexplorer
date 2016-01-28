@@ -13,7 +13,7 @@ namespace StorageManager
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (Request.Cookies[SiteHelper.ACCOUNT] == null || Request.Cookies[SiteHelper.KEY] == null)
-				Response.Redirect("login.aspx");
+				Response.Redirect("Login.aspx");
 
 			if (!IsPostBack)
 			{
