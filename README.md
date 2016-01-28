@@ -1,3 +1,5 @@
+[![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it to your own Azure WebSite  
