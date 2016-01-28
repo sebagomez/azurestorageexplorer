@@ -15,36 +15,35 @@
 		</td>
 	</tr>
 	<tr>
-		<td width="50%">
-        <asp:Label ID="lblMessage" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="Black"></asp:Label>
-        <asp:Label ID="lblError" runat="server" Font-Names="Calibri" Font-Size="Small" 
-				ForeColor="Red"></asp:Label>
-        </td>
-		<td align="right">
-			<asp:Button ID="btnInsert" runat="server" Font-Names="Calibri" 
-				onclick="btnInsert_Click" Text="Insert Data" />
-			<asp:Button ID="btnExecute" runat="server" Font-Names="Calibri" 
-				Text="Execute Query" onclick="btnExecute_Click" />
+		<td style="width:50%">
+			<asp:Button ID="btnInsert" runat="server" Font-Names="Calibri" onclick="btnInsert_Click" Text="Insert Data" />
+			<asp:Button ID="btnExecute" runat="server" Font-Names="Calibri" Text="Execute Query" onclick="btnExecute_Click" />
 		</td>
+		<td style="text-align:left;">
+        	<asp:Label ID="lblMessage" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="Black"></asp:Label>
+        	<asp:Label ID="lblError" runat="server" Font-Names="Calibri" Font-Size="Small" ForeColor="Red"></asp:Label>
+        </td>
 	</tr>
 	<tr>
 		<td colspan="2">
-			<asp:GridView ID="grdEntities" runat="server" CellPadding="4" ForeColor="#333333" 
-				GridLines="None" DataKeyNames="PartitionKey,RowKey" 
-				onrowcommand="grdEntities_RowCommand" Width="100%">
-				<RowStyle BackColor="#F7F6F3" ForeColor="#333333" Font-Size="Medium" Font-Names="Calibri" />
-				<Columns>
-					<asp:ButtonField ButtonType="Image" CommandName="DeleteEntity" 
-						ImageUrl="~/images/delete.ico" Text="Delete Entity" />
-				</Columns>
-				<FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-				<PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-				<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-				<HeaderStyle BackColor="#007FFF" Font-Bold="False" ForeColor="White" Font-Size="Medium" Font-Names="Calibri"  />
-				<EditRowStyle BackColor="#2461BF" />
-				<AlternatingRowStyle BackColor="White" />
-			</asp:GridView>
-			<br />
+			<div style="overflow:scroll;width:74vw;height:40vw;">
+				<asp:GridView ID="grdEntities" runat="server" CellPadding="4" ForeColor="#333333" 
+					GridLines="None" DataKeyNames="PartitionKey,RowKey" 
+					onrowcommand="grdEntities_RowCommand" Width="100%">
+					<RowStyle BackColor="#F7F6F3" ForeColor="#333333" Font-Size="Medium" Font-Names="Calibri" />
+					<Columns>
+						<asp:ButtonField ButtonType="Image" CommandName="DeleteEntity" 
+							ImageUrl="~/images/delete.ico" Text="Delete Entity" />
+					</Columns>
+					<FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+					<PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+					<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+					<HeaderStyle BackColor="#007FFF" Font-Bold="False" ForeColor="White" Font-Size="Medium" Font-Names="Calibri"  />
+					<EditRowStyle BackColor="#2461BF" />
+					<AlternatingRowStyle BackColor="White" />
+				</asp:GridView>
+				<br />
+			</div>
 		</td>
 	</tr>
 </table>
