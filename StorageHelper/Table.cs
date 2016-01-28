@@ -142,7 +142,7 @@ namespace StorageHelper
 		{
 			CloudTableClient tableClient = Client.GetTableClient(account, key);
 			CloudTable table = tableClient.GetTableReference(tableName);
-			TableEntity entity = new TableEntity() { PartitionKey = partitionKey, RowKey = rowKey };
+			TableEntity entity = new TableEntity() { PartitionKey = partitionKey, RowKey = rowKey, ETag = "*" };
 			TableOperation delete = TableOperation.Delete(entity);
 			table.Execute(delete);
 
