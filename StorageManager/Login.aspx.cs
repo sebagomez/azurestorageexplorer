@@ -36,7 +36,7 @@ namespace StorageManager
 				Response.Cookies.Add(account);
 				Response.Cookies.Add(key);
 
-				Response.Redirect("default.aspx");
+				Response.Redirect("Default.aspx");
 			}
 			catch (Exception ex)
 			{

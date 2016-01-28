@@ -43,7 +43,7 @@ namespace StorageManager.Controls
 				UCHelper.CleanUpLabels(new Label[] { lblMessage, lblError });
 
 				if (args.CommandName == "QueueClick")
-					Response.Redirect("default.aspx?type=queue&queue=" + args.CommandArgument.ToString());
+					Response.Redirect("Default.aspx?type=queue&queue=" + args.CommandArgument.ToString());
 				else if (args.CommandName == "DeleteQueue")
 					DeleteQueue(args.CommandArgument.ToString());
 			}

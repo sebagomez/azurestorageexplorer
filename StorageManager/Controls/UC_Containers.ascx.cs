@@ -19,7 +19,7 @@ namespace StorageManager.Controls
 				UCHelper.CleanUpLabels(new Label[] { lblMessage, lblError });
 
                 if (args.CommandName == "ContainerClick")
-                    Response.Redirect("default.aspx?container=" + args.CommandArgument.ToString());
+                    Response.Redirect("Default.aspx?container=" + args.CommandArgument.ToString());
                 else if (args.CommandName == "DeleteContainer")
                     DeleteContainer(args.CommandArgument.ToString());
             }
