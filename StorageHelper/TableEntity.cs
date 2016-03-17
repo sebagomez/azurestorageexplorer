@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Data.Services.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace StorageHelper
 {
-	[DataServiceKey("PartitionKey", "RowKey")]
+    [DataServiceKey("PartitionKey", "RowKey")]
 	public class TableEntity : ITableEntity
 	{
 		public string PartitionKey { get; set; }
