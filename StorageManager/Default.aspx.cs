@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using StorageManager.Helpers;
+﻿using StorageManager.Helpers;
+using System;
 
 namespace StorageManager
 {
-	public partial class _Default : System.Web.UI.Page
+    public partial class _Default : System.Web.UI.Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -20,15 +15,24 @@ namespace StorageManager
 				string mode = Request.QueryString["type"];
 				TraceManager.TraceInformation(string.Format("Setting {0} mode", mode));
 
-				if (mode == "blob")
-					SetBlobMode();
-				else if (mode == "table")
-					SetTableMode();
-				else if (mode == "queue")
-					SetQueueMode();
-				else
-					SetBlobMode(); // default
+                switch (mode)
+                {
+                    case "blob":
+                        SetBlobMode();
+                        break;
 
+                    case "table":
+                        SetTableMode();
+                        break;
+
+                    case "queue":
+                        SetQueueMode();
+                        break;
+
+                    default:
+                        SetBlobMode();
+                        break;
+                }
 			}
 		}
 

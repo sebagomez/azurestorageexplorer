@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using StorageManager.Helpers;
+﻿using StorageManager.Helpers;
+using System;
 
 namespace StorageManager
 {
@@ -18,9 +13,7 @@ namespace StorageManager
                 lblError.Text = string.Empty;
 
             Response.Cookies.Remove(SiteHelper.ACCOUNT);
-            Response.Cookies.Remove(SiteHelper.KEY);
-
-			
+            Response.Cookies.Remove(SiteHelper.KEY);			
         }
     }
 }
