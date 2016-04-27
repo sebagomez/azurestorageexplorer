@@ -124,6 +124,6 @@
     <value>Azure Web Storage Explorer</value>
   </data>
   <data name="TitleVersion" xml:space="preserve">
-    <value>Azure Web Storage Explorer v{0} build {1}</value>
+    <value>Azure Web Storage Explorer v{0}</value>
   </data>
 </root>
