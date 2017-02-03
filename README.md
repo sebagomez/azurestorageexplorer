@@ -10,7 +10,7 @@ Or deploy it to your own Azure WebSite
 Azure Storage Explorer
 ======================
 Windows Azure Web Storage Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Windows Azure Storage account. You'll no longer have to install a local client to do that. It's developed in C#.
-
+To login just enter your accoount name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 ![Screenshot](GitMain.png)
 
 

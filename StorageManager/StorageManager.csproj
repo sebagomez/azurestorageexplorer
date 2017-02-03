@@ -241,7 +241,6 @@
       <DependentUpon>DSEntities.xsd</DependentUpon>
     </None>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\azurestorage - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\azurestorage - Web Deploy.pubxml" />
     <None Include="Resources\LICENSE" />
     <Content Include="404.aspx" />
