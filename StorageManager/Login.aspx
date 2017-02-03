@@ -13,7 +13,6 @@
 		<tr>
 			<td>
 				<asp:Label ID="Label1" runat="server" Text="Account" Font-Names="Calibri"></asp:Label>
-				<a href="javascript:showPopWin('images/new-account.png', 550, 350, null);" style="font-size: x-small; font-family: Arial, Helvetica, sans-serif;">(What's this?)</a>
 			</td>
 			<td>
 				<asp:TextBox ID="txtAccount" runat="server"></asp:TextBox>
@@ -25,8 +24,7 @@
 		</tr>
 		<tr>
 			<td>
-				<asp:Label ID="Label2" runat="server" Text="Key" Font-Names="Calibri"></asp:Label>
-				<a href="javascript:showPopWin('images/new-key.png', 550, 350, null);" style="font-size: x-small; font-family: Arial, Helvetica, sans-serif;">(What's this?)</a>
+				<asp:Label ID="Label2" runat="server" Text="Key or SAS" Font-Names="Calibri"></asp:Label>
 			</td>
 			<td>
 				<asp:TextBox ID="txtKey" runat="server"></asp:TextBox>

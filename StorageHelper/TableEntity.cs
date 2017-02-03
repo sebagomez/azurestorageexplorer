@@ -64,16 +64,16 @@ namespace StorageHelper
 
 			string[] lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-			if (lines.Count<string>() < 1)
-				throw new Exception(string.Format("'{0}' is not a valid input", data));
+			if (lines.Count() < 1)
+				throw new Exception($"'{data}' is not a valid input");
 
 			foreach (string line in lines)
 			{
 				string[] values = line.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
 				Debug.Assert(values.Length == 2);
 
-				if (values.Count<string>() != 2)
-					throw new Exception(string.Format("'{0}' is not a valid input", line));
+				if (values.Count() != 2)
+					throw new Exception($"'{line}' is not a valid input");
 
 				if (values[0] == "PartitionKey")
 					entity.PartitionKey = values[1];
@@ -99,7 +99,7 @@ namespace StorageHelper
 
 		public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
 		{
-			throw new NotImplementedException("Not implemented by sebagomez");
+			throw new NotImplementedException("Not implemented (yet) by sebagomez");
 		}
 	}
 }

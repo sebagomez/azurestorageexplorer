@@ -19,7 +19,7 @@ namespace StorageManager.Controls
 					return;
 
 				StorageHelper.Queue.Create(Request.Cookies[SiteHelper.ACCOUNT].Value, Request.Cookies[SiteHelper.KEY].Value, name);
-				lblMessage.Text = string.Format("Queue '{0}' has been created.", name);
+				lblMessage.Text = $"Queue '{name}' has been created.";
 				txtName.Text = string.Empty;
 			}
 			catch (StorageException sex)

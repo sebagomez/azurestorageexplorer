@@ -21,7 +21,7 @@ namespace StorageManager.Controls
                 btnUpload.Visible = !string.IsNullOrEmpty(container);
 
                 if (grdBlobs.Rows.Count == 0 && !string.IsNullOrEmpty(container))
-                    lblMessage.Text = string.Format("Container '{0}' is empty.", container);
+                    lblMessage.Text = $"Container '{container}' is empty.";
             }
         }
 
@@ -101,7 +101,7 @@ namespace StorageManager.Controls
 				try
 				{
 					Uri url = new Uri(originalData);
-					string newUrl = string.Format("<a href='{0}'>{0}</a>", url);
+					string newUrl = $"<a href='{url}'>{url}</a>";
 
 					string decodedText = HttpUtility.HtmlDecode(newUrl);
 					e.Row.Cells[2].Text = decodedText;

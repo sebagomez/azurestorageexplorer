@@ -20,7 +20,7 @@ namespace StorageManager
 				AssemblyName name = assembly.GetName();
 				Version ver = name.Version;
 
-				string stringVersion = string.Format("{0}.{1}.{2}", ver.Major, ver.Minor, ver.Build);
+				string stringVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}";
 				Page.Title = string.Format(Messages.TitleVersion, stringVersion);
 				lblVersion.Text = stringVersion;
 			}

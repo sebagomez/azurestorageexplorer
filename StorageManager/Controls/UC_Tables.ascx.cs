@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using StorageManager.Helpers;
 
@@ -10,10 +6,6 @@ namespace StorageManager.Controls
 {
 	public partial class UC_Tables : System.Web.UI.UserControl
 	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
-
 		protected void btnCreate_Click(object sender, EventArgs e)
 		{
 			try
@@ -25,7 +17,7 @@ namespace StorageManager.Controls
 					return;
 
 				StorageHelper.Table.Create(Request.Cookies[SiteHelper.ACCOUNT].Value, Request.Cookies[SiteHelper.KEY].Value, name);
-				lblMessage.Text = string.Format("Table '{0}' has been created.", name);
+				lblMessage.Text = $"Table '{name}' has been created.";
 			}
 			catch (Exception ex)
 			{

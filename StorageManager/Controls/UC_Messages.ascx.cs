@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI.WebControls;
+
 using StorageHelper;
 using StorageManager.Helpers;
 
@@ -16,7 +17,7 @@ namespace StorageManager.Controls
 				if (Request.Params["queue"] != null)
 				{
 					string queueName = Request.Params["queue"];
-					btnMessage.Text = string.Format("Add message on queue '{0}'", queueName);
+					btnMessage.Text = $"Add message on queue '{queueName}'";
 				}
 			}
 

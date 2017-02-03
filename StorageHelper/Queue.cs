@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace StorageHelper
@@ -43,7 +41,7 @@ namespace StorageHelper
 			if (queue.ApproximateMessageCount.HasValue && queue.ApproximateMessageCount.Value > 0)
 			{
 				bool found = false;
-				foreach (CloudQueueMessage message in queue.GetMessages(queue.ApproximateMessageCount.Value, new TimeSpan(0,0, 0, 0,250)))
+				foreach (CloudQueueMessage message in queue.GetMessages(queue.ApproximateMessageCount.Value, new TimeSpan(0, 0, 0, 0, 250)))
 				{
 					if (message.Id == messageId)
 					{

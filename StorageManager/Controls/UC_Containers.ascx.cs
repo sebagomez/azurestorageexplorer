@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI.WebControls;
+
 using StorageHelper;
 using StorageManager.Helpers;
 
@@ -7,10 +8,6 @@ namespace StorageManager.Controls
 {
 	public partial class UC_Containers : System.Web.UI.UserControl
     {
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-        }
 
         public void ItemCommand(object source, DataListCommandEventArgs args)
         {
@@ -33,7 +30,7 @@ namespace StorageManager.Controls
         {
             Container.Delete(Request.Cookies[SiteHelper.ACCOUNT].Value, Request.Cookies[SiteHelper.KEY].Value, containerName);
             ReloadContainers();
-            lblMessage.Text = string.Format("Container '{0}' has been deleted.", containerName);
+            lblMessage.Text = $"Container '{containerName}' has been deleted.";
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)
@@ -51,7 +48,7 @@ namespace StorageManager.Controls
 								name,
 								chkPublic.Checked);
 
-                lblMessage.Text = string.Format("Container '{0}' has been created.", name);
+                lblMessage.Text = $"Container '{name}' has been created.";
             }
             catch (Exception ex)
             {

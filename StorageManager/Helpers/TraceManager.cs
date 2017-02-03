@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace StorageManager.Helpers
 {
@@ -14,12 +11,12 @@ namespace StorageManager.Helpers
 
 		public static void TraceWarning(string message)
 		{
-			System.Diagnostics.Trace.TraceWarning(string.Format("Warning:{0}", message));
+			System.Diagnostics.Trace.TraceWarning($"Warning:{message}");
 		}
 
 		public static void TraceError(string message)
 		{
-			System.Diagnostics.Trace.TraceError(string.Format("Error:{0}", message));
+			System.Diagnostics.Trace.TraceError($"Error:{message}");
 		}
 
 		public static void TraceError(Exception ex)

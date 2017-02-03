@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using StorageManager.Helpers;
-using StorageHelper;
+
 using Microsoft.WindowsAzure.Storage.Blob;
+using StorageHelper;
+using StorageManager.Helpers;
 
 namespace StorageManager
 {
@@ -47,11 +44,7 @@ namespace StorageManager
 		void CheckSecurity()
 		{
 			CloudBlobClient client = Client.GetBlobClient(txtAccount.Text, txtKey.Text);
-			foreach (CloudBlobContainer container in client.ListContainers())
-			{
-				string name = container.Name;
-				break;
-			}
+			client.GetServiceProperties();
 		}
 	}
 }

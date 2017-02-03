@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using StorageHelper.Util;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using StorageHelper.Util;
 
 namespace StorageHelper
 {
@@ -52,7 +51,7 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			Uri uri = new Uri(string.Format(blobClient.BaseUri + "{0}", containerName));
+			Uri uri = new Uri($"{blobClient.BaseUri}{containerName}");
 			CloudBlobContainer cont = new CloudBlobContainer(uri, blobClient.Credentials);
 			cont.Create();
 
@@ -70,7 +69,7 @@ namespace StorageHelper
 				return;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			Uri uri = new Uri(string.Format(blobClient.BaseUri + "{0}", containerName));
+			Uri uri = new Uri($"{blobClient.BaseUri}{containerName}");
 			CloudBlobContainer cont = new CloudBlobContainer(uri, blobClient.Credentials);
 
 			AsyncCallback callback = new AsyncCallback(ResponseReceived);
@@ -80,8 +79,7 @@ namespace StorageHelper
 
 		static void ResponseReceived(IAsyncResult result)
 		{
-			if (ContainerCreated != null)
-				ContainerCreated(null, new EventArgs());
+			ContainerCreated?.Invoke(null, new EventArgs());
 		}
 
 		public static void DeleteBlob(string account, string key, string blobUrl)
@@ -110,7 +108,7 @@ namespace StorageHelper
 			{
 				string tmpPath = Path.GetRandomFileName();
 				fileContent.CopyTo(tmpPath);
-				blob.UploadFromFile(tmpPath, FileMode.Open);
+				blob.UploadFromFile(tmpPath, AccessCondition.GenerateEmptyCondition());
 			}
 		}
 
@@ -120,7 +118,7 @@ namespace StorageHelper
 				return null;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-			ICloudBlob blob = blobClient.GetBlobReferenceFromServer(new Uri( blobUrl));
+			ICloudBlob blob = blobClient.GetBlobReferenceFromServer(new Uri(blobUrl));
 
 			string tmpPath = Path.GetTempFileName();
 			blob.DownloadToFile(tmpPath, FileMode.Create);

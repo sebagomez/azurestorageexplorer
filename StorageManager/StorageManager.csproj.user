@@ -3,6 +3,7 @@
   <PropertyGroup>
     <NameOfLastUsedPublishProfile>azurestorage - Web Deploy</NameOfLastUsedPublishProfile>
     <ProjectView>ProjectFiles</ProjectView>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

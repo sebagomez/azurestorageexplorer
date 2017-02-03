@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using StorageManager.Helpers;
-using System.Drawing;
-using System.Data;
-using System.IO;
-using System.Xml;
-using StorageHelper;
 
 namespace StorageManager.Controls
 {
@@ -25,8 +17,8 @@ namespace StorageManager.Controls
 				if (Request.Params["table"] != null)
 				{
 					string tableName = Request.Params["table"];
-					btnInsert.Text = string.Format("Insert on '{0}'", tableName);
-					btnExecute.Text = string.Format("Execute query on '{0}'", tableName);
+					btnInsert.Text = $"Insert on '{tableName}'";
+					btnExecute.Text = $"Execute query on '{tableName}'";
 				}
 			}
 
@@ -58,19 +50,11 @@ namespace StorageManager.Controls
 				grdEntities.DataSource = null;
 				grdEntities.DataBind();
 
-				//IEnumerable<TableEntity> list = StorageHelper.Table.Query(Request.Cookies[SiteHelper.ACCOUNT].Value,
-				//                                        Request.Cookies[SiteHelper.KEY].Value,
-				//                                        Request.Params["table"],
-				//                                        txtQuery.Text);
-				
-				//grdEntities.RowDataBound += new GridViewRowEventHandler(grdEntities_RowDataBound);
-
 				DSEntities ds = TableHelper.Query(Request.Cookies[SiteHelper.ACCOUNT].Value,
 												Request.Cookies[SiteHelper.KEY].Value,
 												Request.Params["table"],
 												txtQuery.Text);
 
-				//grdEntities.DataSource = list;
 				grdEntities.DataSource = ds;
 				grdEntities.DataMember = "TableEntity";
 				grdEntities.DataBind();
