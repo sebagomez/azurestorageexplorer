@@ -9,3 +9,4 @@ packages/
 publish.bat
 *.user
 *.suo
+private*.data

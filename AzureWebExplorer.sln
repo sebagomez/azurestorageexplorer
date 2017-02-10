@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageManager", "StorageManager\StorageManager.csproj", "{193A376E-129F-44FB-AD63-BC8AC8C15933}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageHelper", "StorageHelper\StorageHelper.csproj", "{679E527C-159C-4F30-A916-B13B4020572E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIUnitTests", "tests\APIUnitTests\APIUnitTests.csproj", "{AE453A1F-1913-4016-A008-B3214E42C2D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{679E527C-159C-4F30-A916-B13B4020572E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679E527C-159C-4F30-A916-B13B4020572E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679E527C-159C-4F30-A916-B13B4020572E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE453A1F-1913-4016-A008-B3214E42C2D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE453A1F-1913-4016-A008-B3214E42C2D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE453A1F-1913-4016-A008-B3214E42C2D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE453A1F-1913-4016-A008-B3214E42C2D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
