@@ -2,11 +2,10 @@ bin/
 obj/
 .svn/
 .vs/
-WeMovedCloudService/
-AzureStorageService/
 PublishProfiles/
 packages/
 publish.bat
+
 *.user
 *.suo
 private*.data

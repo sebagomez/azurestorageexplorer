@@ -4,6 +4,12 @@
     <NameOfLastUsedPublishProfile>azurestorage - Web Deploy</NameOfLastUsedPublishProfile>
     <ProjectView>ProjectFiles</ProjectView>
     <UseIISExpress>false</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

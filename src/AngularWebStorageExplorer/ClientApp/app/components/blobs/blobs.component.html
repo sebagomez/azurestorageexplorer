@@ -1,0 +1,32 @@
+﻿<p *ngIf="!blobs"><em>Loading blobs...</em></p>
+
+<table class="ui blue table" *ngIf="blobs">
+	<thead>
+		<tr>
+			<th></th>
+			<th colspan="2">Blob</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let blob of blobs">
+			<td class="collapsing">
+				<button class="ui icon button" (click)="removeBlob($event)">
+					<i class="trash icon"></i>
+				</button>
+			</td>
+			<td colspan="2">{{ blob }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th></th>
+			<th>{{ blobs.length }} blobs found</th>
+			<th>
+				<button *ngIf="container" class="ui button">
+					<i class="icon upload"></i>
+					Upload
+				</button>
+			</th>
+		</tr>
+	</tfoot>
+</table>

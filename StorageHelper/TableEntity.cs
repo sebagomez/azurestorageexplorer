@@ -69,11 +69,11 @@ namespace StorageHelper
 
 			foreach (string line in lines)
 			{
-				string[] values = line.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+				string[] values = line.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
 				Debug.Assert(values.Length == 2);
 
 				if (values.Count() != 2)
-					throw new Exception($"'{line}' is not a valid input");
+					continue;
 
 				if (values[0] == "PartitionKey")
 					entity.PartitionKey = values[1];
@@ -86,7 +86,7 @@ namespace StorageHelper
 			if (string.IsNullOrEmpty(entity.PartitionKey))
 				entity.PartitionKey = "1";
 			if (string.IsNullOrEmpty(entity.RowKey))
-				entity.RowKey = Guid.NewGuid().ToString();
+				entity.RowKey = DateTime.Now.Ticks.ToString();// Guid.NewGuid().ToString();
 
 			return entity;
 		}
@@ -99,7 +99,12 @@ namespace StorageHelper
 
 		public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
 		{
-			throw new NotImplementedException("Not implemented (yet) by sebagomez");
+			IDictionary<string, EntityProperty> dictionary = new Dictionary<string, EntityProperty>();
+
+			foreach (var p in GetProperties())
+				dictionary[p.Key] = new EntityProperty(p.Value);
+
+			return dictionary;
 		}
 	}
 }

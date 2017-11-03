@@ -21,6 +21,13 @@ namespace StorageHelper
 				yield return table.Name;
 		}
 
+		public static CloudTable Get(string account, string key, string tableName)
+		{
+			CloudTableClient tableClient = Client.GetTableClient(account, key);
+
+			return tableClient.GetTableReference(tableName);
+		}
+
 		public static void Create(string account, string key, string tableName)
 		{
 			if (string.IsNullOrEmpty(tableName))

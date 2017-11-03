@@ -1,0 +1,28 @@
+﻿@page
+@model WebStorageExplorer.Pages.QueuesModel
+@{
+    ViewData["Title"] = "Queues";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Queues</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Queues</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var queue in Model.Queues)
+		{
+			<tr>
+				<td>@queue</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

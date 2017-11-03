@@ -1,0 +1,29 @@
+﻿@page
+@model WebStorageExplorer.Pages.TablesModel
+@{
+    ViewData["Title"] = "Tables";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Tables</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Tables</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var table in Model.Tables)
+		{
+			<tr>
+				<td>@table</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
