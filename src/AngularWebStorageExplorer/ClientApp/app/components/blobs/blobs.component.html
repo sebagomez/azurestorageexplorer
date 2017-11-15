@@ -4,8 +4,14 @@
 	<thead>
 		<tr>
 			<th></th>
-			<th colspan="2">Blob</th>
-		</tr>
+			<th></th>
+			<th>Blob</th>
+			<th>
+				<div style="display:flex">
+					<input type="file" #fileInput placeholder="Upload file..." />
+					<button type="button" (click)="upload()">Upload</button>
+				</div>
+			</th>
 	</thead>
 	<tbody>
 		<tr *ngFor="let blob of blobs">
@@ -14,19 +20,19 @@
 					<i class="trash icon"></i>
 				</button>
 			</td>
+			<td class="collapsing">
+				<button class="ui icon button" (click)="downloadBlob($event)">
+					<i class="download icon"></i>
+				</button>
+			</td>
 			<td colspan="2">{{ blob }}</td>
 		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
+			<th colspan="2">{{ blobs.length }} blobs found</th>
 			<th></th>
-			<th>{{ blobs.length }} blobs found</th>
-			<th>
-				<button *ngIf="container" class="ui button">
-					<i class="icon upload"></i>
-					Upload
-				</button>
-			</th>
+			<th></th>
 		</tr>
 	</tfoot>
 </table>
