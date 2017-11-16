@@ -31,21 +31,13 @@ namespace AngularWebStorageExplorer.Controllers
 			if (string.IsNullOrEmpty(blobUri))
 				return null;
 
+			int slash = blobUri.LastIndexOf("/");
+
+			string fileName = blobUri.Substring(slash + 1);
 			string blobPath = await Container.GetBlob(Settings.Instance.Account, Settings.Instance.Key, blobUri);
 
-			FileInfo info = new FileInfo(blobPath);
-
-			byte[] fileBytes = System.IO.File.ReadAllBytes(info.FullName);
-			//return File(fileBytes, "application/x-msdownload", info.Name);
-			return File(fileBytes, "application/octet-stream", info.Name);
-
-			//Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
-			//Response.AddHeader("Content-Length", info.Length.ToString());
-			//Response.ContentType = "application/octet-stream";
-			//Response.WriteFile(path);
-			//Response.Flush();
-
-			//return Ok();
+			byte[] fileBytes = System.IO.File.ReadAllBytes(blobPath);
+			return File(fileBytes, "application/octet-stream", fileName);
 		}
 
 		[HttpPost("[action]")]

@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, Input, ViewChild  } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 
 
 @Component({
@@ -64,13 +64,34 @@ export class BlobsComponent {
 	}
 
 	downloadBlob(event: Event) {
-		debugger;
 		var element = (event.currentTarget as Element); //button
 		var blob: string = element.parentElement!.parentElement!.children[2]!.textContent!;
 
-		this.http.get(this.baseUrl + 'api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
+		var url: string = this.baseUrl + 'api/Blobs/GetBlob?blobUri=' + blob;
+
+		debugger;
+
+		this.http.get(url).subscribe(result => {
 			debugger;
-			//this.blobs = result.json();
+
+			var fileName: string = "NONAME";
+			var contentDisposition: string = result.headers!.get("content-disposition")!;
+			contentDisposition.split(";").forEach(token => {
+				token = token.trim();
+				if (token.startsWith("filename="))
+					fileName = token.substr("filename=".length);
+			});
+
+			var blobFile = new Blob([result.arrayBuffer()]);
+			var blobUrl = URL.createObjectURL(blobFile);
+
+			var link = document.createElement('a');
+			link.href = blobUrl;
+			link.setAttribute('download', fileName);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link); 
+
 		}, error => console.error(error));
 	}
 }
