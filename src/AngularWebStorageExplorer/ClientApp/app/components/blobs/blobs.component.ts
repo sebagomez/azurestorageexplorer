@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, Input, ViewChild  } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
 
 
 @Component({
@@ -69,9 +69,7 @@ export class BlobsComponent {
 
 		var url: string = this.baseUrl + 'api/Blobs/GetBlob?blobUri=' + blob;
 
-		debugger;
-
-		this.http.get(url).subscribe(result => {
+		this.http.get(url, { responseType: ResponseContentType.ArrayBuffer} ).subscribe(result => {
 			debugger;
 
 			var fileName: string = "NONAME";
@@ -82,7 +80,9 @@ export class BlobsComponent {
 					fileName = token.substr("filename=".length);
 			});
 
-			var blobFile = new Blob([result.arrayBuffer()]);
+			var byteArray = result.arrayBuffer();
+
+			var blobFile = new Blob([byteArray], { type: "application/octet-stream;charset=utf-8", endings: "transparent" });
 			var blobUrl = URL.createObjectURL(blobFile);
 
 			var link = document.createElement('a');

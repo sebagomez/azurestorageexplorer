@@ -36,7 +36,8 @@ namespace AngularWebStorageExplorer.Controllers
 			string fileName = blobUri.Substring(slash + 1);
 			string blobPath = await Container.GetBlob(Settings.Instance.Account, Settings.Instance.Key, blobUri);
 
-			byte[] fileBytes = System.IO.File.ReadAllBytes(blobPath);
+			byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(blobPath);
+
 			return File(fileBytes, "application/octet-stream", fileName);
 		}
 
