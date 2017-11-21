@@ -7,9 +7,10 @@
 <div class="parent">
 
 	<div class="child ui vertical pointing menu">
+		
 		<a class="link item" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
 	</div>
 
-	<blobs class="child" style="padding-left:20px" [container]="selectedContainer"><em>Loading...</em></blobs>
+	<blobs class="child" style="padding-left:20px" [container]="selectedContainer"></blobs>
 
 </div>

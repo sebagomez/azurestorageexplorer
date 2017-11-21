@@ -48,6 +48,12 @@ export class BlobsComponent {
 		}, error => console.error(error));
 	}
 
+	removeContainer(event: Event) {
+		this.http.post(this.baseUrl + 'api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
+			this.container = "";
+		}, error => console.error(error));
+	}
+
 	upload() {
 		var that = this;
 		const fileBrowser = this.fileInput.nativeElement;
