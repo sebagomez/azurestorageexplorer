@@ -15,6 +15,7 @@ export class ContainersComponent {
 
 	@ViewChild('newContainerName') newContainerName: any;
 	@ViewChild('publicAccess') publicAccess: any;
+	@ViewChild('containersMenu') containersMenu: any;
 
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
 
@@ -37,6 +38,15 @@ export class ContainersComponent {
 	containerChanged(event: Event) {
 		var element = (event.currentTarget as Element);
 		var container = (element.textContent as string).trim();
+
+		var nodes = this.containersMenu.nativeElement.childNodes;
+		debugger;
+		for (var i = 0; i < nodes.length; i++) {
+			if (nodes[i].classList)
+				nodes[i].classList.remove("active");
+		}
+
+		element.classList.add("active");
 
 		this.selectedContainer = container;
 	}

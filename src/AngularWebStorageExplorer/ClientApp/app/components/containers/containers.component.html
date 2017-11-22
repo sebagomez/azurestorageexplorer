@@ -1,8 +1,6 @@
 ﻿
 
-<p *ngIf="!containers"><em>Loading containers...</em></p>
-
-<h4>Containers</h4>
+<p></p>
 
 <div class="ui action input">
 	<input #newContainerName type="text" placeholder="New container...">
@@ -11,16 +9,18 @@
 	</button>
 </div>
 
-<div class="ui action input">
-	<input #publicAccess type="checkbox" placeholder="Public Access?" />
-	<em class="item" >Public Access?</em>
+<div class="ui checkbox">
+	<input #publicAccess name="containerAccess" type="checkbox" placeholder="Public Access?">
+	<label>Set as public</label>
 </div>
 
 <p></p>
 
-<div class="parent">
+<em *ngIf="!containers">Loading containers...</em>
 
-	<div class="child ui vertical pointing menu">
+<div *ngIf="containers" class="parent">
+
+	<div #containersMenu class="child ui vertical pointing menu">
 		
 		<a class="link item" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
 	</div>
