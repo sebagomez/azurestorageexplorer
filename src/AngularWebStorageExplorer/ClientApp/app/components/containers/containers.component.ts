@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+﻿import { Component, Inject, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -10,8 +10,26 @@ export class ContainersComponent {
 	public containers: string[];
 	public selectedContainer: string;
 
+	http: Http;
+	baseUrl: string;
+
+	@ViewChild('newContainerName') newContainerName: any;
+	@ViewChild('publicAccess') publicAccess: any;
+
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-		http.get(baseUrl + 'api/Containers/GetContainers').subscribe(result => {
+
+		this.http = http;
+		this.baseUrl = baseUrl;
+
+		this.getContainers();
+	}
+
+	ngOnChanges() {
+		this.getContainers();
+	}
+
+	getContainers() {
+		this.http.get(this.baseUrl + 'api/Containers/GetContainers').subscribe(result => {
 			this.containers = result.json();
 		}, error => console.error(error));
 	}
@@ -21,8 +39,14 @@ export class ContainersComponent {
 		var container = (element.textContent as string).trim();
 
 		this.selectedContainer = container;
+	}
 
-		console.log("you clicked on " + container);
-	
+	newContainer(event: Event) {
+		debugger
+		this.http.post(this.baseUrl + 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + (this.publicAccess.nativeElement.value === "on"), null).subscribe(result => {
+			this.newContainerName.nativeElement.value = "";
+			this.publicAccess.nativeElement.value = "off";
+			this.getContainers();
+		}, error => console.error(error));
 	}
 }

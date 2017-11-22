@@ -29,5 +29,16 @@ namespace AngularWebStorageExplorer.Controllers
 
 			return Ok();
 		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> NewContainer(string container, bool publicAccess)
+		{
+			if (string.IsNullOrEmpty(container))
+				return BadRequest();
+
+			await Container.CreateAsync(Settings.Instance.Account, Settings.Instance.Key, container, publicAccess);
+
+			return Ok();
+		}
 	}
 }

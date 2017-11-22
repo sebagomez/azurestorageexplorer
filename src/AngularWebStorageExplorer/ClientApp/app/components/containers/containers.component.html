@@ -4,6 +4,20 @@
 
 <h4>Containers</h4>
 
+<div class="ui action input">
+	<input #newContainerName type="text" placeholder="New container...">
+	<button class="ui icon button" (click)="newContainer($event)">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<div class="ui action input">
+	<input #publicAccess type="checkbox" placeholder="Public Access?" />
+	<em class="item" >Public Access?</em>
+</div>
+
+<p></p>
+
 <div class="parent">
 
 	<div class="child ui vertical pointing menu">
