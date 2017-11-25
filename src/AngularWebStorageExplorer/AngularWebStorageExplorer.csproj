@@ -28,6 +28,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\blobs\blobs.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\containers\containers.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\qmessages\qmessages.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\queues\queues.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

@@ -1,0 +1,14 @@
+﻿<p></p>
+
+<em *ngIf="!queues">Loading queues...</em>
+
+<div *ngIf="queues" class="parent">
+
+	<div #queuesMenu class="child ui vertical pointing menu">
+
+		<a class="link item" *ngFor="let queue of queues" (click)="queueChanged($event)">{{queue}}</a>
+	</div>
+
+	<qmessages class="child" style="padding-left:20px" [queue]="selectedQueue"></qmessages>
+
+</div>
