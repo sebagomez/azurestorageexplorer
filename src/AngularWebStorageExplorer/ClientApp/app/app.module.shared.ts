@@ -12,7 +12,9 @@ import { CounterComponent } from './components/counter/counter.component';
 import { ContainersComponent } from './components/containers/containers.component';
 import { BlobsComponent } from './components/blobs/blobs.component';
 import { QueuesComponent } from './components/queues/queues.component';
-import { QmessagesComponent } from './components/qmessages/qmessages.component'
+import { QmessagesComponent } from './components/qmessages/qmessages.component';
+import { TablesComponent } from './components/tables/tables.component';
+import { TabledataComponent } from './components/tabledata/tabledata.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { QmessagesComponent } from './components/qmessages/qmessages.component'
 		ContainersComponent,
 		BlobsComponent,
 		QueuesComponent,
-		QmessagesComponent
+		QmessagesComponent,
+		TablesComponent,
+		TabledataComponent
     ],
     imports: [
         CommonModule,
@@ -37,6 +41,7 @@ import { QmessagesComponent } from './components/qmessages/qmessages.component'
 			{ path: 'fetch-data', component: FetchDataComponent },
 			{ path: 'containers', component: ContainersComponent },
 			{ path: 'queues', component: QueuesComponent },
+			{ path: 'tables', component: TablesComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]

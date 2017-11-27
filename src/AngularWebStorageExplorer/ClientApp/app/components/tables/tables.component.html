@@ -1,0 +1,24 @@
+﻿<p></p>
+
+
+<div class="ui action input">
+	<input #newTableName type="text" placeholder="New table...">
+	<button title="Add table" class="ui icon button" (click)="newTable($event)">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
+<em *ngIf="!tables">Loading tables...</em>
+
+<div *ngIf="tables" class="parent">
+
+	<div #tablesMenu class="child ui vertical pointing menu">
+
+		<a class="link item" *ngFor="let table of tables" (click)="queueChanged($event)">{{table}}</a>
+	</div>
+	<!--
+	<tabledata class="child" style="padding-left:20px" [table]="selectedTable"></tabledata>
+		-->
+</div>
