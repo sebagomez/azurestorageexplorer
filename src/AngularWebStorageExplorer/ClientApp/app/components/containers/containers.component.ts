@@ -3,9 +3,9 @@ import { Http } from '@angular/http';
 
 @Component({
 	selector: 'containers',
-	templateUrl: './containers.component.html',
-	styleUrls: ['./containers.component.css']
+	templateUrl: './containers.component.html'
 })
+
 export class ContainersComponent {
 	public containers: string[];
 	public selectedContainer: string;

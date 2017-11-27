@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\dist\azurewebexplorer.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StorageLibrary\StorageLibrary.csproj" />
   </ItemGroup>
 

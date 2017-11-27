@@ -13,6 +13,8 @@ export class QueuesComponent {
 
 	http: Http;
 	baseUrl: string;
+
+	@ViewChild('newQueueName') newQueueName: any;
 	@ViewChild('queuesMenu') queuesMenu: any;
 
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
@@ -47,5 +49,12 @@ export class QueuesComponent {
 		element.classList.add("active");
 
 		this.selectedQueue = queue;
+	}
+
+	newQueue(event: Event) {
+		this.http.post(this.baseUrl + 'api/Queues/NewQueue?queue=' + this.newQueueName.nativeElement.value, null).subscribe(result => {
+			this.newQueueName.nativeElement.value = "";
+			this.getQueues();
+		}, error => console.error(error));
 	}
 }

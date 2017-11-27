@@ -9,14 +9,14 @@
 			<th>
 				<div style="display:flex" class="ui input">
 					<input type="text" placeholder="New message">
-					<button type="button" (click)="addMessage()">Add Message</button>
+					<button title="Add message" type="button" (click)="addMessage()">Add Message</button>
 				</div>
 			</th>
 	</thead>
 	<tbody>
 		<tr *ngFor="let message of messages">
 			<td class="collapsing">
-				<button class="ui icon button" (click)="removeMessage($event)">
+				<button title="Remove message" class="ui icon button" (click)="removeMessage($event)">
 					<i class="trash icon"></i>
 				</button>
 			</td>

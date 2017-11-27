@@ -28,6 +28,17 @@ namespace AngularWebStorageExplorer.Controllers
 			return messages.Select(m => m.AsString);
 		}
 
+		[HttpPost("[action]")]
+		public async Task<IActionResult> NewQueue(string queue)
+		{
+			if (string.IsNullOrEmpty(queue))
+				return BadRequest();
+
+			await Queue.CreateAsync(Settings.Instance.Account, Settings.Instance.Key, queue);
+
+			return Ok();
+		}
+
 		// GET: api/Queues/5
 		[HttpGet("{id}", Name = "Get")]
         public string Get(int id)

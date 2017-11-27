@@ -1,5 +1,15 @@
 ﻿<p></p>
 
+
+<div class="ui action input">
+	<input #newQueueName type="text" placeholder="New queue...">
+	<button title="Add queue" class="ui icon button" (click)="newQueue($event)">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
 <em *ngIf="!queues">Loading queues...</em>
 
 <div *ngIf="queues" class="parent">
