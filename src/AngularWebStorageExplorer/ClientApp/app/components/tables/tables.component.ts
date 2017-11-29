@@ -35,12 +35,11 @@ export class TablesComponent {
 		}, error => console.error(error));
 	}
 
-	queueChanged(event: Event) {
+	tableChanged(event: Event) {
 		var element = (event.currentTarget as Element);
 		var table = (element.textContent as string).trim();
 
 		var nodes = this.tablesMenu.nativeElement.childNodes;
-		debugger;
 		for (var i = 0; i < nodes.length; i++) {
 			if (nodes[i].classList)
 				nodes[i].classList.remove("active");

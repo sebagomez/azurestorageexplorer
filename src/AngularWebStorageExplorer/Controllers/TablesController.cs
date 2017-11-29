@@ -12,12 +12,17 @@ namespace AngularWebStorageExplorer.Controllers
     [Route("api/Tables")]
     public class TablesController : Controller
     {
-        // GET: api/Tables
         [HttpGet("[action]")]
         public async Task<IEnumerable<string>> GetTables()
         {
 			return await Table.ListTablesAsync(Settings.Instance.Account, Settings.Instance.Key);
         }
+
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<TableEntity>> QueryTable(string table, string query)
+		{
+			return await Table.QueryAsync(Settings.Instance.Account, Settings.Instance.Key, table, query);
+		}
 
         // GET: api/Tables/5
         //[HttpGet("{id}", Name = "Get")]

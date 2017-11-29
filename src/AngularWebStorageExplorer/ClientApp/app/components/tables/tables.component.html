@@ -16,9 +16,9 @@
 
 	<div #tablesMenu class="child ui vertical pointing menu">
 
-		<a class="link item" *ngFor="let table of tables" (click)="queueChanged($event)">{{table}}</a>
+		<a class="link item" *ngFor="let row of tables" (click)="tableChanged($event)">{{row}}</a>
 	</div>
-	<!--
-	<tabledata class="child" style="padding-left:20px" [table]="selectedTable"></tabledata>
-		-->
+	
+	<tabledata class="child" style="padding-left:20px" [storageTable]="selectedTable"></tabledata>
+		
 </div>

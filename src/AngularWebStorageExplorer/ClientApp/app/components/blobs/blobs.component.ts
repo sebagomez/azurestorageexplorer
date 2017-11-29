@@ -1,7 +1,6 @@
 ﻿import { Component, Inject, Input, ViewChild  } from '@angular/core';
 import { Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
 
-
 @Component({
 	selector: 'blobs',
 	templateUrl: './blobs.component.html'
