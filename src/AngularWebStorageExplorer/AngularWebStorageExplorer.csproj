@@ -32,6 +32,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\blobs\blobs.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\containers\containers.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\login\login.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\qmessages\qmessages.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\queues\queues.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\tables\tables.component.ts" />

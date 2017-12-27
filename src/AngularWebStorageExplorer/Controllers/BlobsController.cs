@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -10,23 +8,23 @@ using StorageLibrary;
 
 namespace AngularWebStorageExplorer.Controllers
 {
-    [Produces("application/json")]
+	[Produces("application/json")]
     [Route("api/Blobs")]
     public class BlobsController : Controller
     {
 		[HttpGet("[action]")]
-		public async Task<IEnumerable<string>> GetBlobs(string container)
+		public async Task<IEnumerable<string>> GetBlobs(string account, string key, string container)
 		{
 			if (string.IsNullOrEmpty(container))
 				return new List<string>();
 
-			List<IListBlobItem> blobs = await Container.ListBlobsAsync(Settings.Instance.Account, Settings.Instance.Key, container);
+			List<IListBlobItem> blobs = await Container.ListBlobsAsync(account, key, container);
 
 			return blobs.Select(b => b.Uri.ToString());
 		}
 
 		[HttpGet("[action]")]
-		public async Task<FileResult> GetBlob(string blobUri)
+		public async Task<FileResult> GetBlob(string account, string key, string blobUri)
 		{
 			if (string.IsNullOrEmpty(blobUri))
 				return null;
@@ -34,7 +32,7 @@ namespace AngularWebStorageExplorer.Controllers
 			int slash = blobUri.LastIndexOf("/");
 
 			string fileName = blobUri.Substring(slash + 1);
-			string blobPath = await Container.GetBlob(Settings.Instance.Account, Settings.Instance.Key, blobUri);
+			string blobPath = await Container.GetBlob(account, key, blobUri);
 
 			byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(blobPath);
 
@@ -42,21 +40,21 @@ namespace AngularWebStorageExplorer.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> DeleteBlob( string blobUri)
+		public async Task<IActionResult> DeleteBlob(string account, string key, string blobUri)
 		{
 			if (string.IsNullOrEmpty(blobUri))
 				return BadRequest();
 
-			await Container.DeleteBlobAsync(Settings.Instance.Account, Settings.Instance.Key, blobUri);
+			await Container.DeleteBlobAsync(account, key, blobUri);
 
 			return Ok();
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> UploadBlob(string container, List<IFormFile> files)
+		public async Task<IActionResult> UploadBlob(string account, string key, string container, List<IFormFile> files)
 		{
 			foreach (IFormFile file in files)
-				await Container.CreateBlobAsync(Settings.Instance.Account, Settings.Instance.Key, container, file.FileName, file.OpenReadStream() );
+				await Container.CreateBlobAsync(account, key, container, file.FileName, file.OpenReadStream() );
 
 			return Ok();
 		}

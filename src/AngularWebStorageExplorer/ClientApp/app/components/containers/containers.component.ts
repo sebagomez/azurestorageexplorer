@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'containers',
@@ -10,17 +10,15 @@ export class ContainersComponent {
 	public containers: string[];
 	public selectedContainer: string;
 
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	@ViewChild('newContainerName') newContainerName: any;
 	@ViewChild('publicAccess') publicAccess: any;
 	@ViewChild('containersMenu') containersMenu: any;
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getContainers();
 	}
@@ -30,7 +28,7 @@ export class ContainersComponent {
 	}
 
 	getContainers() {
-		this.http.get(this.baseUrl + 'api/Containers/GetContainers').subscribe(result => {
+		this.utilsService.getData('api/Containers/GetContainers').subscribe(result => {
 			this.containers = result.json();
 		}, error => console.error(error));
 	}
@@ -40,7 +38,6 @@ export class ContainersComponent {
 		var container = (element.textContent as string).trim();
 
 		var nodes = this.containersMenu.nativeElement.childNodes;
-		debugger;
 		for (var i = 0; i < nodes.length; i++) {
 			if (nodes[i].classList)
 				nodes[i].classList.remove("active");
@@ -52,8 +49,8 @@ export class ContainersComponent {
 	}
 
 	newContainer(event: Event) {
-		debugger
-		this.http.post(this.baseUrl + 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + (this.publicAccess.nativeElement.value === "on"), null).subscribe(result => {
+		let url = 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + (this.publicAccess.nativeElement.value === "on")
+		this.utilsService.postData(url, null).subscribe(result => {
 			this.newContainerName.nativeElement.value = "";
 			this.publicAccess.nativeElement.value = "off";
 			this.getContainers();

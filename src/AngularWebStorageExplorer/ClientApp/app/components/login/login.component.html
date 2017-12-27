@@ -1,0 +1,26 @@
+﻿<p></p>
+<div class="parent">
+	<div class="child ui card">
+		<div class="content">
+			<div class="header">Sign in</div>
+			<div class="meta">Sign in with your Azure Key or Shared Access Signature</div>
+			<div class="description">
+				<div class="ui left icon input">
+					<input #azureAccount type="text" placeholder="Azure account">
+					<i class="user icon"></i>
+				</div>
+				<p></p>
+				<div class="ui left icon input">
+					<input #azureKey type="password" placeholder="Key or SAS">
+					<i class="key icon"></i>
+				</div>
+				<p></p>
+				<button class="ui active button" (click)="signIn($event)">
+					<i class="user icon"></i>
+					Login
+				</button>
+
+			</div>
+		</div>
+	</div>
+</div>

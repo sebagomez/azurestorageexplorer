@@ -12,31 +12,31 @@ namespace AngularWebStorageExplorer.Controllers
     public class ContainersController : Controller
     {
 		[HttpGet("[action]")]
-		public async Task<IEnumerable<string>> GetContainers()
+		public async Task<IEnumerable<string>> GetContainers(string account, string key)
 		{
-			List<CloudBlobContainer> containers = await Container.ListContainersAsync(Settings.Instance.Account, Settings.Instance.Key);
+			List<CloudBlobContainer> containers = await Container.ListContainersAsync(account, key);
 
 			return containers.Select(c => c.Name);
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> DeleteContainer(string container)
+		public async Task<IActionResult> DeleteContainer(string account, string key, string container)
 		{
 			if (string.IsNullOrEmpty(container))
 				return BadRequest();
 
-			await Container.DeleteAsync(Settings.Instance.Account, Settings.Instance.Key, container);
+			await Container.DeleteAsync(account, key, container);
 
 			return Ok();
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> NewContainer(string container, bool publicAccess)
+		public async Task<IActionResult> NewContainer(string account, string key, string container, bool publicAccess)
 		{
 			if (string.IsNullOrEmpty(container))
 				return BadRequest();
 
-			await Container.CreateAsync(Settings.Instance.Account, Settings.Instance.Key, container, publicAccess);
+			await Container.CreateAsync(account, key, container, publicAccess);
 
 			return Ok();
 		}
