@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'qmessages',
@@ -13,13 +13,11 @@ export class QmessagesComponent {
 
 	@Input() queue: string = "";
 
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getMessages();
 	}
@@ -29,7 +27,7 @@ export class QmessagesComponent {
 	}
 
 	getMessages() {
-		this.http.get(this.baseUrl + 'api/Queues/GetMessages?queue=' + this.queue).subscribe(result => {
+		this.utilsService.getData('api/Queues/GetMessages?queue=' + this.queue).subscribe(result => {
 			this.messages = result.json();
 		}, error => console.error(error));
 	}

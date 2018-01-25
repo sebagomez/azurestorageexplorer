@@ -8,9 +8,9 @@ using StorageLibrary;
 namespace AngularWebStorageExplorer.Controllers
 {
 	[Produces("application/json")]
-    [Route("api/Containers")]
-    public class ContainersController : Controller
-    {
+	[Route("api/Containers")]
+	public class ContainersController : Controller
+	{
 		[HttpGet("[action]")]
 		public async Task<IEnumerable<string>> GetContainers(string account, string key)
 		{

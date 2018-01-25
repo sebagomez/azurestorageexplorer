@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'tables',
@@ -10,17 +10,14 @@ export class TablesComponent {
 	public tables: string[];
 
 	public selectedTable: string;
-
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	@ViewChild('newTableName') newTableName: any;
 	@ViewChild('tablesMenu') tablesMenu: any;
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getTables();
 	}
@@ -30,7 +27,7 @@ export class TablesComponent {
 	}
 
 	getTables() {
-		this.http.get(this.baseUrl + 'api/Tables/GetTables').subscribe(result => {
+		this.utilsService.getData('api/Tables/GetTables').subscribe(result => {
 			this.tables = result.json();
 		}, error => console.error(error));
 	}
@@ -51,7 +48,7 @@ export class TablesComponent {
 	}
 
 	newTable(event: Event) {
-		this.http.post(this.baseUrl + 'api/Tables/NewTable?table=' + this.newTableName.nativeElement.value, null).subscribe(result => {
+		this.utilsService.postData('api/Tables/NewTable?table=' + this.newTableName.nativeElement.value, null).subscribe(result => {
 			this.newTableName.nativeElement.value = "";
 			this.getTables();
 		}, error => console.error(error));

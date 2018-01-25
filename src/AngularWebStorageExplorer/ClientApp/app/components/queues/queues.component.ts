@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'queues',
@@ -11,16 +11,14 @@ export class QueuesComponent {
 
 	public selectedQueue: string;
 
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	@ViewChild('newQueueName') newQueueName: any;
 	@ViewChild('queuesMenu') queuesMenu: any;
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getQueues();
 	}
@@ -30,7 +28,7 @@ export class QueuesComponent {
 	}
 
 	getQueues() {
-		this.http.get(this.baseUrl + 'api/Queues/GetQueues').subscribe(result => {
+		this.utilsService.getData('api/Queues/GetQueues').subscribe(result => {
 			this.queues = result.json();
 		}, error => console.error(error));
 	}
@@ -52,7 +50,7 @@ export class QueuesComponent {
 	}
 
 	newQueue(event: Event) {
-		this.http.post(this.baseUrl + 'api/Queues/NewQueue?queue=' + this.newQueueName.nativeElement.value, null).subscribe(result => {
+		this.utilsService.postData('api/Queues/NewQueue?queue=' + this.newQueueName.nativeElement.value, null).subscribe(result => {
 			this.newQueueName.nativeElement.value = "";
 			this.getQueues();
 		}, error => console.error(error));

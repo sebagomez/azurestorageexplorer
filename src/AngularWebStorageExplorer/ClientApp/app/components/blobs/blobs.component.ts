@@ -1,5 +1,6 @@
 ﻿import { Component, Inject, Input, ViewChild  } from '@angular/core';
-import { Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
+//import { Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'blobs',
@@ -8,18 +9,16 @@ import { Http, Response, RequestOptions, ResponseContentType } from '@angular/ht
 
 export class BlobsComponent {
 	forceReload: boolean;
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	@Input() container: string = "";
 	@ViewChild('fileInput') fileInput: any;
 
 	public blobs: string[];
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getBlobs();
 	}
@@ -33,7 +32,7 @@ export class BlobsComponent {
 		if (!this.container)
 			return;
 
-		this.http.get(this.baseUrl + 'api/Blobs/GetBlobs?container=' + this.container).subscribe(result => {
+		this.utilsService.getData('api/Blobs/GetBlobs?container=' + this.container).subscribe(result => {
 			this.blobs = result.json();
 		}, error => console.error(error));
 	}
@@ -42,13 +41,13 @@ export class BlobsComponent {
 		var element = (event.currentTarget as Element); //button
 		var blob : string = element.parentElement!.parentElement!.children[2]!.textContent!;
 
-		this.http.post(this.baseUrl + 'api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(blob), null).subscribe(result => {
+		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(blob), null).subscribe(result => {
 			this.getBlobs();
 		}, error => console.error(error));
 	}
 
 	removeContainer(event: Event) {
-		this.http.post(this.baseUrl + 'api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
+		this.utilsService.postData('api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
 			this.container = "";
 		}, error => console.error(error));
 	}
@@ -59,12 +58,17 @@ export class BlobsComponent {
 		if (fileBrowser.files && fileBrowser.files[0]) {
 			const formData = new FormData();
 			formData.append('files', fileBrowser.files[0]);
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', this.baseUrl + 'api/Blobs/UploadBlob?container=' + this.container, true);
-			xhr.onload = function () {
+
+			this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container, formData).onload = function () {
 				that.getBlobs();
 			};
-			xhr.send(formData);
+
+			//const xhr = new XMLHttpRequest();
+			//xhr.open('POST', this.baseUrl + 'api/Blobs/UploadBlob?container=' + this.container, true);
+			//xhr.onload = function () {
+			//	that.getBlobs();
+			//};
+			//xhr.send(formData);
 		}
 	}
 
@@ -72,10 +76,7 @@ export class BlobsComponent {
 		var element = (event.currentTarget as Element); //button
 		var blob: string = element.parentElement!.parentElement!.children[2]!.textContent!;
 
-		var url: string = this.baseUrl + 'api/Blobs/GetBlob?blobUri=' + blob;
-
-		this.http.get(url, { responseType: ResponseContentType.ArrayBuffer} ).subscribe(result => {
-			debugger;
+		this.utilsService.getFile('api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
 
 			var fileName: string = "NONAME";
 			var contentDisposition: string = result.headers!.get("content-disposition")!;

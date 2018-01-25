@@ -8,15 +8,15 @@ using StorageLibrary;
 namespace AngularWebStorageExplorer.Controllers
 {
 	[Produces("application/json")]
-    [Route("api/Queues")]
-    public class QueuesController : Controller
-    {
-        // GET: api/Queues
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<string>> GetQueues(string account, string key)
-        {
+	[Route("api/Queues")]
+	public class QueuesController : Controller
+	{
+		// GET: api/Queues
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<string>> GetQueues(string account, string key)
+		{
 			return await Queue.ListQueuesAsync(account, key);
-        }
+		}
 
 		[HttpGet("[action]")]
 		public async Task<IEnumerable<string>> GetMessages(string account, string key, string queue)
@@ -36,5 +36,5 @@ namespace AngularWebStorageExplorer.Controllers
 
 			return Ok();
 		}
-    }
+	}
 }

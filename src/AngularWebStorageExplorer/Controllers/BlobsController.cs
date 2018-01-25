@@ -9,9 +9,9 @@ using StorageLibrary;
 namespace AngularWebStorageExplorer.Controllers
 {
 	[Produces("application/json")]
-    [Route("api/Blobs")]
-    public class BlobsController : Controller
-    {
+	[Route("api/Blobs")]
+	public class BlobsController : Controller
+	{
 		[HttpGet("[action]")]
 		public async Task<IEnumerable<string>> GetBlobs(string account, string key, string container)
 		{
@@ -54,7 +54,7 @@ namespace AngularWebStorageExplorer.Controllers
 		public async Task<IActionResult> UploadBlob(string account, string key, string container, List<IFormFile> files)
 		{
 			foreach (IFormFile file in files)
-				await Container.CreateBlobAsync(account, key, container, file.FileName, file.OpenReadStream() );
+				await Container.CreateBlobAsync(account, key, container, file.FileName, file.OpenReadStream());
 
 			return Ok();
 		}

@@ -1,5 +1,5 @@
-﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { Http } from '@angular/http';
+﻿import { Component, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'login',
@@ -11,25 +11,21 @@ export class LoginComponent {
 	@ViewChild('azureAccount') azureAccount: any;
 	@ViewChild('azureKey') azureKey: any;
 
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	//https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
 	@Output() signedIn: EventEmitter<boolean> = new EventEmitter();
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
-
+		this.utilsService = utils;
 	}
 
 	signIn(event: Event) {
 		let account = encodeURIComponent(this.azureAccount.nativeElement.value);
 		let key = encodeURIComponent(this.azureKey.nativeElement.value);
 
-		this.http.get(this.baseUrl + 'api/Queues/GetQueues?account=' + account + '&key=' + key).subscribe(result => {
-			debugger;
+		this.utilsService.signIn(account, key).subscribe(result => {
 			localStorage.setItem('account', account);
 			localStorage.setItem('key', key);
 

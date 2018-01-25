@@ -1,5 +1,5 @@
 ﻿import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
 	selector: 'tabledata',
@@ -8,8 +8,7 @@ import { Http } from '@angular/http';
 
 export class TabledataComponent {
 	forceReload: boolean;
-	http: Http;
-	baseUrl: string;
+	utilsService: UtilsService;
 
 	@Input() storageTable: string = "";
 	@ViewChild('inputQuery') inputQuery: any;
@@ -20,10 +19,9 @@ export class TabledataComponent {
 	public headers: string[] = [];
 	public rows: object[] = []; 
 
-	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+	constructor(utils: UtilsService) {
 
-		this.http = http;
-		this.baseUrl = baseUrl;
+		this.utilsService = utils;
 
 		this.getData();
 	}
@@ -38,7 +36,7 @@ export class TabledataComponent {
 
 		this.data = null;
 		this.loading = true;
-		this.http.get(this.baseUrl + 'api/Tables/QueryTable?table=' + this.storageTable + '&query=').subscribe(result => {
+		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=').subscribe(result => {
 			this.data = result.json();
 			this.processData();
 		}, error => console.error(error));
