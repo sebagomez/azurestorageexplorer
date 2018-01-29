@@ -36,5 +36,16 @@ namespace AngularWebStorageExplorer.Controllers
 
 			return Ok();
 		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> NewQueueMessage(string account, string key, string queue, string message)
+		{
+			if (string.IsNullOrEmpty(queue))
+				return BadRequest();
+
+			await Queue.CreateMessageAsync(account, key, queue, message);
+
+			return Ok();
+		}
 	}
 }

@@ -11,11 +11,11 @@
 				</div>
 				<p></p>
 				<div class="ui left icon input">
-					<input #azureKey type="password" placeholder="Key or SAS">
+					<input #azureKey type="password" placeholder="Key or SAS" (keyup)="typingMessage($event)">
 					<i class="key icon"></i>
 				</div>
 				<p></p>
-				<button class="ui active button" (click)="signIn($event)">
+				<button class="ui active button" (click)="signIn()">
 					<i class="user icon"></i>
 					Login
 				</button>

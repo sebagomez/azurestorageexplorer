@@ -1,5 +1,7 @@
 ﻿
-<em *ngIf="!blobs">Select a container</em>
+<div *ngIf="loading" class="ui active text centered inline loader">
+	<em>Fetching data from {{ container }}...</em>
+</div>
 
 <table class="ui blue table" *ngIf="blobs">
 	<thead>

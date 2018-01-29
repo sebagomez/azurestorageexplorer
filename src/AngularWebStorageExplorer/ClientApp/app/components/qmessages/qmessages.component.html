@@ -1,14 +1,14 @@
-﻿<em *ngIf="!messages">Select a container</em>
+﻿<div *ngIf="loading" class="ui active text centered inline loader">
+	<em>Fetching data from {{ queue }}...</em>
+</div>
+
 
 <table class="ui blue table" *ngIf="messages">
 	<thead>
 		<tr>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th>
+			<th colspan="2">
 				<div style="display:flex" class="ui input">
-					<input type="text" placeholder="New message">
+					<input #newMessage type="text" placeholder="New message" (keyup)="typingMessage($event)">
 					<button title="Add message" type="button" (click)="addMessage()">Add Message</button>
 				</div>
 			</th>
@@ -20,16 +20,12 @@
 					<i class="trash icon"></i>
 				</button>
 			</td>
-			<td>
-			</td>
-			<td colspan="2">{{ message }}</td>
+			<td>{{ message }}</td>
 		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
 			<th colspan="2">{{ messages.length }} messages queued</th>
-			<th></th>
-			<th></th>
 		</tr>
 	</tfoot>
 </table>

@@ -14,6 +14,8 @@ export class BlobsComponent {
 	@Input() container: string = "";
 	@ViewChild('fileInput') fileInput: any;
 
+	public loading: boolean = false;
+
 	public blobs: string[];
 
 	constructor(utils: UtilsService) {
@@ -31,8 +33,9 @@ export class BlobsComponent {
 
 		if (!this.container)
 			return;
-
+		this.loading = true;
 		this.utilsService.getData('api/Blobs/GetBlobs?container=' + this.container).subscribe(result => {
+			this.loading = false;
 			this.blobs = result.json();
 		}, error => console.error(error));
 	}

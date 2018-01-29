@@ -10,8 +10,10 @@ export class QmessagesComponent {
 	public messages: string[];
 
 	public selectedQueue: string;
+	public loading: boolean = false;
 
 	@Input() queue: string = "";
+	@ViewChild('newMessage') newMessage: any;
 
 	utilsService: UtilsService;
 
@@ -27,8 +29,26 @@ export class QmessagesComponent {
 	}
 
 	getMessages() {
+
+		if (!this.queue)
+			return;
+
+		this.loading = true;
 		this.utilsService.getData('api/Queues/GetMessages?queue=' + this.queue).subscribe(result => {
+			this.loading = false;
 			this.messages = result.json();
 		}, error => console.error(error));
+	}
+
+	addMessage() {
+		this.utilsService.postData('api/Queues/NewQueueMessage?queue=' + this.queue + '&message=' + this.newMessage.nativeElement.value, null).subscribe(result => {
+			this.getMessages();
+			this.newMessage.nativeElement.value = '';
+		}, error => console.error(error));
+	}
+
+	typingMessage(event: KeyboardEvent) {
+		if (event.key == 'Enter')
+			this.addMessage();
 	}
 }

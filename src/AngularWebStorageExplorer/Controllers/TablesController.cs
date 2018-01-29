@@ -20,5 +20,16 @@ namespace AngularWebStorageExplorer.Controllers
 		{
 			return await Table.QueryAsync(account, key, table, query);
 		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> NewTable(string account, string key, string table)
+		{
+			if (string.IsNullOrEmpty(table))
+				return BadRequest();
+
+			await Table.Create(account, key, table);
+
+			return Ok();
+		}
 	}
 }

@@ -21,7 +21,7 @@ export class LoginComponent {
 		this.utilsService = utils;
 	}
 
-	signIn(event: Event) {
+	signIn() {
 		let account = encodeURIComponent(this.azureAccount.nativeElement.value);
 		let key = encodeURIComponent(this.azureKey.nativeElement.value);
 
@@ -39,5 +39,10 @@ export class LoginComponent {
 
 			console.error(error)
 		});
+	}
+
+	typingMessage(event: KeyboardEvent) {
+		if (event.key == 'Enter')
+			this.signIn();
 	}
 }
