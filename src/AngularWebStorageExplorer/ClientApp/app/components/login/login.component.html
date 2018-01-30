@@ -6,7 +6,7 @@
 			<div class="meta">Sign in with your Azure Key or Shared Access Signature</div>
 			<div class="description">
 				<div class="ui left icon input">
-					<input #azureAccount type="text" placeholder="Azure account">
+					<input #azureAccount type="text" placeholder="Azure account" (keyup)="typingMessage($event)">
 					<i class="user icon"></i>
 				</div>
 				<p></p>
@@ -20,7 +20,15 @@
 					Login
 				</button>
 
+				<div *ngIf="showError" class="ui left pointing red basic label">Invalid account or key</div>
+
 			</div>
 		</div>
 	</div>
+
+
 </div>
+
+<div *ngIf="loading" class="ui active text centered inline loader">
+</div>
+
