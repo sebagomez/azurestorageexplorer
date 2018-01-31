@@ -7,9 +7,14 @@
 	<thead>
 		<tr>
 			<th>
-				<button class="ui icon button" (click)="removeContainer($event)">
+				<button *ngIf="!removeContainerFlag" class="ui icon button" (click)="removeContainer($event)">
 					<i class="trash icon"></i>
 				</button>
+				<div *ngIf="removeContainerFlag" class="ui buttons">
+					<button class="ui button" (click)="cancelDeleteContainer()">Cancel</button>
+					<div class="or"></div>
+					<button class="ui negative button" (click)="deleteContainer()">Delete</button>
+				</div>
 			</th>
 			<th></th>
 			<th></th>
@@ -23,11 +28,11 @@
 	<tbody>
 		<tr *ngFor="let blob of blobs">
 			<td class="collapsing">
-				<button class="ui icon button" (click)="removeBlob($event)">
+				<button *ngIf="selected != blob" class="ui icon button" (click)="removeBlob($event)">
 					<i class="trash icon"></i>
 				</button>
 				<div *ngIf="selected == blob" class="ui buttons">
-					<button class="ui button" (click)="cancelDelete()">Cancel</button>
+					<button class="ui button" (click)="cancelDeleteBlob()">Cancel</button>
 					<div class="or"></div>
 					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
 				</div>

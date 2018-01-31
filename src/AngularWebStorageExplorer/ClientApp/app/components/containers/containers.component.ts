@@ -56,4 +56,11 @@ export class ContainersComponent {
 			this.getContainers();
 		}, error => console.error(error));
 	}
+
+	forceRefresh(force: boolean) {
+		if (force) {
+			this.getContainers();
+			this.selectedContainer = '';
+		}
+	}
 }

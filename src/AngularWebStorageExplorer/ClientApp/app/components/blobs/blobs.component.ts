@@ -1,5 +1,4 @@
-﻿import { Component, Inject, Input, ViewChild  } from '@angular/core';
-//import { Response, RequestOptions, ResponseContentType } from '@angular/http';
+﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
@@ -11,6 +10,8 @@ export class BlobsComponent {
 	forceReload: boolean;
 	utilsService: UtilsService;
 
+	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
+
 	@Input() container: string = "";
 	@ViewChild('fileInput') fileInput: any;
 	@ViewChild('modal') modal: any;
@@ -20,6 +21,8 @@ export class BlobsComponent {
 
 	public blobs: string[];
 	public selected: string;
+
+	public removeContainerFlag: boolean = false;
 
 	constructor(utils: UtilsService) {
 
@@ -34,8 +37,10 @@ export class BlobsComponent {
 
 	getBlobs() {
 
-		if (!this.container)
+		if (!this.container) {
+			this.showTable = false;
 			return;
+		}
 
 		this.loading = true;
 		this.showTable = false;
@@ -60,13 +65,23 @@ export class BlobsComponent {
 		}, error => console.error(error));
 	}
 
-	cancelDelete() {
+	cancelDeleteBlob() {
 		this.selected = '';
 	}
 
 	removeContainer(event: Event) {
+		this.removeContainerFlag = true;
+	}
+
+	cancelDeleteContainer() {
+		this.removeContainerFlag = false;
+	}
+
+	deleteContainer() {
 		this.utilsService.postData('api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
 			this.container = "";
+			this.removeContainerFlag = false;
+			this.refresh.emit(true);
 		}, error => console.error(error));
 	}
 
@@ -80,13 +95,6 @@ export class BlobsComponent {
 			this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container, formData).onload = function () {
 				that.getBlobs();
 			};
-
-			//const xhr = new XMLHttpRequest();
-			//xhr.open('POST', this.baseUrl + 'api/Blobs/UploadBlob?container=' + this.container, true);
-			//xhr.onload = function () {
-			//	that.getBlobs();
-			//};
-			//xhr.send(formData);
 		}
 	}
 

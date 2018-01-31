@@ -25,6 +25,6 @@
 		<a class="link item" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
 	</div>
 
-	<blobs class="child" style="padding-left:20px" [container]="selectedContainer"></blobs>
+	<blobs class="child" style="padding-left:20px" [container]="selectedContainer" (refresh)="forceRefresh($event)"></blobs>
 
 </div>

@@ -34,7 +34,7 @@ namespace StorageLibrary
 			List<IListBlobItem> results = new List<IListBlobItem>();
 			do
 			{
-				var response = await container.ListBlobsSegmentedAsync(continuationToken);
+				var response = await container.ListBlobsSegmentedAsync(null, true, BlobListingDetails.All, null, continuationToken, new BlobRequestOptions(), new Microsoft.WindowsAzure.Storage.OperationContext());
 				continuationToken = response.ContinuationToken;
 				results.AddRange(response.Results);
 			}
