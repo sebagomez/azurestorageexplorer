@@ -53,10 +53,8 @@ export class UtilsService {
 
 	uploadFile(url: string, data: FormData) {
 		const xhr = new XMLHttpRequest();
-		xhr.open('POST', this.baseUrl + url, true);
-		//xhr.onload = function () {
-		//	that.getBlobs();
-		//};
+		let credentials = this.loadCredentials(url);
+		xhr.open('POST', this.baseUrl + url + credentials, true);
 		xhr.send(data);
 		return xhr;
 	}

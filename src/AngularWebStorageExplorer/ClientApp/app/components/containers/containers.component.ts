@@ -49,10 +49,11 @@ export class ContainersComponent {
 	}
 
 	newContainer(event: Event) {
-		let url = 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + (this.publicAccess.nativeElement.value === "on")
+		let url = 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + this.publicAccess.nativeElement.checked
 		this.utilsService.postData(url, null).subscribe(result => {
 			this.newContainerName.nativeElement.value = "";
-			this.publicAccess.nativeElement.value = "off";
+			debugger;
+			this.publicAccess.nativeElement.checked = false;
 			this.getContainers();
 		}, error => console.error(error));
 	}
