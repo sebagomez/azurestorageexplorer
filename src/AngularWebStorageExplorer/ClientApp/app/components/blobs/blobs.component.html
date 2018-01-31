@@ -3,7 +3,7 @@
 	<em>Fetching data from {{ container }}...</em>
 </div>
 
-<table class="ui blue table" *ngIf="blobs">
+<table class="ui blue table" *ngIf="showTable">
 	<thead>
 		<tr>
 			<th>
@@ -26,6 +26,11 @@
 				<button class="ui icon button" (click)="removeBlob($event)">
 					<i class="trash icon"></i>
 				</button>
+				<div *ngIf="selected == blob" class="ui buttons">
+					<button class="ui button" (click)="cancelDelete()">Cancel</button>
+					<div class="or"></div>
+					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
+				</div>
 			</td>
 			<td class="collapsing">
 				<button class="ui icon button" (click)="downloadBlob($event)">
@@ -43,3 +48,4 @@
 		</tr>
 	</tfoot>
 </table>
+

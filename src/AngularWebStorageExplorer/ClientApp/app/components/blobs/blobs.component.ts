@@ -13,10 +13,13 @@ export class BlobsComponent {
 
 	@Input() container: string = "";
 	@ViewChild('fileInput') fileInput: any;
+	@ViewChild('modal') modal: any;
 
 	public loading: boolean = false;
+	public showTable: boolean = false;
 
 	public blobs: string[];
+	public selected: string;
 
 	constructor(utils: UtilsService) {
 
@@ -33,20 +36,32 @@ export class BlobsComponent {
 
 		if (!this.container)
 			return;
+
 		this.loading = true;
+		this.showTable = false;
 		this.utilsService.getData('api/Blobs/GetBlobs?container=' + this.container).subscribe(result => {
-			this.loading = false;
 			this.blobs = result.json();
+			this.loading = false;
+			this.showTable = true;
 		}, error => console.error(error));
 	}
 
 	removeBlob(event: Event) {
+
 		var element = (event.currentTarget as Element); //button
 		var blob : string = element.parentElement!.parentElement!.children[2]!.textContent!;
 
-		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(blob), null).subscribe(result => {
+		this.selected = blob;
+	}
+
+	deleteBlob() {
+		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
 			this.getBlobs();
 		}, error => console.error(error));
+	}
+
+	cancelDelete() {
+		this.selected = '';
 	}
 
 	removeContainer(event: Event) {

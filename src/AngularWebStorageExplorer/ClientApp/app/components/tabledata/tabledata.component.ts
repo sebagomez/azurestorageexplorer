@@ -15,6 +15,7 @@ export class TabledataComponent {
 
 	public data: any;
 	public loading: boolean = false;
+	public showTable: boolean = false;
 
 	public headers: string[] = [];
 	public rows: object[] = []; 
@@ -34,6 +35,7 @@ export class TabledataComponent {
 		if (!this.storageTable)
 			return;
 
+		this.showTable = false;
 		this.data = null;
 		this.loading = true;
 		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=').subscribe(result => {
@@ -43,6 +45,10 @@ export class TabledataComponent {
 	}
 
 	processData() {
+		//https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
+		this.headers.length = 0;
+		this.rows.length = 0;
+
 		this.headers.push("Partition Key");
 		this.headers.push("Row Key");
 		for (let entry of this.data) {
@@ -60,5 +66,6 @@ export class TabledataComponent {
 			this.rows.push(obj);
 		}
 		this.loading = false;
+		this.showTable = true;
 	}
 }

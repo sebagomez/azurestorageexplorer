@@ -11,6 +11,7 @@ export class QmessagesComponent {
 
 	public selectedQueue: string;
 	public loading: boolean = false;
+	public showTable: boolean = false;
 
 	@Input() queue: string = "";
 	@ViewChild('newMessage') newMessage: any;
@@ -33,10 +34,13 @@ export class QmessagesComponent {
 		if (!this.queue)
 			return;
 
+		this.showTable = false;
+		this.messages = [];
 		this.loading = true;
 		this.utilsService.getData('api/Queues/GetMessages?queue=' + this.queue).subscribe(result => {
 			this.loading = false;
 			this.messages = result.json();
+			this.showTable = true;
 		}, error => console.error(error));
 	}
 

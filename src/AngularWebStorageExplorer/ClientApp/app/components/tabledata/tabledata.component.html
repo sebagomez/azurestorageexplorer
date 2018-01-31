@@ -2,7 +2,7 @@
 	<em>Fetching data from {{ storageTable }}...</em>
 </div>
 
-<table class="ui blue table" *ngIf="data">
+<table class="ui blue table" *ngIf="showTable">
 	<thead>
 		<tr>
 			<th>
@@ -27,7 +27,7 @@
 	</tbody>
 	<tfoot>
 		<tr>
-			<th>{{ rows.length }} rows found</th>
+			<th colspan="3">{{ rows.length }} rows found</th>
 		</tr>
 	</tfoot>
 </table>
