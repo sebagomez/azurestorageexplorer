@@ -38,7 +38,6 @@ export class QueuesComponent {
 		var queue = (element.textContent as string).trim();
 
 		var nodes = this.queuesMenu.nativeElement.childNodes;
-		debugger;
 		for (var i = 0; i < nodes.length; i++) {
 			if (nodes[i].classList)
 				nodes[i].classList.remove("active");
@@ -54,5 +53,12 @@ export class QueuesComponent {
 			this.newQueueName.nativeElement.value = "";
 			this.getQueues();
 		}, error => console.error(error));
+	}
+
+	forceRefresh(force: boolean) {
+		if (force) {
+			this.getQueues();
+			this.selectedQueue = '';
+		}
 	}
 }

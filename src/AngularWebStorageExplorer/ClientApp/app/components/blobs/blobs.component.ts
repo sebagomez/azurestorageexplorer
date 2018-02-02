@@ -61,6 +61,7 @@ export class BlobsComponent {
 
 	deleteBlob() {
 		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
+			this.selected = '';
 			this.getBlobs();
 		}, error => console.error(error));
 	}

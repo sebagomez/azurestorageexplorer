@@ -55,12 +55,12 @@ namespace StorageLibrary
 			if (queue.ApproximateMessageCount.HasValue && queue.ApproximateMessageCount.Value > 0)
 			{
 				bool found = false;
-				foreach (CloudQueueMessage message in await queue.GetMessagesAsync(queue.ApproximateMessageCount.Value))
+				foreach (CloudQueueMessage message in await queue.GetMessagesAsync(queue.ApproximateMessageCount.Value, TimeSpan.FromMilliseconds(100), null, null))
 				{
 					if (message.Id == messageId)
 					{
 						found = true;
-						await queue.DeleteMessageAsync(message);
+						await queue.DeleteMessageAsync(message.Id, message.PopReceipt);
 						break;
 					}
 				}

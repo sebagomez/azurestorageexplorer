@@ -9,7 +9,7 @@ Or deploy it to your own Azure WebSite
 
 Azure Storage Explorer
 ======================
-Windows Azure Web Storage Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Windows Azure Storage account. You'll no longer have to install a local client to do that. It's developed in C#.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core 2.0 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -33,7 +33,7 @@ Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greate
 To query action movies use the following:
 > PartitionKey eq 'Action'  
 
-*Please note there's a <kbd>space</kbd> character before and after the eq operator.*
+*Please note there's a <kbd>space</kbd> character before and after the **eq** operator.*
 
 ![Screenshot](Tables.png)
 

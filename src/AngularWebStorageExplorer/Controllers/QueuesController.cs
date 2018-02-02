@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,22 @@ namespace AngularWebStorageExplorer.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public async Task<IEnumerable<string>> GetMessages(string account, string key, string queue)
+		public async Task<IEnumerable<KeyValuePair<string,string>>> GetMessages(string account, string key, string queue)
 		{
 			List<CloudQueueMessage> messages = await Queue.GetAllMessagesAsync(account, key, queue);
 
-			return messages.Select(m => m.AsString);
+			return messages.Select(m => new KeyValuePair<string, string>(m.Id, m.AsString));
+		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> DeleteMessage(string account, string key, string queue, string messageId)
+		{
+			if (string.IsNullOrEmpty(queue) || string.IsNullOrEmpty(messageId))
+				return BadRequest();
+
+			await Queue.DeleteMessage(account, key, queue, messageId);
+
+			return Ok();
 		}
 
 		[HttpPost("[action]")]
@@ -44,6 +56,17 @@ namespace AngularWebStorageExplorer.Controllers
 				return BadRequest();
 
 			await Queue.CreateMessageAsync(account, key, queue, message);
+
+			return Ok();
+		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> DeleteQueue(string account, string key, string queue)
+		{
+			if (string.IsNullOrEmpty(queue))
+				return BadRequest();
+
+			await Queue.DeleteAsync(account, key, queue);
 
 			return Ok();
 		}

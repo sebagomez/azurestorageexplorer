@@ -52,7 +52,6 @@ export class ContainersComponent {
 		let url = 'api/Containers/NewContainer?container=' + this.newContainerName.nativeElement.value + '&publicAccess=' + this.publicAccess.nativeElement.checked
 		this.utilsService.postData(url, null).subscribe(result => {
 			this.newContainerName.nativeElement.value = "";
-			debugger;
 			this.publicAccess.nativeElement.checked = false;
 			this.getContainers();
 		}, error => console.error(error));

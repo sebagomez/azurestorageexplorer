@@ -1,4 +1,4 @@
-﻿import { Component, Inject, Input, ViewChild } from '@angular/core';
+﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
@@ -7,12 +7,15 @@ import { UtilsService } from '../../services/utils/utils.service';
 })
 
 export class QmessagesComponent {
-	public messages: string[];
+	public messages: any;
 
 	public selectedQueue: string;
 	public loading: boolean = false;
 	public showTable: boolean = false;
+	public removeQueueFlag: boolean = false;
+	public selected: string;
 
+	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 	@Input() queue: string = "";
 	@ViewChild('newMessage') newMessage: any;
 
@@ -31,11 +34,12 @@ export class QmessagesComponent {
 
 	getMessages() {
 
-		if (!this.queue)
+		if (!this.queue) {
+			this.showTable = false;
 			return;
+		}
 
 		this.showTable = false;
-		this.messages = [];
 		this.loading = true;
 		this.utilsService.getData('api/Queues/GetMessages?queue=' + this.queue).subscribe(result => {
 			this.loading = false;
@@ -45,9 +49,43 @@ export class QmessagesComponent {
 	}
 
 	addMessage() {
-		this.utilsService.postData('api/Queues/NewQueueMessage?queue=' + this.queue + '&message=' + this.newMessage.nativeElement.value, null).subscribe(result => {
+		this.utilsService.postData('api/Queues/NewQueueMessage?queue=' + encodeURIComponent(this.queue) + '&message=' + encodeURIComponent(this.newMessage.nativeElement.value), null).subscribe(result => {
 			this.getMessages();
 			this.newMessage.nativeElement.value = '';
+		}, error => console.error(error));
+	}
+
+	removeMessage(event: Event) {
+		var element = (event.currentTarget as Element); //button
+		var messageId: string = element.parentElement!.parentElement!.children[2]!.textContent!;
+
+		this.selected = messageId;
+	}
+
+	deleteMessage() {
+		this.utilsService.postData('api/Queues/DeleteMessage?queue=' + encodeURIComponent(this.queue) + '&messageId=' + encodeURIComponent(this.selected), null).subscribe(result => {
+			this.selected = '';
+			this.getMessages();
+		}, error => console.error(error));
+	}
+
+	cancelDeleteMessage() {
+		this.selected = '';
+	}
+
+	removeQueue(event: Event) {
+		this.removeQueueFlag = true;
+	}
+
+	cancelDeleteQueue() {
+		this.removeQueueFlag = false;
+	}
+
+	deleteQueue() {
+		this.utilsService.postData('api/Queues/DeleteQueue?queue=' + this.queue, null).subscribe(result => {
+			this.queue = "";
+			this.removeQueueFlag = false;
+			this.refresh.emit(true);
 		}, error => console.error(error));
 	}
 

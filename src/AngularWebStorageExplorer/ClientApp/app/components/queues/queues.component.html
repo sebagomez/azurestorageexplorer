@@ -19,6 +19,6 @@
 		<a class="link item" *ngFor="let queue of queues" (click)="queueChanged($event)">{{queue}}</a>
 	</div>
 
-	<qmessages class="child" style="padding-left:20px" [queue]="selectedQueue"></qmessages>
+	<qmessages class="child" style="padding-left:20px" [queue]="selectedQueue" (refresh)="forceRefresh($event)"></qmessages>
 
 </div>
