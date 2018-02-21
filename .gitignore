@@ -2,6 +2,7 @@ bin/
 obj/
 .svn/
 .vs/
+.vscode/
 PublishProfiles/
 packages/
 publish.bat
