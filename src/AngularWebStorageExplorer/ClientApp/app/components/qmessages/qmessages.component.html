@@ -45,3 +45,7 @@
 		</tr>
 	</tfoot>
 </table>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div>

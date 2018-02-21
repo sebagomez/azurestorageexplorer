@@ -22,3 +22,7 @@
 	<qmessages class="child" style="padding-left:20px" [queue]="selectedQueue" (refresh)="forceRefresh($event)"></qmessages>
 
 </div>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div>

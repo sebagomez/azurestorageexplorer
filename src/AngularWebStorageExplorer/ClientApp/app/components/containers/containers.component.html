@@ -27,3 +27,7 @@
 	<blobs class="child" style="padding-left:20px" [container]="selectedContainer" (refresh)="forceRefresh($event)"></blobs>
 
 </div>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div>

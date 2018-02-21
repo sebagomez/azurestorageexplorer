@@ -1,14 +1,14 @@
 ﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'blobs',
 	templateUrl: './blobs.component.html'
 })
 
-export class BlobsComponent {
+export class BlobsComponent extends BaseComponent {
 	forceReload: boolean;
-	utilsService: UtilsService;
 
 	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 
@@ -25,9 +25,7 @@ export class BlobsComponent {
 	public removeContainerFlag: boolean = false;
 
 	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+		super(utils);
 		this.getBlobs();
 	}
 
@@ -48,13 +46,13 @@ export class BlobsComponent {
 			this.blobs = result.json();
 			this.loading = false;
 			this.showTable = true;
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	removeBlob(event: Event) {
 
 		var element = (event.currentTarget as Element); //button
-		var blob : string = element.parentElement!.parentElement!.children[2]!.textContent!;
+		var blob: string = element.parentElement!.parentElement!.children[2]!.textContent!;
 
 		this.selected = blob;
 	}
@@ -63,7 +61,7 @@ export class BlobsComponent {
 		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
 			this.selected = '';
 			this.getBlobs();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	cancelDeleteBlob() {
@@ -83,7 +81,8 @@ export class BlobsComponent {
 			this.container = "";
 			this.removeContainerFlag = false;
 			this.refresh.emit(true);
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
+
 	}
 
 	upload() {
@@ -123,8 +122,9 @@ export class BlobsComponent {
 			link.setAttribute('download', fileName);
 			document.body.appendChild(link);
 			link.click();
-			document.body.removeChild(link); 
+			document.body.removeChild(link);
 
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
+
 	}
 }

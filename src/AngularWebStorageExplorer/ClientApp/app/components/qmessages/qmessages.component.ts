@@ -1,12 +1,13 @@
 ﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'qmessages',
 	templateUrl: './qmessages.component.html'
 })
 
-export class QmessagesComponent {
+export class QmessagesComponent extends BaseComponent {
 	public messages: any;
 
 	public selectedQueue: string;
@@ -19,12 +20,8 @@ export class QmessagesComponent {
 	@Input() queue: string = "";
 	@ViewChild('newMessage') newMessage: any;
 
-	utilsService: UtilsService;
-
 	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+		super(utils);
 		this.getMessages();
 	}
 
@@ -45,14 +42,14 @@ export class QmessagesComponent {
 			this.loading = false;
 			this.messages = result.json();
 			this.showTable = true;
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	addMessage() {
 		this.utilsService.postData('api/Queues/NewQueueMessage?queue=' + encodeURIComponent(this.queue) + '&message=' + encodeURIComponent(this.newMessage.nativeElement.value), null).subscribe(result => {
 			this.getMessages();
 			this.newMessage.nativeElement.value = '';
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	removeMessage(event: Event) {
@@ -66,7 +63,7 @@ export class QmessagesComponent {
 		this.utilsService.postData('api/Queues/DeleteMessage?queue=' + encodeURIComponent(this.queue) + '&messageId=' + encodeURIComponent(this.selected), null).subscribe(result => {
 			this.selected = '';
 			this.getMessages();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	cancelDeleteMessage() {
@@ -86,7 +83,7 @@ export class QmessagesComponent {
 			this.queue = "";
 			this.removeQueueFlag = false;
 			this.refresh.emit(true);
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	typingMessage(event: KeyboardEvent) {

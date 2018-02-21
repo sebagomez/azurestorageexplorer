@@ -1,25 +1,22 @@
-﻿import { Component, Inject, ViewChild } from '@angular/core';
+﻿import { Component, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'containers',
 	templateUrl: './containers.component.html'
 })
 
-export class ContainersComponent {
+export class ContainersComponent extends BaseComponent {
 	public containers: string[];
 	public selectedContainer: string;
-
-	utilsService: UtilsService;
 
 	@ViewChild('newContainerName') newContainerName: any;
 	@ViewChild('publicAccess') publicAccess: any;
 	@ViewChild('containersMenu') containersMenu: any;
 
-	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+	constructor(utilsService: UtilsService) {
+		super(utilsService);
 		this.getContainers();
 	}
 
@@ -30,7 +27,7 @@ export class ContainersComponent {
 	getContainers() {
 		this.utilsService.getData('api/Containers/GetContainers').subscribe(result => {
 			this.containers = result.json();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	containerChanged(event: Event) {
@@ -54,7 +51,8 @@ export class ContainersComponent {
 			this.newContainerName.nativeElement.value = "";
 			this.publicAccess.nativeElement.checked = false;
 			this.getContainers();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
+
 	}
 
 	forceRefresh(force: boolean) {

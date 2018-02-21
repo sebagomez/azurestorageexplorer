@@ -1,25 +1,22 @@
 ﻿import { Component, Inject, ViewChild } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'queues',
 	templateUrl: './queues.component.html'
 })
 
-export class QueuesComponent {
+export class QueuesComponent extends BaseComponent {
 	public queues: string[];
 
 	public selectedQueue: string;
-
-	utilsService: UtilsService;
 
 	@ViewChild('newQueueName') newQueueName: any;
 	@ViewChild('queuesMenu') queuesMenu: any;
 
 	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+		super(utils);
 		this.getQueues();
 	}
 
@@ -30,7 +27,8 @@ export class QueuesComponent {
 	getQueues() {
 		this.utilsService.getData('api/Queues/GetQueues').subscribe(result => {
 			this.queues = result.json();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
+
 	}
 
 	queueChanged(event: Event) {
@@ -52,7 +50,8 @@ export class QueuesComponent {
 		this.utilsService.postData('api/Queues/NewQueue?queue=' + this.newQueueName.nativeElement.value, null).subscribe(result => {
 			this.newQueueName.nativeElement.value = "";
 			this.getQueues();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
+
 	}
 
 	forceRefresh(force: boolean) {

@@ -1,24 +1,22 @@
 ﻿import { Component, Inject, ViewChild } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'tables',
 	templateUrl: './tables.component.html'
 })
 
-export class TablesComponent {
+export class TablesComponent extends BaseComponent {
 	public tables: string[];
 
 	public selectedTable: string;
-	utilsService: UtilsService;
 
 	@ViewChild('newTableName') newTableName: any;
 	@ViewChild('tablesMenu') tablesMenu: any;
 
 	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+		super(utils);
 		this.getTables();
 	}
 
@@ -29,7 +27,7 @@ export class TablesComponent {
 	getTables() {
 		this.utilsService.getData('api/Tables/GetTables').subscribe(result => {
 			this.tables = result.json();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	tableChanged(event: Event) {
@@ -51,6 +49,6 @@ export class TablesComponent {
 		this.utilsService.postData('api/Tables/NewTable?table=' + this.newTableName.nativeElement.value, null).subscribe(result => {
 			this.newTableName.nativeElement.value = "";
 			this.getTables();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 }

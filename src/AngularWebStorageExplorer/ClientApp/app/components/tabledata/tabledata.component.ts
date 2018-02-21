@@ -1,14 +1,14 @@
 ﻿import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
 	selector: 'tabledata',
 	templateUrl: './tabledata.component.html'
 })
 
-export class TabledataComponent {
+export class TabledataComponent extends BaseComponent {
 	forceReload: boolean;
-	utilsService: UtilsService;
 
 	@Input() storageTable: string = "";
 	@ViewChild('inputQuery') inputQuery: any;
@@ -18,12 +18,10 @@ export class TabledataComponent {
 	public showTable: boolean = false;
 
 	public headers: string[] = [];
-	public rows: object[] = []; 
+	public rows: object[] = [];
 
 	constructor(utils: UtilsService) {
-
-		this.utilsService = utils;
-
+		super(utils);
 		this.getData();
 	}
 
@@ -41,7 +39,7 @@ export class TabledataComponent {
 		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=').subscribe(result => {
 			this.data = result.json();
 			this.processData();
-		}, error => console.error(error));
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
 	processData() {
