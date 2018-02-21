@@ -7,7 +7,7 @@ import { Component, ViewChild, Renderer2, Inject } from '@angular/core';
 })
 
 export class AppComponent {
-	public loggedIn: boolean = true; //TODO: change before publishing!
+	public loggedIn: boolean = false;
 
 	loggedInHandler(logged: boolean) {
 		this.loggedIn = logged;
