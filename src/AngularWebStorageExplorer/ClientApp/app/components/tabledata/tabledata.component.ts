@@ -12,9 +12,9 @@ export class TabledataComponent extends BaseComponent {
 
 	@Input() storageTable: string = "";
 	@ViewChild('inputQuery') inputQuery: any;
+	@ViewChild('mode') mode: any;
 
 	public data: any;
-	public loading: boolean = false;
 	public showTable: boolean = false;
 
 	public headers: string[] = [];
@@ -22,11 +22,6 @@ export class TabledataComponent extends BaseComponent {
 
 	constructor(utils: UtilsService) {
 		super(utils);
-		this.getData();
-	}
-
-	ngOnChanges() {
-		this.getData();
 	}
 
 	getData() {
@@ -36,9 +31,22 @@ export class TabledataComponent extends BaseComponent {
 		this.showTable = false;
 		this.data = null;
 		this.loading = true;
-		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=').subscribe(result => {
+		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=' + this.inputQuery.nativeElement.value).subscribe(result => {
 			this.data = result.json();
 			this.processData();
+		}, error => { this.setErrorMessage(error.statusText); });
+	}
+
+	insertData() {
+		if (!this.storageTable)
+			return;
+
+		this.showTable = false;
+		//this.data = null;
+		this.loading = true;
+		this.utilsService.putData('api/Tables/InsertData?table=' + this.storageTable + '&data=' + this.inputQuery.nativeElement.value, null).subscribe(result => {
+			this.inputQuery.nativeElement.value = '';
+			this.loading = false;
 		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
@@ -65,5 +73,19 @@ export class TabledataComponent extends BaseComponent {
 		}
 		this.loading = false;
 		this.showTable = true;
+	}
+
+	queryData() {
+		if (this.mode.nativeElement.value === 'q')
+			this.getData();
+		else
+			this.insertData();
+	}
+
+	modeChanged() {
+		if (this.mode.nativeElement.value === 'q')
+			this.inputQuery.nativeElement.placeholder = "Search pattern...";
+		else
+			this.inputQuery.nativeElement.placeholder = "Insert statement...";
 	}
 }

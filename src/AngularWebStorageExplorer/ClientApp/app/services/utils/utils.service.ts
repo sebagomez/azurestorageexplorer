@@ -51,6 +51,11 @@ export class UtilsService {
 		return this.http.post(this.baseUrl + url + credentials, body);
 	}
 
+	putData(url: string, body: any) {
+		let credentials = this.loadCredentials(url);
+		return this.http.put(this.baseUrl + url + credentials, body);
+	}
+
 	uploadFile(url: string, data: FormData) {
 		const xhr = new XMLHttpRequest();
 		let credentials = this.loadCredentials(url);

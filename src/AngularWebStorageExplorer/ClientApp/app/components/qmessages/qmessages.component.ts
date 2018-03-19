@@ -11,7 +11,6 @@ export class QmessagesComponent extends BaseComponent {
 	public messages: any;
 
 	public selectedQueue: string;
-	public loading: boolean = false;
 	public showTable: boolean = false;
 	public removeQueueFlag: boolean = false;
 	public selected: string;

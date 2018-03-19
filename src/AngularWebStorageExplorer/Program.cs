@@ -13,7 +13,6 @@ namespace AngularWebStorageExplorer
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-				//.UseKestrel(options => options.Listen(IPAddress.Any,443))
                 .UseStartup<Startup>()
                 .Build();
     }

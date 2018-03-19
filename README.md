@@ -20,16 +20,17 @@ To login just enter your account name and key or SAS ([Shared Access Signature](
 
 **Queues**: Create Queues and messages.
 
-**Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>:<PropertyValue>`
+**Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>=<PropertyValue>`
 
-If you don't set PertitionKey or RowKey default values will be used ("1" for PartitionKey and a new Guid for RowKey).
-For Example to create a new movie:
-> PartitionKey:Action
-RowKey:1
-Title:Die Hard
+If you don't set PertitionKey or RowKey default values will be used ("1" for PartitionKey and a current timestamp for RowKey).  
+For example to create a new movie:
+> PartitionKey=Action  
+RowKey=1  
+Title=Die Hard  
 
 To query the entities from a table use the following syntax: `<PropertyName> [operator] <ProepertyValue>`
 Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).   
+Take a look at the [supported comparaison operators](https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators)  
 To query action movies use the following:
 > PartitionKey eq 'Action'  
 

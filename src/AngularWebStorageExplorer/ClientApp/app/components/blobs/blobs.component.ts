@@ -16,7 +16,6 @@ export class BlobsComponent extends BaseComponent {
 	@ViewChild('fileInput') fileInput: any;
 	@ViewChild('modal') modal: any;
 
-	public loading: boolean = false;
 	public showTable: boolean = false;
 
 	public blobs: string[];
