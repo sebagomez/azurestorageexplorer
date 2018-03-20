@@ -42,7 +42,6 @@ export class TabledataComponent extends BaseComponent {
 			return;
 
 		this.showTable = false;
-		//this.data = null;
 		this.loading = true;
 		this.utilsService.putData('api/Tables/InsertData?table=' + this.storageTable + '&data=' + this.inputQuery.nativeElement.value, null).subscribe(result => {
 			this.inputQuery.nativeElement.value = '';

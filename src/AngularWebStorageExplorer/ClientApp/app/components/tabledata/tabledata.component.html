@@ -4,11 +4,11 @@
 
 <div class="ui action input fullWidth">
 	<input #inputQuery type="text" placeholder="Search pattern...">
-	<select #mode class="ui compact selection dropdown" (change)="modeChanged($event)">
+	<select #mode class="ui compact selection dropdown" (change)="modeChanged()">
 		<option value="q" selected="">Search</option>
 		<option value="i">Insert</option>
 	</select>
-	<div class="ui button" (click)="queryData($event)">Go</div>
+	<div class="ui button" (click)="queryData()">Go</div>
 </div>
 
 <table class="ui blue table" *ngIf="showTable">

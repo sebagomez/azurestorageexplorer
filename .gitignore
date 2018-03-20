@@ -3,10 +3,18 @@ obj/
 .svn/
 .vs/
 .vscode/
+
 PublishProfiles/
 packages/
-publish.bat
+**/node_modules/
+**/wwwroot/dist/
+**/ClientApp/dist/
+**/Properties/launchSettings.json
 
 *.user
 *.suo
 private*.data
+
+publish.bat
+
+npm-shrinkwrap.json
