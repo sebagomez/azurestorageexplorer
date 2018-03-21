@@ -7,7 +7,6 @@ obj/
 PublishProfiles/
 packages/
 **/node_modules/
-**/wwwroot/dist/
 **/ClientApp/dist/
 **/Properties/launchSettings.json
 
