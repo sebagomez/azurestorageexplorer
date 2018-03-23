@@ -43,6 +43,17 @@ namespace AngularWebStorageExplorer.Controllers
 			return Ok();
 		}
 
+		[HttpDelete("[action]")]
+		public async Task<IActionResult> DeleteTable(string account, string key, string table)
+		{
+			if (string.IsNullOrEmpty(table))
+				return BadRequest();
+
+			await Table.Delete(account, key, table);
+
+			return Ok();
+		}
+
 		[HttpPost("[action]")]
 		public async Task<IActionResult> NewTable(string account, string key, string table)
 		{

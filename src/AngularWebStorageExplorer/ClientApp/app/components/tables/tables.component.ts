@@ -51,4 +51,11 @@ export class TablesComponent extends BaseComponent {
 			this.getTables();
 		}, error => { this.setErrorMessage(error.statusText); });
 	}
+
+	forceRefresh(force: boolean) {
+		if (force) {
+			this.getTables();
+			this.selectedTable = '';
+		}
+	}
 }

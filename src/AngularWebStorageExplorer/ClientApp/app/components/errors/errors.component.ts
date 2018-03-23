@@ -15,6 +15,7 @@ export class MyErrorsHandler implements ErrorHandler {
 	handleError(error: any) {
 
 		this.showErrors = true;
+		console.error(error);
 
 		if (error.statusText)
 			alert(error.statusText)

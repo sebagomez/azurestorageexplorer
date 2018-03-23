@@ -1,4 +1,4 @@
-﻿import { Component, Inject, Input, ViewChild } from '@angular/core';
+﻿import { Component, Inject, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 import { BaseComponent } from '../base/base.component';
 
@@ -13,15 +13,22 @@ export class TabledataComponent extends BaseComponent {
 	@Input() storageTable: string = "";
 	@ViewChild('inputQuery') inputQuery: any;
 	@ViewChild('mode') mode: any;
+	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 
 	public data: any;
 	public showTable: boolean = false;
+	public removeTableFlag: boolean = false;
 
 	public headers: string[] = [];
 	public rows: object[] = [];
 
 	constructor(utils: UtilsService) {
 		super(utils);
+	}
+
+	ngOnChanges() {
+		this.data = null;
+		this.showTable = false;
 	}
 
 	getData() {
@@ -75,6 +82,13 @@ export class TabledataComponent extends BaseComponent {
 	}
 
 	queryData() {
+
+		if (!this.storageTable) {
+			var m = this.mode.nativeElement.value === 'q'?  "query" : "insert";
+			this.setErrorMessage('You must first select a table to ' + m  + ' to');
+			return;
+		}
+
 		if (this.mode.nativeElement.value === 'q')
 			this.getData();
 		else
@@ -86,5 +100,30 @@ export class TabledataComponent extends BaseComponent {
 			this.inputQuery.nativeElement.placeholder = "Search pattern...";
 		else
 			this.inputQuery.nativeElement.placeholder = "Insert statement...";
+	}
+
+	removeRow(event: Event) {
+		var element = (event.currentTarget as Element); //button
+		var partitionKey: string = element.parentElement!.parentElement!.children[1]!.textContent!.trim();
+		var rowKey: string = element.parentElement!.parentElement!.children[2]!.textContent!.trim();
+
+		this.utilsService.deleteData('api/Tables/DeleteData?table=' + this.storageTable + '&partitionKey=' + partitionKey + '&rowKey=' + rowKey).subscribe(result => {
+			this.getData();
+		}, error => { this.setErrorMessage(error.statusText); }); 
+	}
+
+	removeTable() {
+		this.removeTableFlag = true;
+	}
+
+	cancelDeleteTable() {
+		this.removeTableFlag = false;
+	}
+
+	deleteTable() {
+		this.utilsService.deleteData('api/Tables/DeleteTable?table=' + this.storageTable).subscribe(result => {
+			this.refresh.emit(true);
+			this.removeTableFlag = false;
+		}, error => { this.setErrorMessage(error.statusText); });
 	}
 }

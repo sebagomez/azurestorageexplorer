@@ -19,7 +19,7 @@
 		<a class="link item" *ngFor="let row of tables" (click)="tableChanged($event)">{{row}}</a>
 	</div>
 	
-	<tabledata class="child" style="padding-left:20px" [storageTable]="selectedTable"></tabledata>
+	<tabledata class="child" style="padding-left:20px" [storageTable]="selectedTable" (refresh)="forceRefresh($event)"></tabledata>
 		
 </div>
 
