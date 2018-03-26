@@ -20,5 +20,20 @@
 
 .fullWidth {
 	width: 100%;
+}
+
+.versionFooter {
+	font-size: x-small;
+	position: absolute;
+	bottom: 0;
+	color: rgb(157,157,157);
+	margin-left: 10px;
+	margin-left: 5px;
+}
+
+@media only screen and (max-width: 768px) {
 	
+	.versionFooter {
+		visibility: hidden;
+	}
 }
