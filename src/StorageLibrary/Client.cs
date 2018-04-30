@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.File;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -20,6 +21,7 @@ namespace StorageLibrary
 			Uri blobUri = new Uri($"http://{account}.blob.core.windows.net/{sas}");
 			Uri queueUri = new Uri($"http://{account}.queue.core.windows.net/{sas}");
 			Uri tableUri = new Uri($"http://{account}.table.core.windows.net/{sas}");
+			Uri fileUri = new Uri($"http://{account}.file.core.windows.net/{sas}");
 
 			StorageCredentials credentials;
 			CloudStorageAccount storageAccount;
@@ -43,6 +45,8 @@ namespace StorageLibrary
 		public static CloudTableClient GetTableClient(string account, string key) => GetAccount(account, key).CreateCloudTableClient();
 
 		public static CloudQueueClient GetQueueClient(string account, string key) => GetAccount(account, key).CreateCloudQueueClient();
+
+		public static CloudFileClient GetFileShareClient(string account, string key) => GetAccount(account, key).CreateCloudFileClient();
 
 		public static string GetSignedKey(string method, string contentType, string msDate, Uri baseUri, string account, string key)
 		{

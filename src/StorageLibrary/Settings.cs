@@ -24,7 +24,7 @@ namespace StorageLibrary
 			try
 			{
 				s_instance = GetData(GetFullPath(s_settingsFile));
-				while (s_instance != null && string.IsNullOrEmpty(s_instance.Account) && string.IsNullOrEmpty(s_instance.Key) && !string.IsNullOrEmpty(s_instance.RefFile) && File.Exists(GetFullPath(s_instance.RefFile)))
+				while (s_instance != null && string.IsNullOrEmpty(s_instance.Account) && string.IsNullOrEmpty(s_instance.Key) && !string.IsNullOrEmpty(s_instance.RefFile) && System.IO.File.Exists(GetFullPath(s_instance.RefFile)))
 					s_instance = GetData(GetFullPath(s_instance.RefFile));
 			}
 			catch { }
@@ -37,7 +37,7 @@ namespace StorageLibrary
 
 		static Settings GetData(string fileName)
 		{
-			using (FileStream file = File.Open(fileName, FileMode.Open))
+			using (FileStream file = System.IO.File.Open(fileName, FileMode.Open))
 			{
 				DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(Settings));
 				return (Settings)jsonSerializer.ReadObject(file);
