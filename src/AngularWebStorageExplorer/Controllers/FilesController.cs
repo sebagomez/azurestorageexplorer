@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AngularWebStorageExplorer.Controllers.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage.File;
+
+namespace AngularWebStorageExplorer.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/Files")]
+    public class FilesController : Controller
+    {
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<string>> GetShares(string account, string key)
+		{
+			IEnumerable<CloudFileShare> shares = await StorageLibrary.File.ListFileSharesAsync(account, key);
+
+			return shares.Select(s => s.Name);
+		}
+
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<FileShareItem>> GetFilesAndDirectories(string account, string key, string share)
+		{
+			IEnumerable<IListFileItem> files = await StorageLibrary.File.ListFilesAndDirsAsync(account, key, share);
+
+			List<FileShareItem> list = new List<FileShareItem>();
+
+			files.ToList().ForEach(f => {
+
+				FileShareItem item = new FileShareItem
+				{
+					Url = f.StorageUri.PrimaryUri.AbsoluteUri,
+					IsDirectory = f is CloudFileDirectory
+
+				};
+
+				list.Add(item);
+			});
+
+			return list;
+		}
+	}
+}

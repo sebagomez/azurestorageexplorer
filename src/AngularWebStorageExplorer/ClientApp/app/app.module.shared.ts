@@ -16,6 +16,8 @@ import { TabledataComponent } from './components/tabledata/tabledata.component';
 import { LoginComponent } from './components/login/login.component';
 import { MyErrorsHandler } from './components/errors/errors.component';
 import { BaseComponent } from './components/base/base.component';
+import { SharesComponent } from './components/shares/shares.component';
+import { FilesComponent } from './components/files/files.component';
 
 @NgModule({
 	declarations: [
@@ -30,7 +32,9 @@ import { BaseComponent } from './components/base/base.component';
 		TabledataComponent,
 		LoginComponent,
 		MyErrorsHandler,
-		BaseComponent
+		BaseComponent,
+		SharesComponent,
+		FilesComponent
 	],
 	imports: [
 		CommonModule,
@@ -42,6 +46,7 @@ import { BaseComponent } from './components/base/base.component';
 			{ path: 'containers', component: ContainersComponent },
 			{ path: 'queues', component: QueuesComponent },
 			{ path: 'tables', component: TablesComponent },
+			{ path: 'files', component: SharesComponent },
 			{ path: '**', redirectTo: 'home' }
 		])
 	],
