@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "139acf2aaec65486144e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1746ec079710e66354a2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -70872,7 +70872,7 @@ var SharesComponent = (function (_super) {
             _this.shares = result.json();
         }, function (error) { _this.setErrorMessage(error.statusText); });
     };
-    SharesComponent.prototype.containerChanged = function (event) {
+    SharesComponent.prototype.sharedChanged = function (event) {
         var element = event.currentTarget;
         var share = element.textContent.trim();
         var nodes = this.containersMenu.nativeElement.childNodes;
@@ -70883,14 +70883,13 @@ var SharesComponent = (function (_super) {
         element.classList.add("active");
         this.selectedShare = share;
     };
-    SharesComponent.prototype.newContainer = function (event) {
-        var _this = this;
-        var url = 'api/Files/NewShare?share=' + this.newShareName.nativeElement.value;
-        this.utilsService.postData(url, null).subscribe(function (result) {
-            _this.newShareName.nativeElement.value = "";
-            _this.getShares();
-        }, function (error) { _this.setErrorMessage(error.statusText); });
-    };
+    //newShare(event: Event) {
+    //	let url = 'api/Files/NewShare?share=' + this.newShareName.nativeElement.value
+    //	this.utilsService.postData(url, null).subscribe(result => {
+    //		this.newShareName.nativeElement.value = "";
+    //		this.getShares();
+    //	}, error => { this.setErrorMessage(error.statusText); });
+    //}
     SharesComponent.prototype.forceRefresh = function (force) {
         if (force) {
             this.getShares();
@@ -71563,7 +71562,7 @@ module.exports = "\r\n<div *ngIf=\"loading\" class=\"ui active text centered inl
 /* 74 */
 /***/ (function(module, exports) {
 
-module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">\r\n\t<img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67\" alt=\"Fork me on GitHub\" data-canonical-src=\"https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png\">\r\n</a>\r\n\r\n<h1 class=\"azure\">Azure Storage web explorer</h1>\r\n<p>Welcome to the revamped version of Azure Storage web explorer</p>\r\n<p>This stared as a side project (stil is) but it got attention from Microsoft and got features in their documentation for Azure storage management tools. So in 2018 this tool was revamped to .NET Core 2.1 and Angular, out of the good old WebForms</p>\r\n<p>With this site you can manage</p>\r\n<ul>\r\n\t<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.</li>\r\n\t<li><strong>Queues</strong>: Create Queues and messages.</li>\r\n\t<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. In order to query data you provide a query in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; &lt;PropertyValue&gt;</code>, being <code>&lt;operator&gt;</code> one of the <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators\">supported comparison operators</a></li>\r\n\t<li><strong>Files</strong>: File share</li>\r\n</ul>\r\n";
+module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">\r\n\t<img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67\" alt=\"Fork me on GitHub\" data-canonical-src=\"https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png\">\r\n</a>\r\n\r\n<h1 class=\"azure\">Azure Storage web explorer</h1>\r\n<p>Welcome to the revamped version of Azure Storage web explorer</p>\r\n<p>This stared as a side project (stil is) but it got attention from Microsoft and got features in their documentation for Azure storage management tools. So in 2018 this tool was revamped to .NET Core 2.1 and Angular, out of the good old WebForms</p>\r\n<p>With this site you can manage</p>\r\n<ul>\r\n\t<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.</li>\r\n\t<li><strong>Queues</strong>: Create Queues and messages.</li>\r\n\t<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. In order to query data you provide a query in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; &lt;PropertyValue&gt;</code>, being <code>&lt;operator&gt;</code> one of the <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators\">supported comparison operators</a></li>\r\n\t<li><strong>Files Shares</strong>: Navigate thru your file shares and directories. More features coming soon.</li>\r\n</ul>\r\n";
 
 /***/ }),
 /* 75 */
@@ -71593,7 +71592,7 @@ module.exports = "<p></p>\r\n\r\n\r\n<div class=\"ui action input\">\r\n\t<input
 /* 79 */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n<p></p>\r\n\r\n<div class=\"ui action input\">\r\n\t<input #newShareName type=\"text\" placeholder=\"New share...\">\r\n\t<button class=\"ui icon button\" (click)=\"newShare($event)\">\r\n\t\t<i class=\"add icon\"></i>\r\n\t</button>\r\n</div>\r\n\r\n<p></p>\r\n\r\n<em *ngIf=\"!shares\">Loading share files...</em>\r\n\r\n<div *ngIf=\"shares\" class=\"parent\">\r\n\r\n\t<div #containersMenu class=\"child ui vertical pointing menu\">\r\n\r\n\t\t<a class=\"link item\" *ngFor=\"let share of shares\" (click)=\"containerChanged($event)\">{{share}}</a>\r\n\t</div>\r\n\r\n\t<files class=\"child\" style=\"padding-left:20px\" [share]=\"selectedShare\" (refresh)=\"forceRefresh($event)\"></files>\r\n\r\n</div>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
+module.exports = "\r\n\r\n<p></p>\r\n\r\n<!--<div class=\"ui action input\">\r\n\t<input #newShareName type=\"text\" placeholder=\"New share...\">\r\n\t<button class=\"ui icon button\" (click)=\"newShare($event)\">\r\n\t\t<i class=\"add icon\"></i>\r\n\t</button>\r\n</div>-->\r\n\r\n<p></p>\r\n\r\n<em *ngIf=\"!shares\">Loading share files...</em>\r\n\r\n<div *ngIf=\"shares\" class=\"parent\">\r\n\r\n\t<div #containersMenu class=\"child ui vertical pointing menu\">\r\n\r\n\t\t<a class=\"link item\" *ngFor=\"let share of shares\" (click)=\"sharedChanged($event)\">{{share}}</a>\r\n\t</div>\r\n\r\n\t<files class=\"child\" style=\"padding-left:20px\" [share]=\"selectedShare\" (refresh)=\"forceRefresh($event)\"></files>\r\n\r\n</div>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
 
 /***/ }),
 /* 80 */

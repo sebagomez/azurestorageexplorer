@@ -29,7 +29,7 @@ export class SharesComponent extends BaseComponent {
 		}, error => { this.setErrorMessage(error.statusText); });
 	}
 
-	containerChanged(event: Event) {
+	sharedChanged(event: Event) {
 		var element = (event.currentTarget as Element);
 		var share = (element.textContent as string).trim();
 
@@ -44,14 +44,14 @@ export class SharesComponent extends BaseComponent {
 		this.selectedShare = share;
 	}
 
-	newContainer(event: Event) {
-		let url = 'api/Files/NewShare?share=' + this.newShareName.nativeElement.value
-		this.utilsService.postData(url, null).subscribe(result => {
-			this.newShareName.nativeElement.value = "";
-			this.getShares();
-		}, error => { this.setErrorMessage(error.statusText); });
+	//newShare(event: Event) {
+	//	let url = 'api/Files/NewShare?share=' + this.newShareName.nativeElement.value
+	//	this.utilsService.postData(url, null).subscribe(result => {
+	//		this.newShareName.nativeElement.value = "";
+	//		this.getShares();
+	//	}, error => { this.setErrorMessage(error.statusText); });
 
-	}
+	//}
 
 	forceRefresh(force: boolean) {
 		if (force) {

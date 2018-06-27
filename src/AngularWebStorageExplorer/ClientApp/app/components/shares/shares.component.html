@@ -2,12 +2,12 @@
 
 <p></p>
 
-<div class="ui action input">
+<!--<div class="ui action input">
 	<input #newShareName type="text" placeholder="New share...">
 	<button class="ui icon button" (click)="newShare($event)">
 		<i class="add icon"></i>
 	</button>
-</div>
+</div>-->
 
 <p></p>
 
@@ -17,7 +17,7 @@
 
 	<div #containersMenu class="child ui vertical pointing menu">
 
-		<a class="link item" *ngFor="let share of shares" (click)="containerChanged($event)">{{share}}</a>
+		<a class="link item" *ngFor="let share of shares" (click)="sharedChanged($event)">{{share}}</a>
 	</div>
 
 	<files class="child" style="padding-left:20px" [share]="selectedShare" (refresh)="forceRefresh($event)"></files>
