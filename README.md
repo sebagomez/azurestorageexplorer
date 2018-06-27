@@ -9,7 +9,7 @@ Or deploy it to your own Azure WebSite
 
 Azure Storage Explorer
 ======================
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core 2.0 and Angular.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core 2.1 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -19,6 +19,8 @@ To login just enter your account name and key or SAS ([Shared Access Signature](
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
 
 **Queues**: Create Queues and messages.
+
+**File Shares**: Navigate across Fil Shares and directories.
 
 **Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>=<PropertyValue>`
 
