@@ -24,14 +24,18 @@ namespace StorageLibrary
 			return results;
 		}
 
-		public static async Task<List<IListFileItem>> ListFilesAndDirsAsync(string account, string key, string share)
+		public static async Task<List<IListFileItem>> ListFilesAndDirsAsync(string account, string key, string share, string folder = null)
 		{
 			CloudFileShare shareRef = Get(account, key, share);
 			FileContinuationToken continuationToken = null;
 			List<IListFileItem> results = new List<IListFileItem>();
 			do
 			{
-				var response = await shareRef.GetRootDirectoryReference().ListFilesAndDirectoriesSegmentedAsync(continuationToken);
+				CloudFileDirectory dir = shareRef.GetRootDirectoryReference();
+				if (!string.IsNullOrEmpty(folder))
+					dir = dir.GetDirectoryReference(folder);
+
+				var response = await dir.ListFilesAndDirectoriesSegmentedAsync(continuationToken);
 				continuationToken = response.ContinuationToken;
 				results.AddRange(response.Results);
 			}

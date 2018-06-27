@@ -7,50 +7,29 @@
 	<thead>
 		<tr>
 			<th>
-				<button *ngIf="!removeContainerFlag" class="ui icon button" (click)="removeContainer($event)">
-					<i class="trash icon"></i>
+				<button *ngIf="folder" class="ui icon button" (click)="levelUp()">
+					<i class="glyphicon glyphicon-level-up"></i>
 				</button>
-				<div *ngIf="removeContainerFlag" class="ui buttons">
-					<button class="ui button" (click)="cancelDeleteContainer()">Cancel</button>
-					<div class="or"></div>
-					<button class="ui negative button" (click)="deleteContainer()">Delete</button>
-				</div>
 			</th>
-			<th></th>
-			<th></th>
-			<th>
-				<div style="display:flex">
-					<input type="file" #fileInput placeholder="Upload file..." />
-					<button type="button" (click)="upload()">Upload</button>
-				</div>
-			</th>
+			<th>{{ folder }}</th>
+		</tr>
 	</thead>
 	<tbody>
 		<tr *ngFor="let file of files">
-			<td class="collapsing">
-				<button *ngIf="selected != file" class="ui icon button" (click)="removeBlob($event)">
-					<i class="trash icon"></i>
-				</button>
-				<div *ngIf="selected == file" class="ui buttons">
-					<button class="ui button" (click)="cancelDeleteBlob()">Cancel</button>
-					<div class="or"></div>
-					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
-				</div>
+			<td *ngIf="file.isDirectory" (click)="setFolder($event)" colspan="1">
+				<span class='glyphicon glyphicon-folder-close'></span>
 			</td>
-			<td class="collapsing">
-				<button class="ui icon button" (click)="downloadBlob($event)">
-					<i class="download icon"></i>
-				</button>
+			<td *ngIf="!file.isDirectory" colspan="1">
+				<span class='glyphicon glyphicon-file'></span>
 			</td>
-			<td colspan="1">{{ file.IsDirectory }}</td>
-			<td colspan="1">{{ file.Url }}</td>
+			<td>
+				<div>{{ file.name }}</div>
+			</td>
 		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
 			<th colspan="2">{{ files.length }} files found</th>
-			<th></th>
-			<th></th>
 		</tr>
 	</tfoot>
 </table>

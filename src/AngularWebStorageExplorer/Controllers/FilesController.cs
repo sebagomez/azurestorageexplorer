@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AngularWebStorageExplorer.Controllers.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.File;
 
 namespace AngularWebStorageExplorer.Controllers
 {
-    [Produces("application/json")]
+	[Produces("application/json")]
     [Route("api/Files")]
     public class FilesController : Controller
     {
@@ -22,9 +20,9 @@ namespace AngularWebStorageExplorer.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public async Task<IEnumerable<FileShareItem>> GetFilesAndDirectories(string account, string key, string share)
+		public async Task<IEnumerable<FileShareItem>> GetFilesAndDirectories(string account, string key, string share, string folder)
 		{
-			IEnumerable<IListFileItem> files = await StorageLibrary.File.ListFilesAndDirsAsync(account, key, share);
+			IEnumerable<IListFileItem> files = await StorageLibrary.File.ListFilesAndDirsAsync(account, key, share, folder);
 
 			List<FileShareItem> list = new List<FileShareItem>();
 
@@ -32,6 +30,9 @@ namespace AngularWebStorageExplorer.Controllers
 
 				FileShareItem item = new FileShareItem
 				{
+					Name = f is CloudFileDirectory ? (f as CloudFileDirectory).Name : (f is CloudFile) ? (f as CloudFile).Name : "N/A",
+					Parent = f.Parent.Name,
+					ParentUrl = f.Parent.Uri.AbsoluteUri,
 					Url = f.StorageUri.PrimaryUri.AbsoluteUri,
 					IsDirectory = f is CloudFileDirectory
 
@@ -40,6 +41,7 @@ namespace AngularWebStorageExplorer.Controllers
 				list.Add(item);
 			});
 
+			list.Sort();
 			return list;
 		}
 	}

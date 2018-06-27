@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "bf814d657f2f0bddd8ca"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1f10ef9af244fa66b4f8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -756,9 +756,9 @@
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_55", function() { return ContentChild; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_2", function() { return ContentChildren; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_49", function() { return Query; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_12", function() { return ViewChild; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_13", function() { return ViewChild; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_56", function() { return ViewChildren; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_13", function() { return Component; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_12", function() { return Component; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return Directive; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_1", function() { return HostBinding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_0", function() { return HostListener; });
@@ -16348,7 +16348,7 @@ var BaseComponent = (function () {
         }, 5000);
     };
     BaseComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'base-component',
             template: '',
         }),
@@ -28303,7 +28303,7 @@ var AppComponent = (function () {
         this.loggedIn = logged;
     };
     AppComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'app',
             template: __webpack_require__(69),
             styles: [__webpack_require__(115)]
@@ -44142,8 +44142,8 @@ var DirectiveResolver = (function () {
         var /** @type {?} */ mergedOutputs = this._dedupeBindings(directive.outputs ? directive.outputs.concat(outputs) : outputs);
         var /** @type {?} */ mergedHost = directive.host ? Object.assign({}, directive.host, host) : host;
         var /** @type {?} */ mergedQueries = directive.queries ? Object.assign({}, directive.queries, queries) : queries;
-        if (directive instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]) {
-            return new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]({
+        if (directive instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]) {
+            return new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]({
                 selector: directive.selector,
                 inputs: mergedInputs,
                 outputs: mergedOutputs,
@@ -44874,7 +44874,7 @@ var CompileMetadataResolver = (function () {
             return null;
         }
         var /** @type {?} */ nonNormalizedTemplateMetadata = ((undefined));
-        if (dirMeta instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]) {
+        if (dirMeta instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]) {
             // component
             assertArrayOfStrings('styles', dirMeta.styles);
             assertArrayOfStrings('styleUrls', dirMeta.styleUrls);
@@ -44897,7 +44897,7 @@ var CompileMetadataResolver = (function () {
         var /** @type {?} */ viewProviders = [];
         var /** @type {?} */ entryComponentMetadata = [];
         var /** @type {?} */ selector = dirMeta.selector;
-        if (dirMeta instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]) {
+        if (dirMeta instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]) {
             // Component
             changeDetectionStrategy = ((dirMeta.changeDetection));
             if (dirMeta.viewProviders) {
@@ -53919,12 +53919,12 @@ var StaticReflector = (function () {
         this.initializeConversionMap();
         knownMetadataClasses.forEach(function (kc) { return _this._registerDecoratorOrConstructor(_this.getStaticSymbol(kc.filePath, kc.name), kc.ctor); });
         knownMetadataFunctions.forEach(function (kf) { return _this._registerFunction(_this.getStaticSymbol(kf.filePath, kf.name), kf.fn); });
-        this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.Directive, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]]);
+        this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.Directive, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]]);
         this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.Pipe, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["X" /* Pipe */]]);
         this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.NgModule, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["a" /* NgModule */]]);
-        this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.Injectable, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* Injectable */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["X" /* Pipe */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["a" /* NgModule */]]);
+        this.annotationForParentClassWithSummaryKind.set(CompileSummaryKind.Injectable, [__WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* Injectable */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["X" /* Pipe */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */], __WEBPACK_IMPORTED_MODULE_1__angular_core__["a" /* NgModule */]]);
         this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */], 'Directive');
-        this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */], 'Component');
+        this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */], 'Component');
         this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["X" /* Pipe */], 'Pipe');
         this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["a" /* NgModule */], 'NgModule');
         this.annotationNames.set(__WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* Injectable */], 'Injectable');
@@ -54176,7 +54176,7 @@ var StaticReflector = (function () {
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Attribute'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["T" /* Attribute */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ContentChild'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_55" /* ContentChild */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ContentChildren'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* ContentChildren */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ViewChild'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* ViewChild */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ViewChild'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* ViewChild */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ViewChildren'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_56" /* ViewChildren */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Input'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["N" /* Input */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Output'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_3" /* Output */]);
@@ -54184,7 +54184,7 @@ var StaticReflector = (function () {
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'HostBinding'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_1" /* HostBinding */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'HostListener'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_0" /* HostListener */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Directive'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Directive */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Component'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_13" /* Component */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Component'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_12" /* Component */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'NgModule'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["a" /* NgModule */]);
         // Note: Some metadata classes can be used directly with Provider.deps.
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Host'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["S" /* Host */]);
@@ -70198,15 +70198,15 @@ var BlobsComponent = (function (_super) {
         __metadata("design:type", String)
     ], BlobsComponent.prototype, "container", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('fileInput'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('fileInput'),
         __metadata("design:type", Object)
     ], BlobsComponent.prototype, "fileInput", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('modal'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('modal'),
         __metadata("design:type", Object)
     ], BlobsComponent.prototype, "modal", void 0);
     BlobsComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'blobs',
             template: __webpack_require__(70)
         }),
@@ -70291,19 +70291,19 @@ var ContainersComponent = (function (_super) {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('newContainerName'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('newContainerName'),
         __metadata("design:type", Object)
     ], ContainersComponent.prototype, "newContainerName", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('publicAccess'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('publicAccess'),
         __metadata("design:type", Object)
     ], ContainersComponent.prototype, "publicAccess", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('containersMenu'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('containersMenu'),
         __metadata("design:type", Object)
     ], ContainersComponent.prototype, "containersMenu", void 0);
     ContainersComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'containers',
             template: __webpack_require__(71)
         }),
@@ -70343,7 +70343,7 @@ var MyErrorsHandler = (function () {
             alert(error);
     };
     MyErrorsHandler = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'errors',
             //template: ''
             template: __webpack_require__(72)
@@ -70390,14 +70390,33 @@ var FilesComponent = (function (_super) {
     __extends(FilesComponent, _super);
     function FilesComponent(utils) {
         var _this = _super.call(this, utils) || this;
+        //forceReload: boolean;
         _this.refresh = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */]();
         _this.share = "";
         _this.showTable = false;
+        _this.folder = "";
         _this.removeContainerFlag = false;
         _this.getFiles();
         return _this;
     }
     FilesComponent.prototype.ngOnChanges = function () {
+        this.getFiles();
+    };
+    FilesComponent.prototype.setFolder = function (event) {
+        var element = event.currentTarget;
+        var folder = element.parentElement.children[1].textContent.trim();
+        if (this.folder)
+            this.folder = this.folder + "\\" + folder;
+        else
+            this.folder = folder;
+        this.getFiles();
+    };
+    FilesComponent.prototype.levelUp = function () {
+        var slash = this.folder.lastIndexOf("\\");
+        if (slash > 0)
+            this.folder = this.folder.substr(0, slash);
+        else
+            this.folder = '';
         this.getFiles();
     };
     FilesComponent.prototype.getFiles = function () {
@@ -70408,51 +70427,11 @@ var FilesComponent = (function (_super) {
         }
         this.loading = true;
         this.showTable = false;
-        this.utilsService.getData('api/Files/GetFilesAndDirectories?share=' + this.share).subscribe(function (result) {
+        this.utilsService.getData('api/Files/GetFilesAndDirectories?share=' + this.share + '&folder=' + this.folder).subscribe(function (result) {
             _this.files = result.json();
             _this.loading = false;
             _this.showTable = true;
         }, function (error) { _this.setErrorMessage(error.statusText); });
-    };
-    FilesComponent.prototype.removeBlob = function (event) {
-        var element = event.currentTarget; //button
-        var blob = element.parentElement.parentElement.children[2].textContent;
-        this.selected = blob;
-    };
-    FilesComponent.prototype.deleteBlob = function () {
-        var _this = this;
-        this.utilsService.postData('api/Files/DeleteFile?blobUri=' + encodeURIComponent(this.selected), null).subscribe(function (result) {
-            _this.selected = '';
-            _this.getFiles();
-        }, function (error) { _this.setErrorMessage(error.statusText); });
-    };
-    FilesComponent.prototype.cancelDeleteBlob = function () {
-        this.selected = '';
-    };
-    FilesComponent.prototype.removeContainer = function (event) {
-        this.removeContainerFlag = true;
-    };
-    FilesComponent.prototype.cancelDeleteContainer = function () {
-        this.removeContainerFlag = false;
-    };
-    FilesComponent.prototype.deleteContainer = function () {
-        var _this = this;
-        this.utilsService.postData('api/File/DeleteShare?share=' + this.share, null).subscribe(function (result) {
-            _this.share = "";
-            _this.removeContainerFlag = false;
-            _this.refresh.emit(true);
-        }, function (error) { _this.setErrorMessage(error.statusText); });
-    };
-    FilesComponent.prototype.upload = function () {
-        var that = this;
-        var fileBrowser = this.fileInput.nativeElement;
-        if (fileBrowser.files && fileBrowser.files[0]) {
-            var formData = new FormData();
-            formData.append('files', fileBrowser.files[0]);
-            this.utilsService.uploadFile('api/Files/UploadFile?share=' + this.share, formData).onload = function () {
-                that.getFiles();
-            };
-        }
     };
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Output */])(),
@@ -70462,16 +70441,8 @@ var FilesComponent = (function (_super) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["N" /* Input */])(),
         __metadata("design:type", String)
     ], FilesComponent.prototype, "share", void 0);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('fileInput'),
-        __metadata("design:type", Object)
-    ], FilesComponent.prototype, "fileInput", void 0);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('modal'),
-        __metadata("design:type", Object)
-    ], FilesComponent.prototype, "modal", void 0);
     FilesComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'files',
             template: __webpack_require__(73)
         }),
@@ -70500,7 +70471,7 @@ var HomeComponent = (function () {
     function HomeComponent() {
     }
     HomeComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'home',
             template: __webpack_require__(74)
         })
@@ -70563,11 +70534,11 @@ var LoginComponent = (function () {
             this.signIn();
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('azureAccount'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('azureAccount'),
         __metadata("design:type", Object)
     ], LoginComponent.prototype, "azureAccount", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('azureKey'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('azureKey'),
         __metadata("design:type", Object)
     ], LoginComponent.prototype, "azureKey", void 0);
     __decorate([
@@ -70575,7 +70546,7 @@ var LoginComponent = (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */])
     ], LoginComponent.prototype, "signedIn", void 0);
     LoginComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'login',
             template: __webpack_require__(75)
         }),
@@ -70620,7 +70591,7 @@ var NavMenuComponent = (function () {
         }, function (error) { console.error(error); });
     };
     NavMenuComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'nav-menu',
             template: __webpack_require__(76),
             styles: [__webpack_require__(116)]
@@ -70740,11 +70711,11 @@ var QmessagesComponent = (function (_super) {
         __metadata("design:type", String)
     ], QmessagesComponent.prototype, "queue", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('newMessage'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('newMessage'),
         __metadata("design:type", Object)
     ], QmessagesComponent.prototype, "newMessage", void 0);
     QmessagesComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'qmessages',
             template: __webpack_require__(77)
         }),
@@ -70827,15 +70798,15 @@ var QueuesComponent = (function (_super) {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('newQueueName'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('newQueueName'),
         __metadata("design:type", Object)
     ], QueuesComponent.prototype, "newQueueName", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('queuesMenu'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('queuesMenu'),
         __metadata("design:type", Object)
     ], QueuesComponent.prototype, "queuesMenu", void 0);
     QueuesComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'queues',
             template: __webpack_require__(78)
         }),
@@ -70919,15 +70890,15 @@ var SharesComponent = (function (_super) {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('newShareName'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('newShareName'),
         __metadata("design:type", Object)
     ], SharesComponent.prototype, "newShareName", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('containersMenu'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('containersMenu'),
         __metadata("design:type", Object)
     ], SharesComponent.prototype, "containersMenu", void 0);
     SharesComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'shares',
             template: __webpack_require__(79)
         }),
@@ -71082,11 +71053,11 @@ var TabledataComponent = (function (_super) {
         __metadata("design:type", String)
     ], TabledataComponent.prototype, "storageTable", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('inputQuery'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('inputQuery'),
         __metadata("design:type", Object)
     ], TabledataComponent.prototype, "inputQuery", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('mode'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('mode'),
         __metadata("design:type", Object)
     ], TabledataComponent.prototype, "mode", void 0);
     __decorate([
@@ -71094,7 +71065,7 @@ var TabledataComponent = (function (_super) {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */])
     ], TabledataComponent.prototype, "refresh", void 0);
     TabledataComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'tabledata',
             template: __webpack_require__(80)
         }),
@@ -71177,15 +71148,15 @@ var TablesComponent = (function (_super) {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('newTableName'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('newTableName'),
         __metadata("design:type", Object)
     ], TablesComponent.prototype, "newTableName", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* ViewChild */])('tablesMenu'),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])('tablesMenu'),
         __metadata("design:type", Object)
     ], TablesComponent.prototype, "tablesMenu", void 0);
     TablesComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_12" /* Component */])({
             selector: 'tables',
             template: __webpack_require__(81)
         }),
@@ -71578,13 +71549,13 @@ module.exports = "\r\n<div class=\"ui negative message\">\r\n\t<div class=\"head
 /* 73 */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div *ngIf=\"loading\" class=\"ui active text centered inline loader\">\r\n\t<em>Fetching data from {{ share }}...</em>\r\n</div>\r\n\r\n<table class=\"ui blue table\" *ngIf=\"showTable\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>\r\n\t\t\t\t<button *ngIf=\"!removeContainerFlag\" class=\"ui icon button\" (click)=\"removeContainer($event)\">\r\n\t\t\t\t\t<i class=\"trash icon\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t\t<div *ngIf=\"removeContainerFlag\" class=\"ui buttons\">\r\n\t\t\t\t\t<button class=\"ui button\" (click)=\"cancelDeleteContainer()\">Cancel</button>\r\n\t\t\t\t\t<div class=\"or\"></div>\r\n\t\t\t\t\t<button class=\"ui negative button\" (click)=\"deleteContainer()\">Delete</button>\r\n\t\t\t\t</div>\r\n\t\t\t</th>\r\n\t\t\t<th></th>\r\n\t\t\t<th></th>\r\n\t\t\t<th>\r\n\t\t\t\t<div style=\"display:flex\">\r\n\t\t\t\t\t<input type=\"file\" #fileInput placeholder=\"Upload file...\" />\r\n\t\t\t\t\t<button type=\"button\" (click)=\"upload()\">Upload</button>\r\n\t\t\t\t</div>\r\n\t\t\t</th>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr *ngFor=\"let file of files\">\r\n\t\t\t<td class=\"collapsing\">\r\n\t\t\t\t<button *ngIf=\"selected != file\" class=\"ui icon button\" (click)=\"removeBlob($event)\">\r\n\t\t\t\t\t<i class=\"trash icon\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t\t<div *ngIf=\"selected == file\" class=\"ui buttons\">\r\n\t\t\t\t\t<button class=\"ui button\" (click)=\"cancelDeleteBlob()\">Cancel</button>\r\n\t\t\t\t\t<div class=\"or\"></div>\r\n\t\t\t\t\t<button class=\"ui negative button\" (click)=\"deleteBlob()\">Delete</button>\r\n\t\t\t\t</div>\r\n\t\t\t</td>\r\n\t\t\t<td class=\"collapsing\">\r\n\t\t\t\t<button class=\"ui icon button\" (click)=\"downloadBlob($event)\">\r\n\t\t\t\t\t<i class=\"download icon\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t</td>\r\n\t\t\t<td colspan=\"1\">{{ file.IsDirectory }}</td>\r\n\t\t\t<td colspan=\"1\">{{ file.Url }}</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n\t<tfoot>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"2\">{{ files.length }} files found</th>\r\n\t\t\t<th></th>\r\n\t\t\t<th></th>\r\n\t\t</tr>\r\n\t</tfoot>\r\n</table>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
+module.exports = "\r\n<div *ngIf=\"loading\" class=\"ui active text centered inline loader\">\r\n\t<em>Fetching data from {{ share }}...</em>\r\n</div>\r\n\r\n<table class=\"ui blue table\" *ngIf=\"showTable\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>\r\n\t\t\t\t<button *ngIf=\"folder\" class=\"ui icon button\" (click)=\"levelUp()\">\r\n\t\t\t\t\t<i class=\"glyphicon glyphicon-level-up\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t</th>\r\n\t\t\t<th>{{ folder }}</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr *ngFor=\"let file of files\">\r\n\t\t\t<td *ngIf=\"file.isDirectory\" (click)=\"setFolder($event)\" colspan=\"1\">\r\n\t\t\t\t<span class='glyphicon glyphicon-folder-close'></span>\r\n\t\t\t</td>\r\n\t\t\t<td *ngIf=\"!file.isDirectory\" colspan=\"1\">\r\n\t\t\t\t<span class='glyphicon glyphicon-file'></span>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<div>{{ file.name }}</div>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n\t<tfoot>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"2\">{{ files.length }} files found</th>\r\n\t\t</tr>\r\n\t</tfoot>\r\n</table>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
 
 /***/ }),
 /* 74 */
 /***/ (function(module, exports) {
 
-module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">\r\n\t<img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67\" alt=\"Fork me on GitHub\" data-canonical-src=\"https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png\">\r\n</a>\r\n\r\n<h1 class=\"azure\">Azure Storage web explorer</h1>\r\n<p>Welcome to the revamped version of Azure Storage web explorer</p>\r\n<p>This stared as a side project (stil is) but it got attention from Microsoft and got features in their documentation for Azure storage management tools. So in 2018 this tool was revamped to .NET Core 2.0 and Angular, out of the good old WebForms</p>\r\n<p>With this site you can manage</p>\r\n<ul>\r\n\t<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.</li>\r\n\t<li><strong>Queues</strong>: Create Queues and messages.</li>\r\n\t<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. In order to query data you provide a query in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; &lt;PropertyValue&gt;</code>, being <code>&lt;operator&gt;</code> one of the <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators\">supported comparison operators</a></li>\r\n</ul>\r\n";
+module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">\r\n\t<img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67\" alt=\"Fork me on GitHub\" data-canonical-src=\"https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png\">\r\n</a>\r\n\r\n<h1 class=\"azure\">Azure Storage web explorer</h1>\r\n<p>Welcome to the revamped version of Azure Storage web explorer</p>\r\n<p>This stared as a side project (stil is) but it got attention from Microsoft and got features in their documentation for Azure storage management tools. So in 2018 this tool was revamped to .NET Core 2.1 and Angular, out of the good old WebForms</p>\r\n<p>With this site you can manage</p>\r\n<ul>\r\n\t<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.</li>\r\n\t<li><strong>Queues</strong>: Create Queues and messages.</li>\r\n\t<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. In order to query data you provide a query in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; &lt;PropertyValue&gt;</code>, being <code>&lt;operator&gt;</code> one of the <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators\">supported comparison operators</a></li>\r\n\t<li><strong>Files</strong>: File share</li>\r\n</ul>\r\n";
 
 /***/ }),
 /* 75 */
@@ -71596,7 +71567,7 @@ module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">
 /* 76 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class='main-nav'>\r\n\t<div class='navbar navbar-inverse'>\r\n\t\t<div class='navbar-header'>\r\n\t\t\t<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>\r\n\t\t\t\t<span class='sr-only'>Toggle navigation</span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t</button>\r\n\t\t\t<a class='navbar-brand azure' [routerLink]=\"['/home']\">Azure Storage web explorer</a>\r\n\t\t</div>\r\n\t\t<div class='clearfix'></div>\r\n\t\t<div class='navbar-collapse collapse'>\r\n\t\t\t<ul class='nav navbar-nav'>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/home']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-home'></span> Home\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/containers']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-file'></span> Blobs\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/queues']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-equalizer'></span> Queues\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/tables']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-menu-hamburger'></span> Tables\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/files']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-file'></span> File Share\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"versionFooter\">v {{currentVersion}} by <a href=\"https://twitter.com/sebagomez\">@sebagomez</a></div>\r\n</div>\r\n\r\n";
+module.exports = "<div class='main-nav'>\r\n\t<div class='navbar navbar-inverse'>\r\n\t\t<div class='navbar-header'>\r\n\t\t\t<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>\r\n\t\t\t\t<span class='sr-only'>Toggle navigation</span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t\t<span class='icon-bar'></span>\r\n\t\t\t</button>\r\n\t\t\t<a class='navbar-brand azure' [routerLink]=\"['/home']\">Azure Storage web explorer</a>\r\n\t\t</div>\r\n\t\t<div class='clearfix'></div>\r\n\t\t<div class='navbar-collapse collapse'>\r\n\t\t\t<ul class='nav navbar-nav'>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/home']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-home'></span> Home\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/containers']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-equalizer'></span> Blobs\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/queues']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-tasks'></span> Queues\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/tables']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-th'></span> Tables\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li [routerLinkActive]=\"['link-active']\">\r\n\t\t\t\t\t<a [routerLink]=\"['/files']\">\r\n\t\t\t\t\t\t<span class='glyphicon glyphicon-hdd'></span> File Share\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"versionFooter\">v {{currentVersion}} by <a href=\"https://twitter.com/sebagomez\">@sebagomez</a></div>\r\n</div>\r\n\r\n";
 
 /***/ }),
 /* 77 */
