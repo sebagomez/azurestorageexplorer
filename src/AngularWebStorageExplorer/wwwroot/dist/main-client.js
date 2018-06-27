@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1f10ef9af244fa66b4f8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "139acf2aaec65486144e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -70405,6 +70405,14 @@ var FilesComponent = (function (_super) {
     FilesComponent.prototype.setFolder = function (event) {
         var element = event.currentTarget;
         var folder = element.parentElement.children[1].textContent.trim();
+        this.internalSetFolder(folder);
+    };
+    FilesComponent.prototype.setCurrentFolder = function (event) {
+        var element = event.currentTarget;
+        var folder = element.textContent.trim();
+        this.internalSetFolder(folder);
+    };
+    FilesComponent.prototype.internalSetFolder = function (folder) {
         if (this.folder)
             this.folder = this.folder + "\\" + folder;
         else
@@ -71549,7 +71557,7 @@ module.exports = "\r\n<div class=\"ui negative message\">\r\n\t<div class=\"head
 /* 73 */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div *ngIf=\"loading\" class=\"ui active text centered inline loader\">\r\n\t<em>Fetching data from {{ share }}...</em>\r\n</div>\r\n\r\n<table class=\"ui blue table\" *ngIf=\"showTable\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>\r\n\t\t\t\t<button *ngIf=\"folder\" class=\"ui icon button\" (click)=\"levelUp()\">\r\n\t\t\t\t\t<i class=\"glyphicon glyphicon-level-up\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t</th>\r\n\t\t\t<th>{{ folder }}</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr *ngFor=\"let file of files\">\r\n\t\t\t<td *ngIf=\"file.isDirectory\" (click)=\"setFolder($event)\" colspan=\"1\">\r\n\t\t\t\t<span class='glyphicon glyphicon-folder-close'></span>\r\n\t\t\t</td>\r\n\t\t\t<td *ngIf=\"!file.isDirectory\" colspan=\"1\">\r\n\t\t\t\t<span class='glyphicon glyphicon-file'></span>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<div>{{ file.name }}</div>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n\t<tfoot>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"2\">{{ files.length }} files found</th>\r\n\t\t</tr>\r\n\t</tfoot>\r\n</table>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
+module.exports = "\r\n<div *ngIf=\"loading\" class=\"ui active text centered inline loader\">\r\n\t<em>Fetching data from {{ share }}...</em>\r\n</div>\r\n\r\n<table class=\"ui blue table\" *ngIf=\"showTable\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"2\">\r\n\t\t\t\t<button *ngIf=\"folder\" class=\"ui icon button\" (click)=\"levelUp()\">\r\n\t\t\t\t\t<i class=\"glyphicon glyphicon-level-up\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t\t<span>\\{{ folder }}</span>\r\n\t\t\t</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr *ngFor=\"let file of files\">\r\n\t\t\t<td *ngIf=\"file.isDirectory\" (click)=\"setFolder($event)\" class=\"pointer\">\r\n\t\t\t\t<span class='glyphicon glyphicon-folder-close'></span>\r\n\t\t\t</td>\r\n\t\t\t<td *ngIf=\"!file.isDirectory\">\r\n\t\t\t\t<span class='glyphicon glyphicon-file'></span>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<div *ngIf=\"file.isDirectory\" (click)=\"setCurrentFolder($event)\" class=\"pointer\">{{ file.name }}</div>\r\n\t\t\t\t<div *ngIf=\"!file.isDirectory\">{{ file.name }}</div>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n\t<tfoot>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"2\">{{ files.length }} files found</th>\r\n\t\t</tr>\r\n\t</tfoot>\r\n</table>\r\n\r\n<div *ngIf=\"hasErrors\" class=\"ui negative message errorMessage\">\r\n\t<div class=\"header\">{{ errorMessage }}</div>\r\n</div>";
 
 /***/ }),
 /* 74 */

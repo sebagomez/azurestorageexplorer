@@ -35,6 +35,18 @@ export class FilesComponent extends BaseComponent {
 		var element = (event.currentTarget as Element);
 		var folder = (element.parentElement!.children[1]!.textContent as string).trim();
 
+		this.internalSetFolder(folder);
+	}
+
+	setCurrentFolder(event: Event) {
+		var element = (event.currentTarget as Element);
+		var folder = (element.textContent as string).trim();
+
+		this.internalSetFolder(folder);
+	}
+
+	internalSetFolder(folder: string) {
+
 		if (this.folder)
 			this.folder = this.folder + "\\" + folder;
 		else

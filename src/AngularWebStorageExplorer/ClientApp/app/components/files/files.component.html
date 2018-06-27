@@ -6,24 +6,25 @@
 <table class="ui blue table" *ngIf="showTable">
 	<thead>
 		<tr>
-			<th>
+			<th colspan="2">
 				<button *ngIf="folder" class="ui icon button" (click)="levelUp()">
 					<i class="glyphicon glyphicon-level-up"></i>
 				</button>
+				<span>\{{ folder }}</span>
 			</th>
-			<th>{{ folder }}</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr *ngFor="let file of files">
-			<td *ngIf="file.isDirectory" (click)="setFolder($event)" colspan="1">
+			<td *ngIf="file.isDirectory" (click)="setFolder($event)" class="pointer">
 				<span class='glyphicon glyphicon-folder-close'></span>
 			</td>
-			<td *ngIf="!file.isDirectory" colspan="1">
+			<td *ngIf="!file.isDirectory">
 				<span class='glyphicon glyphicon-file'></span>
 			</td>
 			<td>
-				<div>{{ file.name }}</div>
+				<div *ngIf="file.isDirectory" (click)="setCurrentFolder($event)" class="pointer">{{ file.name }}</div>
+				<div *ngIf="!file.isDirectory">{{ file.name }}</div>
 			</td>
 		</tr>
 	</tbody>
