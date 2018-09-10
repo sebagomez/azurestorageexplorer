@@ -1,6 +1,7 @@
 [![Build status](https://travis-ci.org/sebagomez/azurestorageexplorer.svg?branch=master)](https://travis-ci.org/sebagomez/azurestorageexplorer)
 [![Stories in Ready](https://badge.waffle.io/sebagomez/azurestorageexplorer.png?label=ready&title=Ready)](https://waffle.io/sebagomez/azurestorageexplorer)
 [![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://dev.azure.com/sebagomez/azurestorageexplorer/_apis/build/status/sebagomez.azurestorageexplorer)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
 
 Try it live at https://azurestorage.azurewebsites.net
 
