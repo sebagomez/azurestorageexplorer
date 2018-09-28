@@ -4,7 +4,9 @@ obj/
 .vs/
 .vscode/
 
+
 PublishProfiles/
+Docker/root/
 packages/
 **/node_modules/
 **/ClientApp/dist/
