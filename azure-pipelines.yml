@@ -16,7 +16,11 @@ steps:
 - script: docker build -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
   workingDirectory: $(build.SourcesDirectory)/Docker
   displayName: 'docker build'
+- script: docker tag $(dockerId)/azurestorageexplorer:$(build.buildNumber) $(dockerId)/azurestorageexplorer
+  displayName: 'docker tag'
 - script: docker login -u $(dockerId) -p $(dockerPwd) 
   displayName: 'docker login'
 - script: docker push $(dockerId)/azurestorageexplorer:$(build.buildNumber)
   displayName: 'docker push'
+- script: docker push $(dockerId)/azurestorageexplorer
+  displayName: 'docker push latest'
