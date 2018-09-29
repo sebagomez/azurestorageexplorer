@@ -10,6 +10,10 @@ namespace AngularWebStorageExplorer.Controllers
 		[HttpGet("[action]")]
 		public string GetVersion(string account, string key)
 		{
+			string envVer = System.Environment.GetEnvironmentVariable("APPVERSION");
+			if (!string.IsNullOrEmpty(envVer))
+				return envVer;
+
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			return assembly.GetName().Version.ToString();
 		}

@@ -42,3 +42,24 @@ To query action movies use the following:
 ![Screenshot](Tables.png)
 
 If you don't write a query the system will retrieve every Entity on the Table
+
+## Docker
+
+This web app is not integrated with Azure Pipelines, and after the build process it'll create a Docker image and publishes it to [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/).
+
+[Dockerfile](Docker/Dockerfile)
+
+```Docker
+FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
+
+LABEL maintainer="seba gomez <sebagomezcorrea@outlook.com>"
+
+ARG BUILD
+ENV APPVERSION=$BUILD
+
+WORKDIR /app
+
+COPY ["root", "/app"]
+
+ENTRYPOINT ["dotnet", "AngularWebStorageExplorer.dll"]
+```

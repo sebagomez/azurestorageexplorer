@@ -5,8 +5,8 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <Version>1.2.0.0</Version>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <Version>1.2.1.0</Version>
     <Authors>Sebastián Gómez</Authors>
     <Product>AzureWebStorageExplorer</Product>
     <Copyright>(C) 2018 @sebagomez. All rights reserved.</Copyright>

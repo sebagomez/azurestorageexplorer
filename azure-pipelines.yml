@@ -13,7 +13,7 @@ variables:
 steps:
 - script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
   displayName: 'dotnet publish'
-- script: docker build -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
+- script: docker build --build-arg BUILD=$(build.buildNumber) -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
   workingDirectory: $(build.SourcesDirectory)/Docker
   displayName: 'docker build'
 - script: docker tag $(dockerId)/azurestorageexplorer:$(build.buildNumber) $(dockerId)/azurestorageexplorer
