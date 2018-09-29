@@ -8,9 +8,10 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  dockerId: 'sebagomez'
 
 steps:
-- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) AzureWebExplorer.sln
+- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
   displayName: 'dotnet publish'
-- script: docker build -t $(dockerId)/$(azurestorageexplorer):$(build.buildNumber)
+- script: docker build -t $(dockerId)/azurestorageexplorer:$(build.buildNumber)
   displayName: 'docker build'
