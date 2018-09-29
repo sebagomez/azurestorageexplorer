@@ -10,7 +10,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- script: dotnet publish --configuration $(buildConfiguration)
-  displayName: 'dotnet publish --configuration $(buildConfiguration)'
+- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) AzureWebExplorer.sln
+  displayName: 'dotnet publish'
+- script: docker build -t $(dockerId)/$(azurestorageexplorer):$(build.buildNumber)
+  displayName: 'docker build'
