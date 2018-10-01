@@ -10,26 +10,6 @@ variables:
   buildConfiguration: 'Release'
   dockerId: 'sebagomez'
 
-#jobs:
-#- job: Build  # name of the job, no spaces allowed
-#  displayName: string  # friendly name to display in the UI
-#  dependsOn: string | [ string ]
-#  condition: string
-#  strategy:
-#    matrix: # matrix strategy, see below
-#    parallel: # parallel strategy, see below
-#    maxParallel: number # maximum number of agents to simultaneously run copies of this job on
-#  continueOnError: boolean  # 'true' if future jobs should run even if this job fails; defaults to 'false'
-#  pool: string | [ server ]
-#  workspace:
-#    clean: outputs | resources | all # what to clean up after the job runs
-#  container: string # container resource to run this job inside
-#  timeoutInMinutes: number # how long to run the job before automatically cancelling
-#  cancelTimeoutInMinutes: number # how much time to give run always even if cancelled tasks before killing them
-#  variables: { string: string } | [ variable ]
-#  steps: [ script | bash | powershell | checkout | task | stepTemplate ]
-
-
 steps:
 - script: dotnet build --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
   displayName: 'dotnet build'
@@ -47,13 +27,7 @@ steps:
 #- script: docker push $(dockerId)/azurestorageexplorer
 #  displayName: 'docker push latest'
 
-# Publish Build Artifacts
-# Publish build artifacts to Azure Artifacts/TFS or a file share
-- task: PublishBuildArtifacts@1
+- task: PublishBuildArtifacts
   inputs:
     pathtoPublish: '$(build.SourcesDirectory)/Docker' 
     artifactName: 'deploy' 
-    #publishLocation: 'Container' # Options: container, filePath
-    #targetPath: # Required when publishLocation == FilePath
-    #parallel: false # Optional
-    #parallelCount: # Optional
