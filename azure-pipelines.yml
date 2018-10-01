@@ -31,7 +31,9 @@ variables:
 
 
 steps:
-- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
+- script: dotnet build --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
+  displayName: 'dotnet build'
+- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) --no-build src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
   displayName: 'dotnet publish'
 #- script: docker build --build-arg BUILD=$(build.buildNumber) -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
 #  workingDirectory: $(build.SourcesDirectory)/Docker
@@ -49,7 +51,7 @@ steps:
 # Publish build artifacts to Azure Artifacts/TFS or a file share
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(build.SourcesDirectory)/Docker/root' 
+    pathtoPublish: '$(build.SourcesDirectory)/Docker' 
     artifactName: 'deploy' 
     #publishLocation: 'Container' # Options: container, filePath
     #targetPath: # Required when publishLocation == FilePath
