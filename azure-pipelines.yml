@@ -10,8 +10,6 @@ variables:
   buildConfiguration: 'Release'
   dockerId: 'sebagomez'
 
-
-
 #jobs:
 #- job: Build  # name of the job, no spaces allowed
 #  displayName: string  # friendly name to display in the UI
@@ -31,15 +29,10 @@ variables:
 #  variables: { string: string } | [ variable ]
 #  steps: [ script | bash | powershell | checkout | task | stepTemplate ]
 
-jobs:
-- job: Build
-  displayName: dotnet build
-  steps: 
-    - script: dotnet build --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
 
-#steps:
-#- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
-#  displayName: 'dotnet publish'
+steps:
+- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
+  displayName: 'dotnet publish'
 #- script: docker build --build-arg BUILD=$(build.buildNumber) -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
 #  workingDirectory: $(build.SourcesDirectory)/Docker
 #  displayName: 'docker build'
