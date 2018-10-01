@@ -27,7 +27,7 @@ steps:
 #- script: docker push $(dockerId)/azurestorageexplorer
 #  displayName: 'docker push latest'
 
-- task: PublishBuildArtifacts
+- task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(build.SourcesDirectory)/Docker' 
     artifactName: 'deploy' 
