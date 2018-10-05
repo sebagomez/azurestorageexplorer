@@ -5,16 +5,15 @@
 
 Try it live at https://azurestorage.azurewebsites.net
 
-Or deploy it to your own Azure WebSite  
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?repository=https://github.com/sebagomez/azurestorageexplorer) <-- [coolest Azure feature](http://sgomez.blogspot.com.uy/2014/11/deploy-to-azure-button-wow.html) ever!
+Or deploy it wherever you want thanks to the newly AzurePipilines created [Docker Images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/)
 
-Azure Storage Explorer
-======================
+# Azure Storage Explorer
+
 Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core 2.1 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
-![Screenshot](GitMain.png)
+![Screenshot](res/GitMain.png?raw=true)
 
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
@@ -38,8 +37,6 @@ To query action movies use the following:
 > PartitionKey eq 'Action'  
 
 *Please note there's a <kbd>space</kbd> character before and after the **eq** operator.*
-
-![Screenshot](Tables.png)
 
 If you don't write a query the system will retrieve every Entity on the Table
 
