@@ -9,7 +9,7 @@ Or deploy it wherever you want thanks to the newly AzurePipilines created [Docke
 
 # Azure Storage Explorer
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core 2.1 and Angular.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ 2.2 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -47,7 +47,7 @@ This web app is not integrated with Azure Pipelines, and after the build process
 [Dockerfile](Docker/Dockerfile)
 
 ```Docker
-FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
 LABEL maintainer="seba gomez <sebagomezcorrea@outlook.com>"
 
