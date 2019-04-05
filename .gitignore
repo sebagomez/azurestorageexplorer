@@ -9,7 +9,6 @@ PublishProfiles/
 Docker/root/
 packages/
 **/node_modules/
-**/ClientApp/dist/
 **/wwwroot/dist/
 !**/**/wwwroot/dist/azurewebexplorer.css
 **/Properties/launchSettings.json

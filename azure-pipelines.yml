@@ -15,18 +15,6 @@ steps:
   displayName: 'dotnet build'
 - script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) --no-build src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
   displayName: 'dotnet publish'
-#- script: docker build --build-arg BUILD=$(build.buildNumber) -t $(dockerId)/azurestorageexplorer:$(build.buildNumber) .
-#  workingDirectory: $(build.SourcesDirectory)/Docker
-#  displayName: 'docker build'
-#- script: docker tag $(dockerId)/azurestorageexplorer:$(build.buildNumber) $(dockerId)/azurestorageexplorer
-#  displayName: 'docker tag'
-#- script: docker login -u $(dockerId) -p $(dockerPwd) 
-#  displayName: 'docker login'
-#- script: docker push $(dockerId)/azurestorageexplorer:$(build.buildNumber)
-#  displayName: 'docker push'
-#- script: docker push $(dockerId)/azurestorageexplorer
-#  displayName: 'docker push latest'
-
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(build.SourcesDirectory)/Docker' 
