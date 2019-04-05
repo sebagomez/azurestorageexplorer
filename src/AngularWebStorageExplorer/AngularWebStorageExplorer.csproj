@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -14,6 +14,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageId>AzureStorageWebExplorer</PackageId>
     <PackageProjectUrl>https://azurestorage.azurewebsites.net/</PackageProjectUrl>
+    <PackageIconUrl>http://azurestorage.azurewebsites.net/favicon.ico</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
