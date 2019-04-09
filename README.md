@@ -44,7 +44,7 @@ If you don't write a query the system will retrieve every Entity on the Table
 
 This web app is not integrated with Azure Pipelines, and after the build process it'll create a Docker image and publishes it to [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/).
 
-```Docker
+```Dockerfile
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 LABEL maintainer="seba gomez <sebagomezcorrea@outlook.com>"
 ARG BUILD
