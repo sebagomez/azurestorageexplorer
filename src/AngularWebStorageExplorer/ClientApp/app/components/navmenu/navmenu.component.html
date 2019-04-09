@@ -1,45 +1,22 @@
-<div class='main-nav'>
-	<div class='navbar navbar-inverse'>
-		<div class='navbar-header'>
-			<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-				<span class='sr-only'>Toggle navigation</span>
-				<span class='icon-bar'></span>
-				<span class='icon-bar'></span>
-				<span class='icon-bar'></span>
-			</button>
-			<a class='navbar-brand azure' [routerLink]="['/home']">Azure Storage web explorer</a>
-		</div>
-		<div class='clearfix'></div>
-		<div class='navbar-collapse collapse'>
-			<ul class='nav navbar-nav'>
-				<li [routerLinkActive]="['link-active']">
-					<a [routerLink]="['/home']">
-						<span class='glyphicon glyphicon-home'></span> Home
-					</a>
-				</li>
-				<li [routerLinkActive]="['link-active']">
-					<a [routerLink]="['/containers']">
-						<span class='glyphicon glyphicon-equalizer'></span> Blobs
-					</a>
-				</li>
-				<li [routerLinkActive]="['link-active']">
-					<a [routerLink]="['/queues']">
-						<span class='glyphicon glyphicon-tasks'></span> Queues
-					</a>
-				</li>
-				<li [routerLinkActive]="['link-active']">
-					<a [routerLink]="['/tables']">
-						<span class='glyphicon glyphicon-th'></span> Tables
-					</a>
-				</li>
-				<li [routerLinkActive]="['link-active']">
-					<a [routerLink]="['/files']">
-						<span class='glyphicon glyphicon-hdd'></span> File Share
-					</a>
-				</li>
-			</ul>
-		</div>
+<div class="ui pointing menu">
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/home']">
+		Home
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/containers']">
+		Blobs
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/queues']">
+		Queues
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/tables']">
+		Tables
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/files']">
+		Files
+	</a>
+	<!-- The logout is still not implemented
+	<div class="right menu">
+		<a class="item" (click)="logOut($event)">Logout</a>
 	</div>
-	<div class="versionFooter">v {{currentVersion}} by <a href="https://twitter.com/sebagomez">@sebagomez</a></div>
+	-->
 </div>
-

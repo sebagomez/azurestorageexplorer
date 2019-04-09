@@ -25,7 +25,9 @@ export class TablesComponent extends BaseComponent {
 	}
 
 	getTables() {
+		this.loading = true;
 		this.utilsService.getData('api/Tables/GetTables').subscribe(result => {
+			this.loading = false;
 			this.tables = result.json();
 		}, error => { this.setErrorMessage(error.statusText); });
 	}

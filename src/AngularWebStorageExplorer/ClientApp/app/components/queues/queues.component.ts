@@ -8,9 +8,9 @@ import { BaseComponent } from '../base/base.component';
 })
 
 export class QueuesComponent extends BaseComponent {
-	public queues: string[];
+	public queues: string[] | undefined;
 
-	public selectedQueue: string;
+	public selectedQueue: string = '';
 
 	@ViewChild('newQueueName') newQueueName: any;
 	@ViewChild('queuesMenu') queuesMenu: any;
@@ -25,7 +25,9 @@ export class QueuesComponent extends BaseComponent {
 	}
 
 	getQueues() {
+		this.loading = true;
 		this.utilsService.getData('api/Queues/GetQueues').subscribe(result => {
+			this.loading = false;
 			this.queues = result.json();
 		}, error => { this.setErrorMessage(error.statusText); });
 

@@ -8,8 +8,8 @@ import { BaseComponent } from '../base/base.component';
 })
 
 export class SharesComponent extends BaseComponent {
-	public shares: string[];
-	public selectedShare: string;
+	public shares: string[] | undefined;
+	public selectedShare: string = '';
 
 	@ViewChild('newShareName') newShareName: any;
 	@ViewChild('containersMenu') containersMenu: any;
@@ -24,7 +24,9 @@ export class SharesComponent extends BaseComponent {
 	}
 
 	getShares() {
+		this.loading = true;
 		this.utilsService.getData('api/Files/GetShares').subscribe(result => {
+			this.loading = false;
 			this.shares = result.json();
 		}, error => { this.setErrorMessage(error.statusText); });
 	}

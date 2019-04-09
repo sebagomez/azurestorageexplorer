@@ -7,8 +7,8 @@ export class UtilsService {
 	http: Http;
 	baseUrl: string;
 
-	account: string;
-	key: string;
+	account: string = '';
+	key: string = '';
 
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
 
@@ -34,6 +34,11 @@ export class UtilsService {
 
 	signIn(account: string, key: string) {
 		return this.http.get(this.baseUrl + 'api/Queues/GetQueues?account=' + account + '&key=' + key);
+	}
+
+	logOut() {
+		localStorage.setItem('account', '');
+		localStorage.setItem('key', '');
 	}
 
 	getData(url: string) {

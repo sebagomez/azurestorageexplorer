@@ -5,8 +5,8 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.2.1.1</AssemblyVersion>
-    <Version>1.2.1.1</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <Version>1.2.2</Version>
     <Authors>Sebastián Gómez</Authors>
     <Product>Azure Storage web explorer</Product>
     <Copyright>(C) 2019 @sebagomez. All rights reserved.</Copyright>
@@ -15,10 +15,11 @@
     <PackageId>AzureStorageWebExplorer</PackageId>
     <PackageProjectUrl>https://azurestorage.azurewebsites.net/</PackageProjectUrl>
     <PackageIconUrl>http://azurestorage.azurewebsites.net/favicon.ico</PackageIconUrl>
+    <UserSecretsId>884005b8-928a-4970-a5b5-19bafdbf46f2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
@@ -35,6 +36,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\components\base\base.component.ts" />
     <None Remove="ClientApp\app\components\errors\errors.component.ts" />
+    <None Remove="ClientApp\app\components\version\version.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +57,7 @@
     <TypeScriptCompile Include="ClientApp\app\components\queues\queues.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\tables\tables.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\tabledata\tabledata.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\version\version.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
@@ -85,6 +88,10 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
     </ItemGroup>
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="npm run-script build" />
   </Target>
 
 </Project>

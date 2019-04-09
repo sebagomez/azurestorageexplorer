@@ -25,7 +25,9 @@ export class ContainersComponent extends BaseComponent {
 	}
 
 	getContainers() {
+		this.loading = true;
 		this.utilsService.getData('api/Containers/GetContainers').subscribe(result => {
+			this.loading = false;
 			this.containers = result.json();
 		}, error => { this.setErrorMessage(error.statusText); });
 	}

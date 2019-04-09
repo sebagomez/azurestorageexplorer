@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
@@ -8,19 +8,17 @@ import { UtilsService } from '../../services/utils/utils.service';
 })
 export class NavMenuComponent {
 
-	public currentVersion: string;
+	public currentVersion: string | undefined;
 
-	constructor(private utilsService: UtilsService) {
-		this.getversion();
-	}
+	//https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
+	@Output() signedIn: EventEmitter<boolean> = new EventEmitter();
 
-	ngOnChanges() {
-		this.getversion();
-	}
+	constructor(private utilsService: UtilsService) { }
 
-	getversion() {
-		this.utilsService.getData('api/Util/GetVersion').subscribe(result => {
-			this.currentVersion = result.text();
-		}, error => { console.error(error) });
+
+	logOut(event: Event) {
+
+		this.utilsService.logOut();
+		this.signedIn.emit(false);
 	}
 }

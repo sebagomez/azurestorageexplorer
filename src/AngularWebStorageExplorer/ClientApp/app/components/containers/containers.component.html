@@ -15,13 +15,13 @@
 
 <p></p>
 
-<em *ngIf="!containers">Loading containers...</em>
+<em *ngIf="loading">Loading containers...</em>
 
 <div *ngIf="containers" class="parent">
 
 	<div #containersMenu class="child ui vertical pointing menu">
 
-		<a class="link item" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
+		<a class="link item elipsed" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
 	</div>
 
 	<blobs class="child" style="padding-left:20px" [container]="selectedContainer" (refresh)="forceRefresh($event)"></blobs>

@@ -11,13 +11,13 @@
 
 <p></p>
 
-<em *ngIf="!shares">Loading share files...</em>
+<em *ngIf="loading">Loading share files...</em>
 
 <div *ngIf="shares" class="parent">
 
 	<div #containersMenu class="child ui vertical pointing menu">
 
-		<a class="link item" *ngFor="let share of shares" (click)="sharedChanged($event)">{{share}}</a>
+		<a class="link item elipsed" *ngFor="let share of shares" (click)="sharedChanged($event)">{{share}}</a>
 	</div>
 
 	<files class="child" style="padding-left:20px" [share]="selectedShare" (refresh)="forceRefresh($event)"></files>

@@ -8,7 +8,7 @@ import { BaseComponent } from '../base/base.component';
 })
 
 export class BlobsComponent extends BaseComponent {
-	forceReload: boolean;
+	forceReload: boolean = false;
 
 	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 

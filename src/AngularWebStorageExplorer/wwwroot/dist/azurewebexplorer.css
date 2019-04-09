@@ -15,14 +15,22 @@
 .errorMessage {
 	position: fixed !important;
 	width: 60%;
-	top: 0;
 }
 
 .fullWidth {
 	width: 100%;
 }
 
-.versionFooter {
+.fullHeight {
+	height: 100%;
+}
+
+.version {
+	font-size: x-small;
+	color: rgb(157,157,157);
+}
+
+.footer {
 	font-size: x-small;
 	position: absolute;
 	bottom: 0;
@@ -35,9 +43,15 @@
 	cursor: pointer;
 }
 
+.elipsed {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 @media only screen and (max-width: 768px) {
 	
-	.versionFooter {
+	.footer {
 		visibility: hidden;
 	}
 }

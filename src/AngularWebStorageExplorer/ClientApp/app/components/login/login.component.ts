@@ -12,6 +12,7 @@ export class LoginComponent {
 	@ViewChild('azureKey') azureKey: any;
 
 	utilsService: UtilsService;
+	public currentVersion: string | undefined;
 
 	//https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
 	@Output() signedIn: EventEmitter<boolean> = new EventEmitter();

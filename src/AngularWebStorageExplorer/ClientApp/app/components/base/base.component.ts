@@ -4,17 +4,18 @@ import { UtilsService } from '../../services/utils/utils.service';
 @Component({
 	selector: 'base-component',
 	template: '',
-	//templateUrl: './base.component.html'
 })
 
 @Injectable()
 export class BaseComponent {
 
-	public errorMessage: string;
+	public errorMessage: string = '';
 	public hasErrors: boolean = false;
 	public loading: boolean = false;
 
-	constructor(public utilsService: UtilsService) { }
+	constructor(public utilsService: UtilsService) {
+		this.loading = false;
+	}
 
 	setErrorMessage(message: string) {
 		this.errorMessage = message;

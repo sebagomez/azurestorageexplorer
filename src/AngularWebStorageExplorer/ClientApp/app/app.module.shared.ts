@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { VersionComponent } from './components/version/version.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContainersComponent } from './components/containers/containers.component';
 import { BlobsComponent } from './components/blobs/blobs.component';
@@ -23,6 +24,7 @@ import { FilesComponent } from './components/files/files.component';
 	declarations: [
 		AppComponent,
 		NavMenuComponent,
+		VersionComponent,
 		HomeComponent,
 		ContainersComponent,
 		BlobsComponent,
