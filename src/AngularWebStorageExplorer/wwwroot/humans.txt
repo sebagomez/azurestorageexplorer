@@ -2,6 +2,7 @@
 	Chef/Developer/Designer:Sebastián Gómez
 	Contact: sebastiangomezcorrea [at] gmail
 	Twitter: @sebagomez
+	LinkedIn: 
 	From:Montevideo, Uruguay
 
 /* SITE */
