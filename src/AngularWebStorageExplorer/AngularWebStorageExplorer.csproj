@@ -40,7 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ClientApp\dist\azurewebexplorer.css" />
+    <None Include="wwwroot\azurewebexplorer.css" />
+    <None Include="wwwroot\humans.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +59,12 @@
     <TypeScriptCompile Include="ClientApp\app\components\tables\tables.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\tabledata\tabledata.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\version\version.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\azurewebexplorer.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">

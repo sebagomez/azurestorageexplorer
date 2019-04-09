@@ -1,0 +1,11 @@
+﻿/* TEAM */
+	Chef/Developer/Designer:Sebastián Gómez
+	Contact: sebastiangomezcorrea [at] gmail
+	Twitter: @sebagomez
+	From:Montevideo, Uruguay
+
+/* SITE */
+	Last update:2019/04/09
+	Language: English 
+	Doctype:HTML5
+	IDE: Visual Studio 2019, VSCode
