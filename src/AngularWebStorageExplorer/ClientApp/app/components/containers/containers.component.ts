@@ -8,8 +8,8 @@ import { BaseComponent } from '../base/base.component';
 })
 
 export class ContainersComponent extends BaseComponent {
-	public containers: string[];
-	public selectedContainer: string;
+	public containers: string[] | undefined;
+	public selectedContainer: string | undefined;
 
 	@ViewChild('newContainerName') newContainerName: any;
 	@ViewChild('publicAccess') publicAccess: any;

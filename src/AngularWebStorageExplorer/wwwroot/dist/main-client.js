@@ -2079,25 +2079,37 @@ var LoginComponent = (function () {
         this.loading = false;
         this.showError = false;
         this.utilsService = utils;
+        var account = localStorage.getItem('account');
+        var key = localStorage.getItem('key');
+        if (account && key)
+            this.logIn(account, key);
+        else
+            this.logOut();
     }
     LoginComponent.prototype.signIn = function () {
-        var _this = this;
         this.loading = true;
         this.showError = false;
         var account = encodeURIComponent(this.azureAccount.nativeElement.value);
         var key = encodeURIComponent(this.azureKey.nativeElement.value);
+        this.logIn(account, key);
+    };
+    LoginComponent.prototype.logIn = function (account, key) {
+        var _this = this;
         this.utilsService.signIn(account, key).subscribe(function (result) {
             localStorage.setItem('account', account);
             localStorage.setItem('key', key);
             _this.loading = false;
             _this.signedIn.emit(true);
         }, function (error) {
-            localStorage.clear();
-            _this.loading = false;
-            _this.signedIn.emit(false);
+            _this.logOut();
             _this.showError = true;
             console.error(error);
         });
+    };
+    LoginComponent.prototype.logOut = function () {
+        localStorage.clear();
+        this.loading = false;
+        this.signedIn.emit(false);
     };
     LoginComponent.prototype.typingMessage = function (event) {
         if (this.showError)

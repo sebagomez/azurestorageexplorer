@@ -23,6 +23,14 @@ export class LoginComponent {
 	constructor(utils: UtilsService) {
 
 		this.utilsService = utils;
+
+		let account = localStorage.getItem('account')!;
+		let key = localStorage.getItem('key')!;
+
+		if (account && key)
+			this.logIn(account, key);
+		else
+			this.logOut();
 	}
 
 	signIn() {
@@ -32,6 +40,10 @@ export class LoginComponent {
 		let account = encodeURIComponent(this.azureAccount.nativeElement.value);
 		let key = encodeURIComponent(this.azureKey.nativeElement.value);
 
+		this.logIn(account, key);
+	}
+
+	logIn(account: string, key: string) {
 		this.utilsService.signIn(account, key).subscribe(result => {
 			localStorage.setItem('account', account);
 			localStorage.setItem('key', key);
@@ -41,15 +53,19 @@ export class LoginComponent {
 
 		}, error => {
 
-			localStorage.clear();
-
-			this.loading = false;
-			this.signedIn.emit(false);
-
+			this.logOut();
 			this.showError = true;
 
 			console.error(error)
 		});
+	}
+
+	logOut() {
+		localStorage.clear();
+
+		this.loading = false;
+		this.signedIn.emit(false);
+
 	}
 
 	typingMessage(event: KeyboardEvent) {
