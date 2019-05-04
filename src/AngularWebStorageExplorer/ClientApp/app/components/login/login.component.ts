@@ -11,7 +11,6 @@ export class LoginComponent {
 	@ViewChild('azureAccount') azureAccount: any;
 	@ViewChild('azureKey') azureKey: any;
 
-	utilsService: UtilsService;
 	public currentVersion: string | undefined;
 
 	//https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
@@ -20,12 +19,10 @@ export class LoginComponent {
 	public loading: boolean = false;
 	public showError: boolean = false;
 
-	constructor(utils: UtilsService) {
+	constructor(private utilsService: UtilsService) {
 
-		this.utilsService = utils;
-
-		let account = localStorage.getItem('account')!;
-		let key = localStorage.getItem('key')!;
+		let account = this.utilsService.getAccount();
+		let key = this.utilsService.getKey();
 
 		if (account && key)
 			this.logIn(account, key);
@@ -44,28 +41,21 @@ export class LoginComponent {
 	}
 
 	logIn(account: string, key: string) {
-		this.utilsService.signIn(account, key).subscribe(result => {
-			localStorage.setItem('account', account);
-			localStorage.setItem('key', key);
-
+		this.utilsService.signIn(account, key).subscribe( () => {
 			this.loading = false;
 			this.signedIn.emit(true);
-
+			this.utilsService.saveCredntials(account, key);
 		}, error => {
-
+			console.error(error)
 			this.logOut();
 			this.showError = true;
-
-			console.error(error)
 		});
 	}
 
 	logOut() {
-		localStorage.clear();
-
+		this.utilsService.clearCredentials();
 		this.loading = false;
 		this.signedIn.emit(false);
-
 	}
 
 	typingMessage(event: KeyboardEvent) {

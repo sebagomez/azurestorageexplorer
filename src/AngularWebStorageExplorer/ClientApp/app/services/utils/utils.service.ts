@@ -7,24 +7,22 @@ export class UtilsService {
 	http: Http;
 	baseUrl: string;
 
-	account: string = '';
-	key: string = '';
+	private account: string | null;
+	private key: string | null;
 
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
 
 		this.http = http;
 		this.baseUrl = baseUrl;
 
+		this.account = null;
+		this.key = null;
+
 	}
 
 	private loadCredentials(url: string) {
 
-		if (!this.account || !this.key) {
-			this.account = localStorage.getItem('account')!;
-			this.key = localStorage.getItem('key')!;
-		}
-
-		let credentials = '?account=' + this.account + '&key=' + this.key;
+		let credentials = '?account=' + this.getAccount() + '&key=' + this.getKey();
 
 		if (url.lastIndexOf('?') > 0)
 			credentials = credentials.replace('?', '&');
@@ -32,13 +30,31 @@ export class UtilsService {
 		return credentials;
 	}
 
+	getAccount() {
+		if (!this.account)
+			this.account = localStorage.getItem('account');
+		return this.account;
+	}
+
+	getKey() {
+		if (!this.key)
+			this.key = localStorage.getItem('key');
+		return this.key;
+	}
+
 	signIn(account: string, key: string) {
 		return this.http.get(this.baseUrl + 'api/Queues/GetQueues?account=' + account + '&key=' + key);
 	}
 
-	logOut() {
-		localStorage.setItem('account', '');
-		localStorage.setItem('key', '');
+	saveCredntials(account: string, key: string) {
+		localStorage.setItem('account', account);
+		localStorage.setItem('key', key);
+	}
+
+	clearCredentials() {
+		this.account = null;
+		this.key = null;
+		localStorage.clear();
 	}
 
 	getData(url: string) {
