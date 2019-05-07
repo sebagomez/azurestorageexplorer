@@ -2,23 +2,29 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
-    selector: 'nav-menu',
-    templateUrl: './navmenu.component.html',
-    styleUrls: ['./navmenu.component.css']
+	selector: 'nav-menu',
+	templateUrl: './navmenu.component.html',
+	styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
 
-	public currentVersion: string | undefined;
+	public account: string | null;
 
-	//https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
-	@Output() signedIn: EventEmitter<boolean> = new EventEmitter();
+	constructor(private utilsService: UtilsService) {
+		this.getAccount();
+	}
 
-	constructor(private utilsService: UtilsService) { }
+	ngOnChanges() {
+		this.getAccount();
+	}
 
+	getAccount() {
+		this.account = this.utilsService.getAccount();
+	}
 
 	logOut(event: Event) {
 
-		this.utilsService.logOut();
-		this.signedIn.emit(false);
+		this.utilsService.clearCredentials();
+		location.reload(true);
 	}
 }

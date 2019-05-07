@@ -14,9 +14,7 @@
 	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/files']">
 		Files
 	</a>
-	<!-- The logout is still not implemented
-	<div class="right menu">
-		<a class="item" (click)="logOut($event)">Logout</a>
+	<div class="menu">
+		<a class="item" (click)="logOut($event)">{{account}} Logout</a>
 	</div>
-	-->
 </div>

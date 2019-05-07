@@ -82,8 +82,10 @@ namespace StorageLibrary
 
 			if (publicAccess)
 			{
-				BlobContainerPermissions permissions = new BlobContainerPermissions();
-				permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+				BlobContainerPermissions permissions = new BlobContainerPermissions
+				{
+					PublicAccess = BlobContainerPublicAccessType.Container
+				};
 				await cont.SetPermissionsAsync(permissions);
 			}
 		}

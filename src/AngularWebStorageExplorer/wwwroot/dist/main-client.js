@@ -96,27 +96,38 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 var UtilsService = (function () {
     function UtilsService(http, baseUrl) {
-        this.account = '';
-        this.key = '';
         this.http = http;
         this.baseUrl = baseUrl;
+        this.account = null;
+        this.key = null;
     }
     UtilsService.prototype.loadCredentials = function (url) {
-        if (!this.account || !this.key) {
-            this.account = localStorage.getItem('account');
-            this.key = localStorage.getItem('key');
-        }
-        var credentials = '?account=' + this.account + '&key=' + this.key;
+        var credentials = '?account=' + this.getAccount() + '&key=' + this.getKey();
         if (url.lastIndexOf('?') > 0)
             credentials = credentials.replace('?', '&');
         return credentials;
     };
+    UtilsService.prototype.getAccount = function () {
+        if (!this.account)
+            this.account = localStorage.getItem('account');
+        return this.account;
+    };
+    UtilsService.prototype.getKey = function () {
+        if (!this.key)
+            this.key = localStorage.getItem('key');
+        return this.key;
+    };
     UtilsService.prototype.signIn = function (account, key) {
         return this.http.get(this.baseUrl + 'api/Queues/GetQueues?account=' + account + '&key=' + key);
     };
-    UtilsService.prototype.logOut = function () {
-        localStorage.setItem('account', '');
-        localStorage.setItem('key', '');
+    UtilsService.prototype.saveCredntials = function (account, key) {
+        localStorage.setItem('account', account);
+        localStorage.setItem('key', key);
+    };
+    UtilsService.prototype.clearCredentials = function () {
+        this.account = null;
+        this.key = null;
+        localStorage.clear();
     };
     UtilsService.prototype.getData = function (url) {
         var credentials = this.loadCredentials(url);
@@ -159,7 +170,7 @@ var UtilsService = (function () {
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = vendor_8cb63956b4d1b52cb50d;
+module.exports = vendor_bac42da234f247702f25;
 
 /***/ }),
 /* 3 */
@@ -2073,31 +2084,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LoginComponent = (function () {
-    function LoginComponent(utils) {
+    function LoginComponent(utilsService) {
+        this.utilsService = utilsService;
         //https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
         this.signedIn = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.loading = false;
         this.showError = false;
-        this.utilsService = utils;
+        var account = this.utilsService.getAccount();
+        var key = this.utilsService.getKey();
+        if (account && key)
+            this.logIn(account, key);
+        else
+            this.logOut();
     }
     LoginComponent.prototype.signIn = function () {
-        var _this = this;
         this.loading = true;
         this.showError = false;
         var account = encodeURIComponent(this.azureAccount.nativeElement.value);
         var key = encodeURIComponent(this.azureKey.nativeElement.value);
-        this.utilsService.signIn(account, key).subscribe(function (result) {
-            localStorage.setItem('account', account);
-            localStorage.setItem('key', key);
+        this.logIn(account, key);
+    };
+    LoginComponent.prototype.logIn = function (account, key) {
+        var _this = this;
+        this.utilsService.signIn(account, key).subscribe(function () {
             _this.loading = false;
             _this.signedIn.emit(true);
+            _this.utilsService.saveCredntials(account, key);
         }, function (error) {
-            localStorage.clear();
-            _this.loading = false;
-            _this.signedIn.emit(false);
-            _this.showError = true;
             console.error(error);
+            _this.logOut();
+            _this.showError = true;
         });
+    };
+    LoginComponent.prototype.logOut = function () {
+        this.utilsService.clearCredentials();
+        this.loading = false;
+        this.signedIn.emit(false);
     };
     LoginComponent.prototype.typingMessage = function (event) {
         if (this.showError)
@@ -2151,17 +2173,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var NavMenuComponent = (function () {
     function NavMenuComponent(utilsService) {
         this.utilsService = utilsService;
-        //https://yakovfain.com/2016/10/31/angular-2-component-communication-with-events-vs-callbacks/
-        this.signedIn = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.getAccount();
     }
-    NavMenuComponent.prototype.logOut = function (event) {
-        this.utilsService.logOut();
-        this.signedIn.emit(false);
+    NavMenuComponent.prototype.ngOnChanges = function () {
+        this.getAccount();
     };
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
-    ], NavMenuComponent.prototype, "signedIn", void 0);
+    NavMenuComponent.prototype.getAccount = function () {
+        this.account = this.utilsService.getAccount();
+    };
+    NavMenuComponent.prototype.logOut = function (event) {
+        this.utilsService.clearCredentials();
+        location.reload(true);
+    };
     NavMenuComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'nav-menu',
@@ -2904,7 +2927,7 @@ module.exports = "<a href=\"https://github.com/sebagomez/azurestorageexplorer\">
 /* 36 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ui pointing menu\">\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/home']\">\r\n\t\t<h4 class=\"azure\">Azure Storage web explorer</h4>\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/containers']\">\r\n\t\tBlobs\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/queues']\">\r\n\t\tQueues\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/tables']\">\r\n\t\tTables\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/files']\">\r\n\t\tFiles\r\n\t</a>\r\n\t<!-- The logout is still not implemented\r\n\t<div class=\"right menu\">\r\n\t\t<a class=\"item\" (click)=\"logOut($event)\">Logout</a>\r\n\t</div>\r\n\t-->\r\n</div>";
+module.exports = "<div class=\"ui pointing menu\">\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/home']\">\r\n\t\t<h4 class=\"azure\">Azure Storage web explorer</h4>\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/containers']\">\r\n\t\tBlobs\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/queues']\">\r\n\t\tQueues\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/tables']\">\r\n\t\tTables\r\n\t</a>\r\n\t<a [routerLinkActive]=\"['active']\" class=\"item\" [routerLink]=\"['/files']\">\r\n\t\tFiles\r\n\t</a>\r\n\t<div class=\"menu\">\r\n\t\t<a class=\"item\" (click)=\"logOut($event)\">{{account}} Logout</a>\r\n\t</div>\r\n</div>";
 
 /***/ }),
 /* 37 */
