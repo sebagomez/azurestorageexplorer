@@ -18,7 +18,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '$file = "../../Docker/root/AngularWebStorageExplorer.dll"
+    script: '$file = "Docker/root/AngularWebStorageExplorer.dll"
 
 $version = $(Get-Item $file).VersionInfo.ProductVersion
 
