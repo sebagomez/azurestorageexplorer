@@ -24,7 +24,7 @@ $version = $(Get-Item $file).VersionInfo.ProductVersion
 
 Write-Host $version
 
-Set-Content "Docker/versiont.txt" "Azure Storage web explorer v$($version)"'
+Set-Content "Docker/version.txt" "Azure Storage web explorer v$($version)"'
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(build.SourcesDirectory)/Docker' 
