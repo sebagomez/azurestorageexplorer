@@ -2963,7 +2963,7 @@ module.exports = "<p></p>\r\n\r\n\r\n<div class=\"ui action input\">\r\n\t<input
 /* 42 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"version\">v {{currentVersion}} by <a href=\"https://twitter.com/sebagomez\">@sebagomez</a></div>";
+module.exports = "<div class=\"version\"><a href=\"https://hub.docker.com/r/sebagomez/azurestorageexplorer\">v {{currentVersion}}</a> by <a href=\"https://twitter.com/sebagomez\">@sebagomez</a></div>";
 
 /***/ }),
 /* 43 */
