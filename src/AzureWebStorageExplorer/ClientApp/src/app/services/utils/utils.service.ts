@@ -64,7 +64,7 @@ export class UtilsService {
 
 	getFile(url: string) {
 		let credentials = this.loadCredentials(url);
-		return this.http.get(this.baseUrl + url + credentials);
+    return this.http.get(this.baseUrl + url + credentials, { responseType: "blob", observe: "response" });
 	}
 
 	postData(url: string, body: any) {

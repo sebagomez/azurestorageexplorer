@@ -104,7 +104,7 @@ export class BlobsComponent extends BaseComponent {
 		this.utilsService.getFile('api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
 
 			var fileName: string = "NONAME";
-      var contentDisposition: string = "";//result.headers!.get("content-disposition")!;
+      var contentDisposition: string = result.headers!.get("content-disposition")!;
 			contentDisposition.split(";").forEach(token => {
 				token = token.trim();
 				if (token.startsWith("filename="))
