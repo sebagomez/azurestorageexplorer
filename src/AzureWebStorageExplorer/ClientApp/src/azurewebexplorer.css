@@ -1,0 +1,57 @@
+﻿.parent {
+	display: flex;
+	justify-content: center;
+}
+
+.child {
+	width: 100%;
+}
+
+.azure {
+	color: #00abec !important;
+	font-family: Segoe UI,SegoeUI,Segoe WP,Tahoma,Arial,sans-serif;
+}
+
+.errorMessage {
+	position: fixed !important;
+	width: 60%;
+}
+
+.fullWidth {
+	width: 100%;
+}
+
+.fullHeight {
+	height: 100%;
+}
+
+.version {
+	font-size: x-small;
+	color: rgb(157,157,157);
+}
+
+.footer {
+	font-size: x-small;
+	position: absolute;
+	bottom: 0;
+	color: rgb(157,157,157);
+	margin-left: 10px;
+	margin-left: 5px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.elipsed {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+	
+	.footer {
+		visibility: hidden;
+	}
+}

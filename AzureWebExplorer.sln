@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageLibrary", "src\StorageLibrary\StorageLibrary.csproj", "{A7FEE8A9-FB12-4361-BBB6-E13E0194524F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageLibTests", "tests\StorageLibTests\StorageLibTests.csproj", "{A1EB24AE-6E0D-41D2-9343-F639A043FFEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularWebStorageExplorer", "src\AngularWebStorageExplorer\AngularWebStorageExplorer.csproj", "{E02CB8AE-1E5D-4F7A-8939-97CBAA26105E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureWebStorageExplorer", "src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj", "{261438D6-E262-45AF-9C39-4594D8601D54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{E02CB8AE-1E5D-4F7A-8939-97CBAA26105E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E02CB8AE-1E5D-4F7A-8939-97CBAA26105E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E02CB8AE-1E5D-4F7A-8939-97CBAA26105E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261438D6-E262-45AF-9C39-4594D8601D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261438D6-E262-45AF-9C39-4594D8601D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261438D6-E262-45AF-9C39-4594D8601D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261438D6-E262-45AF-9C39-4594D8601D54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,33 @@
+﻿
+
+<p></p>
+
+<div class="ui action input">
+	<input #newContainerName type="text" placeholder="New container...">
+	<button class="ui icon button" (click)="newContainer($event)">
+		<i class="add icon"></i>
+	</button>
+</div>
+<div class="ui checkbox">
+	<input #publicAccess style="margin:0;" name="containerAccess" type="checkbox" placeholder="Public Access?" />
+	<label>Set as public</label>
+</div>
+
+<p></p>
+
+<em *ngIf="loading">Loading containers...</em>
+
+<div *ngIf="containers" class="parent">
+
+	<div #containersMenu class="child ui vertical pointing menu">
+
+		<a class="link item elipsed" *ngFor="let container of containers" (click)="containerChanged($event)">{{container}}</a>
+	</div>
+
+	<blobs class="child" style="padding-left:20px" [container]="selectedContainer" (refresh)="forceRefresh($event)"></blobs>
+
+</div>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div>

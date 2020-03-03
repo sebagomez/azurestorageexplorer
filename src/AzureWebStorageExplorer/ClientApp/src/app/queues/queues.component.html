@@ -1,0 +1,28 @@
+﻿<p></p>
+
+
+<div class="ui action input">
+	<input #newQueueName type="text" placeholder="New queue...">
+	<button title="Add queue" class="ui icon button" (click)="newQueue($event)">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
+<em *ngIf="loading">Loading queues...</em>
+
+<div *ngIf="queues" class="parent">
+
+	<div #queuesMenu class="child ui vertical pointing menu">
+
+		<a class="link item elipsed" *ngFor="let queue of queues" (click)="queueChanged($event)">{{queue}}</a>
+	</div>
+
+	<qmessages class="child" style="padding-left:20px" [queue]="selectedQueue" (refresh)="forceRefresh($event)"></qmessages>
+
+</div>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div>

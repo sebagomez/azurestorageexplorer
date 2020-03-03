@@ -1,0 +1,20 @@
+<div class="ui pointing menu">
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/home']">
+		<h4 class="azure">Azure Storage web explorer</h4>
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/containers']">
+		Blobs
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/queues']">
+		Queues
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/tables']">
+		Tables
+	</a>
+	<a [routerLinkActive]="['active']" class="item" [routerLink]="['/files']">
+		Files
+	</a>
+	<div class="menu">
+		<a class="item" (click)="logOut($event)">{{account}} Logout</a>
+	</div>
+</div>
