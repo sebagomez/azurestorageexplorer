@@ -68,7 +68,7 @@ If you want to run this site on your own environment, don't want to clone it, an
 * Download the zip file names in the form YYYYMMDD.X.
 * Extract that zip in a folder in your local computer
 * CMD into that folder and cd into the `root`  folder 
-* Run `dotnet AngularWebStorageExplorer.dll`
+* Run `dotnet AzureWebStorageExplorer.dll`
 
 Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
