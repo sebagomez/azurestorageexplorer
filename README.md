@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 [![Stories in Ready](https://badge.waffle.io/sebagomez/azurestorageexplorer.png?label=ready&title=Ready)](https://waffle.io/sebagomez/azurestorageexplorer)
 [![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-=======
-[![Build status](https://travis-ci.org/sebagomez/azurestorageexplorer.svg?branch=master)](https://travis-ci.org/sebagomez/azurestorageexplorer)
->>>>>>> 1df5a2da8d831d1905deb6b3bfcef29781a7821d
 [![Build Status](https://dev.azure.com/sebagomez/azurestorageexplorer/_apis/build/status/sebagomez.azurestorageexplorer)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
 [![GitHub Release](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/3/5.svg?label=GitHub%20Release)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
 [![Docker push](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/2/2.svg?label=Docker%20Push)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
@@ -15,11 +11,7 @@ Or deploy it wherever you want thanks to the newly AzurePipilines created [Docke
 
 # Azure Storage Explorer
 
-<<<<<<< HEAD
 Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ ~~2.2~~ 3.1 and Angular.
-=======
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET Core ~~2.1~~ 2.2 and Angular.
->>>>>>> 1df5a2da8d831d1905deb6b3bfcef29781a7821d
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
