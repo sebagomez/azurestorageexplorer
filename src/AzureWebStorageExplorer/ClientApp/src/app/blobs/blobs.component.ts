@@ -111,9 +111,9 @@ export class BlobsComponent extends BaseComponent {
 					fileName = token.substr("filename=".length);
 			});
 
-      var byteArray = null;// result.arrayBuffer();
+      //var byteArray = null;//result.arrayBuffer();
 
-			var blobFile = new Blob([byteArray], { type: "application/octet-stream;charset=utf-8", endings: "transparent" });
+      var blobFile = result.body;// new Blob([byteArray], { type: "application/octet-stream;charset=utf-8", endings: "transparent" });
 			var blobUrl = URL.createObjectURL(blobFile);
 
 			var link = document.createElement('a');
