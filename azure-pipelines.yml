@@ -1,7 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 pool:
   vmImage: 'Ubuntu 16.04'
@@ -15,6 +11,16 @@ steps:
   displayName: 'dotnet build'
 - script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) --no-build src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
   displayName: 'dotnet publish'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: '$file = "Docker/root/AngularWebStorageExplorer.dll"
+
+$version = $(Get-Item $file).VersionInfo.ProductVersion
+
+Write-Host $version
+
+Set-Content "Docker/version.txt" "Azure Storage web explorer v$($version)"'
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(build.SourcesDirectory)/Docker' 

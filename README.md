@@ -1,14 +1,25 @@
+<<<<<<< HEAD
 [![Stories in Ready](https://badge.waffle.io/sebagomez/azurestorageexplorer.png?label=ready&title=Ready)](https://waffle.io/sebagomez/azurestorageexplorer)
 [![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+=======
+[![Build status](https://travis-ci.org/sebagomez/azurestorageexplorer.svg?branch=master)](https://travis-ci.org/sebagomez/azurestorageexplorer)
+>>>>>>> 1df5a2da8d831d1905deb6b3bfcef29781a7821d
 [![Build Status](https://dev.azure.com/sebagomez/azurestorageexplorer/_apis/build/status/sebagomez.azurestorageexplorer)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
-
+[![GitHub Release](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/3/5.svg?label=GitHub%20Release)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
+[![Docker push](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/2/2.svg?label=Docker%20Push)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
+[![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
+ 
 Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it wherever you want thanks to the newly AzurePipilines created [Docker Images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/)
 
 # Azure Storage Explorer
 
+<<<<<<< HEAD
 Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ ~~2.2~~ 3.1 and Angular.
+=======
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET Core ~~2.1~~ 2.2 and Angular.
+>>>>>>> 1df5a2da8d831d1905deb6b3bfcef29781a7821d
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -58,3 +69,16 @@ To fire a container with the latest version just run the following command
 `docker run --rm -it -p 5555:80 sebagomez/azurestorageexplorer`
 
 Then open your browser and navigate to http://localhost:5555, and voilá!
+
+## Run locally
+
+If you want to run this site on your own environment, don't want to clone it, and don't want to get into Docker (seriously, go learn some Docker), you can now do the following: 
+* Go to the Release tab and select the newest (first one from the top)
+* Download the zip file names in the form YYYYMMDD.X.
+* Extract that zip in a folder in your local computer
+* CMD into that folder and cd into the `root`  folder 
+* Run `dotnet AngularWebStorageExplorer.dll`
+
+Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
+
+![CMD](./res/local_run.png)
