@@ -1,12 +1,12 @@
-﻿
-<div class="ui action input fullWidth">
-	<input #inputQuery type="text" placeholder="Search pattern...">
-	<select #mode class="ui compact selection dropdown" (change)="modeChanged()">
-		<option value="q" selected="">Search</option>
-		<option value="i">Insert</option>
-	</select>
-	<div class="ui button" (click)="queryData()">Go</div>
-</div>
+
+	<div class="ui action input fullWidth">
+		<input #inputQuery type="text" placeholder="Search pattern...">
+		<select #mode class="ui button compact selection" (change)="modeChanged()">
+			<option class="item" value="q" selected="">Search</option>
+			<option class="item" value="i">Insert</option>
+		</select>
+		<div class="ui button" (click)="queryData()">Go</div>
+	</div>
 
 <div *ngIf="loading" class="ui active text centered inline loader">
 	<em>Fetching data from {{ storageTable }}...</em>

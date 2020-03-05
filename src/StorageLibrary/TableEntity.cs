@@ -65,7 +65,7 @@ namespace StorageLibrary
 			string[] lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 			if (lines.Count() < 1)
-				throw new Exception($"'{data}' is not a valid input");
+				throw new ApplicationException($"'{data}' is not a valid input");
 
 			foreach (string line in lines)
 			{

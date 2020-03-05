@@ -66,7 +66,7 @@ namespace StorageLibrary
 				}
 
 				if (!found)
-					throw new Exception("No message found");
+					throw new ApplicationException("Message not found");
 			}
 		}
 
