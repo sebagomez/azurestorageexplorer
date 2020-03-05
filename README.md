@@ -1,4 +1,3 @@
-[![Build status](https://travis-ci.org/sebagomez/azurestorageexplorer.svg?branch=master)](https://travis-ci.org/sebagomez/azurestorageexplorer)
 [![Stories in Ready](https://badge.waffle.io/sebagomez/azurestorageexplorer.png?label=ready&title=Ready)](https://waffle.io/sebagomez/azurestorageexplorer)
 [![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://dev.azure.com/sebagomez/azurestorageexplorer/_apis/build/status/sebagomez.azurestorageexplorer)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
@@ -9,7 +8,7 @@ Or deploy it wherever you want thanks to the newly AzurePipilines created [Docke
 
 # Azure Storage Explorer
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ 2.2 and Angular.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ ~~2.2~~ 3.1 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -20,7 +19,7 @@ To login just enter your account name and key or SAS ([Shared Access Signature](
 
 **Queues**: Create Queues and messages.
 
-**File Shares**: Navigate across Fil Shares and directories.
+**File Shares**: Navigate across File Shares and directories.
 
 **Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>=<PropertyValue>`
 
@@ -51,7 +50,7 @@ ARG BUILD
 ENV APPVERSION=$BUILD
 WORKDIR /app
 COPY ["root", "/app"]
-ENTRYPOINT ["dotnet", "AngularWebStorageExplorer.dll"]
+ENTRYPOINT ["dotnet", "AzureWebStorageExplorer.dll"]
 ```
 
 To fire a container with the latest version just run the following command

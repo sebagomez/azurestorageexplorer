@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 
 LABEL maintainer="seba gomez <sebagomezcorrea@outlook.com>"
 
@@ -9,4 +9,4 @@ WORKDIR /app
 
 COPY ["root", "/app"]
 
-ENTRYPOINT ["dotnet", "AngularWebStorageExplorer.dll"]
+ENTRYPOINT ["dotnet", "AzureWebStorageExplorer.dll"]

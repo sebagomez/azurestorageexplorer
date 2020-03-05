@@ -1,9 +1,0 @@
-language: csharp
-dist: xenial
-sudo: required
-mono: none
-dotnet: 2.2
-before_script:
-- chmod a+x ./build.sh
-script:
-- "./build.sh"

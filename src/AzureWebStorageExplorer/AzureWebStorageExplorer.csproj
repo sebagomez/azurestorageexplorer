@@ -10,6 +10,20 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <PackageId>AzureStorageWebExplorer</PackageId>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Authors>Sebastián Gómez</Authors>
+    <Product>Azure Storage web explorer</Product>
+    <Copyright>(C) 2020 @sebagomez. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>favicon.ico</PackageIcon>
+    <PackageIconUrl />
+    <PackageTags>azure,azure-storage,azure-blobs,azure-queues,azure-tables,azure-files</PackageTags>
+    <Version>2.0.0</Version>
+    <PackageProjectUrl>https://azurestorage.azurewebsites.net</PackageProjectUrl>
+    <Description>Manage your Azure Storage blobs, tables, queues and file shares from this simple and intuitive web application</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +36,10 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="wwwroot\favicon.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

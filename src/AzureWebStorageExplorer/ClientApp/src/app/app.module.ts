@@ -17,6 +17,7 @@ import { TablesComponent } from './tables/tables.component'
 import { TabledataComponent } from './tabledata/tabledata.component'
 import { SharesComponent } from './shares/shares.component';
 import { FilesComponent } from './files/files.component'
+import { BaseComponent } from './base/base.component'
 
 import { UtilsService } from './services/utils/utils.service';
 
@@ -34,7 +35,8 @@ import { UtilsService } from './services/utils/utils.service';
     TablesComponent,
     TabledataComponent,
     SharesComponent,
-    FilesComponent
+    FilesComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

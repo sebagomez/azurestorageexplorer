@@ -11,9 +11,9 @@ variables:
   dockerId: 'sebagomez'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration) src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
+- script: dotnet build --configuration $(buildConfiguration) src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
   displayName: 'dotnet build'
-- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) --no-build src/AngularWebStorageExplorer/AngularWebStorageExplorer.csproj
+- script: dotnet publish -o ../../Docker/root --configuration $(buildConfiguration) --no-build src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
   displayName: 'dotnet publish'
 - task: PublishBuildArtifacts@1
   inputs:
