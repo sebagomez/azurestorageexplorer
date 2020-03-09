@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -13,14 +14,21 @@ namespace AzureWebStorageExplorer.Controllers
 	public class BlobsController : Controller
 	{
 		[HttpGet("[action]")]
-		public async Task<IEnumerable<string>> GetBlobs(string account, string key, string container)
+		public async Task<IActionResult> GetBlobs(string account, string key, string container, string path)
 		{
-			if (string.IsNullOrEmpty(container))
-				return new List<string>();
+			try
+			{
+				if (string.IsNullOrEmpty(container))
+					return Ok(new List<string>());
 
-			List<IListBlobItem> blobs = await Container.ListBlobsAsync(account, key, container);
+				List<IListBlobItem> blobs = await Container.ListBlobsAsync(account, key, container, path);
 
-			return blobs.Select(b => b.Uri.ToString());
+				return Ok(blobs.Select(b => b.Uri.ToString()));
+			}
+			catch (Exception ex)
+			{
+				return Problem(title: ex.Message, detail: ex.StackTrace, type: "Error:");
+			}
 		}
 
 		[HttpGet("[action]")]
@@ -51,10 +59,10 @@ namespace AzureWebStorageExplorer.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> UploadBlob(string account, string key, string container, List<IFormFile> files)
+		public async Task<IActionResult> UploadBlob(string account, string key, string container, string path, List<IFormFile> files)
 		{
 			foreach (IFormFile file in files)
-				await Container.CreateBlobAsync(account, key, container, file.FileName, file.OpenReadStream());
+				await Container.CreateBlobAsync(account, key, container, path + file.FileName, file.OpenReadStream());
 
 			return Ok();
 		}

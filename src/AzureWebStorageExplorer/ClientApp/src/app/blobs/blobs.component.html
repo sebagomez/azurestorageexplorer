@@ -1,4 +1,4 @@
-﻿
+
 <div *ngIf="loading" class="ui active text centered inline loader">
 	<em>Fetching data from {{ container }}...</em>
 </div>
@@ -26,23 +26,35 @@
 			</th>
 	</thead>
 	<tbody>
+		<tr *ngIf="path != ''">
+			<td>
+				<button class="ui icon button" (click)="moveUp($event)">
+					<i class="caret square up icon"></i>
+				</button>
+			</td>
+			<td colspan="2" class="table-text">{{ path }}</td>
+		</tr>
 		<tr *ngFor="let blob of blobs">
 			<td class="collapsing">
-				<button *ngIf="selected != blob" class="ui icon button" (click)="removeBlob($event)">
+				<button *ngIf="selected != blob.url" class="ui icon button" (click)="removeBlob($event)">
 					<i class="trash icon"></i>
 				</button>
-				<div *ngIf="selected == blob" class="ui buttons">
+				<div *ngIf="selected == blob.url" class="ui buttons">
 					<button class="ui button" (click)="cancelDeleteBlob()">Cancel</button>
 					<div class="or"></div>
 					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
 				</div>
 			</td>
 			<td class="collapsing">
-				<button class="ui icon button" (click)="downloadBlob($event)">
+				<button *ngIf="!blob.isFolder" class="ui icon button" (click)="downloadBlob($event)">
 					<i class="download icon"></i>
 				</button>
+				<button *ngIf="blob.isFolder" class="ui icon button" (click)="enterFolder($event)">
+					<i class="folder icon"></i>
+				</button>
 			</td>
-			<td colspan="2">{{ blob }}</td>
+			<td colspan="2" class="table-text">{{ blob.name }}</td>
+			<td style="display:none">{{ blob.url }}</td>
 		</tr>
 	</tbody>
 	<tfoot>

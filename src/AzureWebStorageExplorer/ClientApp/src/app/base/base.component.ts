@@ -1,5 +1,6 @@
 import { Component, Injectable } from '@angular/core';
 import { UtilsService } from '../services/utils/utils.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'base-component',
@@ -16,6 +17,11 @@ export class BaseComponent {
 	constructor(public utilsService: UtilsService) {
 		this.loading = false;
 	}
+
+  setHttpError(error: HttpErrorResponse) {
+    var desc = JSON.parse(error.error);
+    this.setErrorMessage(desc.title);
+  }
 
 	setErrorMessage(message: string) {
 		this.errorMessage = message;

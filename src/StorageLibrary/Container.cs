@@ -26,7 +26,7 @@ namespace StorageLibrary
 			return results;
 		}
 
-		public static async Task<List<IListBlobItem>> ListBlobsAsync(string account, string key, string containerName)
+		public static async Task<List<IListBlobItem>> ListBlobsAsync(string account, string key, string containerName, string path)
 		{
 			CloudBlobContainer container = Get(account, key, containerName);
 
@@ -34,7 +34,7 @@ namespace StorageLibrary
 			List<IListBlobItem> results = new List<IListBlobItem>();
 			do
 			{
-				var response = await container.ListBlobsSegmentedAsync(null, true, BlobListingDetails.All, null, continuationToken, new BlobRequestOptions(), new Microsoft.WindowsAzure.Storage.OperationContext());
+				var response = await container.ListBlobsSegmentedAsync(path, false, BlobListingDetails.Metadata, null, continuationToken, new BlobRequestOptions(), new Microsoft.WindowsAzure.Storage.OperationContext());
 				continuationToken = response.ContinuationToken;
 				results.AddRange(response.Results);
 			}
@@ -49,7 +49,6 @@ namespace StorageLibrary
 				return null;
 
 			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
-
 			return blobClient.GetContainerReference(containerName);
 		}
 
@@ -58,7 +57,7 @@ namespace StorageLibrary
 			if (string.IsNullOrEmpty(containerName))
 				return;
 
-			CloudBlobClient blobClient = Client.GetBlobClient(account, key);
+			//CloudBlobClient blobClient = Client.GetBlobClient(account, key);
 			List<CloudBlobContainer> containers = await ListContainersAsync(account, key);
 			foreach (CloudBlobContainer container in containers)
 			{

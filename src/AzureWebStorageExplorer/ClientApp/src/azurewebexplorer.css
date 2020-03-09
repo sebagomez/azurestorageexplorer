@@ -1,4 +1,4 @@
-﻿.parent {
+.parent {
 	display: flex;
 	justify-content: center;
 }
@@ -54,4 +54,8 @@
 	.footer {
 		visibility: hidden;
 	}
+}
+
+.table-text{
+    vertical-align: middle !important;
 }

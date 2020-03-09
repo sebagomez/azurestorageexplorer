@@ -3,123 +3,159 @@ import { UtilsService } from '../services/utils/utils.service';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
-	selector: 'blobs',
-	templateUrl: './blobs.component.html'
+  selector: 'blobs',
+  templateUrl: './blobs.component.html'
 })
 
 export class BlobsComponent extends BaseComponent {
-	forceReload: boolean = false;
+  forceReload: boolean = false;
 
-	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter();
 
-	@Input() container: string = "";
+  @Input() container: string = "";
   @ViewChild('fileInput', { read: null, static: false }) fileInput: any;
   @ViewChild('modal', { read: null, static: false }) modal: any;
 
-	public showTable: boolean = false;
+  public showTable: boolean = false;
 
-	public blobs: string[];
-	public selected: string;
+  public blobs: any[];
+  public selected: string;
+  public path: string = "";
 
-	public removeContainerFlag: boolean = false;
+  public removeContainerFlag: boolean = false;
 
-	constructor(utils: UtilsService) {
-		super(utils);
-		this.getBlobs();
-	}
+  constructor(utils: UtilsService) {
+    super(utils);
+    this.getBlobs();
+  }
 
-	ngOnChanges() {
-		this.getBlobs();
-	}
+  ngOnChanges() {
+    this.path = "";
+    this.getBlobs();
+  }
 
-	getBlobs() {
+  getBlobs() {
 
-		if (!this.container) {
-			this.showTable = false;
-			return;
-		}
+    if (!this.container) {
+      this.showTable = false;
+      return;
+    }
 
-		this.loading = true;
-		this.showTable = false;
-		this.utilsService.getData('api/Blobs/GetBlobs?container=' + this.container).subscribe(result => {
-      this.blobs = JSON.parse(result);
-			this.loading = false;
-			this.showTable = true;
-		}, error => { this.setErrorMessage(error.statusText); });
-	}
+    this.loading = true;
+    this.showTable = false;
+    this.utilsService.getData('api/Blobs/GetBlobs?container=' + this.container + '&path=' + this.path).subscribe(result => {
 
-	removeBlob(event: Event) {
+      let list = JSON.parse(result);
+      this.blobs = new Array();
+      for (var i = 0; i < list.length; i++) {
+        var b = list[i];
+        if (b.endsWith('/')) {
+          var y = b.lastIndexOf('/');
+          var x = b.substring(0, y - 1).lastIndexOf('/');
+          this.blobs.push({ name: b.substring(x + 1, y + 1), isFolder: true, url: b });
+        }
+        else {
+          var y = b.lastIndexOf('/');
+          this.blobs.push({ name: b.substring(y+1), url: b });
+        }
+      }
 
-		var element = (event.currentTarget as Element); //button
-		var blob: string = element.parentElement!.parentElement!.children[2]!.textContent!;
+      //this.blobs = JSON.parse(result);
+      this.loading = false;
+      this.showTable = true;
+    }, error => { this.setHttpError(error); });
+  }
 
-		this.selected = blob;
-	}
+  removeBlob(event: Event) {
 
-	deleteBlob() {
-		this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
-			this.selected = '';
-			this.getBlobs();
-		}, error => { this.setErrorMessage(error.statusText); });
-	}
+    var element = (event.currentTarget as Element); //button
+    var blob: string = element.parentElement!.parentElement!.children[3]!.textContent!;
 
-	cancelDeleteBlob() {
-		this.selected = '';
-	}
+    this.selected = blob;
+  }
 
-	removeContainer(event: Event) {
-		this.removeContainerFlag = true;
-	}
+  deleteBlob() {
+    this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
+      this.selected = '';
+      this.getBlobs();
+    }, error => { this.setErrorMessage(error.statusText); });
+  }
 
-	cancelDeleteContainer() {
-		this.removeContainerFlag = false;
-	}
+  cancelDeleteBlob() {
+    this.selected = '';
+  }
 
-	deleteContainer() {
-		this.utilsService.postData('api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
-			this.container = "";
-			this.removeContainerFlag = false;
-			this.refresh.emit(true);
-		}, error => { this.setErrorMessage(error.statusText); });
+  removeContainer(event: Event) {
+    this.removeContainerFlag = true;
+  }
 
-	}
+  cancelDeleteContainer() {
+    this.removeContainerFlag = false;
+  }
 
-	upload() {
-		var that = this;
-		const fileBrowser = this.fileInput.nativeElement;
-		if (fileBrowser.files && fileBrowser.files[0]) {
-			const formData = new FormData();
-			formData.append('files', fileBrowser.files[0]);
+  deleteContainer() {
+    this.utilsService.postData('api/Containers/DeleteContainer?container=' + this.container, null).subscribe(result => {
+      this.container = "";
+      this.removeContainerFlag = false;
+      this.refresh.emit(true);
+    }, error => { this.setErrorMessage(error.statusText); });
 
-			this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container, formData).onload = function () {
-				that.getBlobs();
-			};
-		}
-	}
+  }
 
-	downloadBlob(event: Event) {
-		var element = (event.currentTarget as Element); //button
-		var blob: string = element.parentElement!.parentElement!.children[2]!.textContent!;
+  upload() {
+    var that = this;
+    const fileBrowser = this.fileInput.nativeElement;
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      const formData = new FormData();
+      formData.append('files', fileBrowser.files[0]);
 
-		this.utilsService.getFile('api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
+      this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container + '&path=' + this.path, formData).onload = function () {
+        that.getBlobs();
+      };
+    }
+  }
 
-			var fileName: string = "NONAME";
+  downloadBlob(event: Event) {
+    var element = (event.currentTarget as Element); //button
+    var blob: string = element.parentElement!.parentElement!.children[3]!.textContent!;
+
+    this.utilsService.getFile('api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
+
+      var fileName: string = "NONAME";
       var contentDisposition: string = result.headers!.get("content-disposition")!;
-			contentDisposition.split(";").forEach(token => {
-				token = token.trim();
-				if (token.startsWith("filename="))
-					fileName = token.substr("filename=".length);
-			});
+      contentDisposition.split(";").forEach(token => {
+        token = token.trim();
+        if (token.startsWith("filename="))
+          fileName = token.substr("filename=".length);
+      });
 
       var blobUrl = URL.createObjectURL(result.body);
-			var link = document.createElement('a');
-			link.href = blobUrl;
-			link.setAttribute('download', fileName);
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
+      var link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-		}, error => { this.setErrorMessage(error.statusText); });
+    }, error => { this.setErrorMessage(error.statusText); });
 
-	}
+  }
+
+  enterFolder(event: Event) {
+    var element = (event.currentTarget as Element); //button
+    var vDir: string = element.parentElement!.parentElement!.children[2]!.textContent!;
+    this.path += vDir
+    this.getBlobs();
+  }
+
+  moveUp(event: Event) {
+    var y = this.path.lastIndexOf('/');
+    var x = this.path.substring(0, y - 1).lastIndexOf('/');
+    if (x == -1)
+      this.path = "";
+    else
+      this.path = this.path.substring(0, x + 1);
+
+    this.getBlobs();
+  }
 }
