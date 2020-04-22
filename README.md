@@ -72,4 +72,4 @@ If you want to run this site on your own environment, don't want to clone it, an
 
 Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
-![CMD](./res/local_run.png)
+![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
