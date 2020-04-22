@@ -14,7 +14,7 @@ namespace StorageLibTests
 		public async Task GetContainerBlobs()
 		{
 			string containerName = "claritagx27";
-			List<IListBlobItem> blobs = await Container.ListBlobsAsync(ACCOUNT, KEY, containerName);
+			List<IListBlobItem> blobs = await Container.ListBlobsAsync(ACCOUNT, KEY, containerName, string.Empty);
 
 			Assert.IsTrue(blobs.Count > 0, "No blobs in container");
 
