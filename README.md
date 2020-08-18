@@ -73,3 +73,25 @@ If you want to run this site on your own environment, don't want to clone it, an
 Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
 ![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
+
+## Build
+
+To build this repo make sure you install dotnet core 3.1 sdk and Node.js v10. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
+
+Go to ClientApp and install the Angular CLI  
+```
+cd .\src\AzureWebStorageExplorer\ClientApp\
+npm install -g @angular/cli
+```
+
+Update the packages  
+```
+npm update
+```
+
+Build the project
+```
+dotnet build .\src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj
+```
+
+I'm fixing to create a Docker image with everything needed to build this solutions.
