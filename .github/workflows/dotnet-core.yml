@@ -1,10 +1,18 @@
-name: .NET Core
+name: Build
 
 on:
   push:
-    branches: [ master ]
+    paths:
+    - ./src/**
+    - ./.github/workflows
   pull_request:
-    branches: [ master ]
+    paths:
+    - ./src/**
+    - ./.github/workflows
+
+env:
+  config: Release
+  solution: ./AzureWebExplorer.sln
 
 jobs:
   build:
@@ -17,9 +25,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Install dependencies
+    - name: Install dependencies $solution
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration $config --no-restore $solution
+    - name: Publish
+      run: dotnet publish -o ./Docker/root --configuration $config --no-build $solution 
 # - name: Test
 #   run: dotnet test --no-restore --verbosity normal
