@@ -21,15 +21,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.1
       with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies $solution
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration $config --no-restore $solution
-    - name: Publish
-      run: dotnet publish -o ./Docker/root --configuration $config --no-build $solution 
-# - name: Test
-#   run: dotnet test --no-restore --verbosity normal
+        username: sebagomez
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: sebagomez/azurestorageexplorer
+        tags: latest
+        path: ./src
+        push: true 
