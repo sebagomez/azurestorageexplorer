@@ -26,8 +26,7 @@ jobs:
       with:
         username: sebagomez
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: sebagomez/azurestorageexplorer
-        tags: latest,${{ github.run_id }}
+        tags: sebagomez/azurestorageexplorer:latest,sebagomez/azurestorageexplorer:${{ github.run_id }}
         build_args: BUILD=${{ github.run_id }}
         add_git_labels: true
         path: ./src
