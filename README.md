@@ -1,5 +1,5 @@
 [![Join the chat at https://gitter.im/sebagomez/azurestorageexplorer](https://badges.gitter.im/sebagomez/azurestorageexplorer.svg)](https://gitter.im/sebagomez/azurestorageexplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://dev.azure.com/sebagomez/azurestorageexplorer/_apis/build/status/sebagomez.azurestorageexplorer)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
+![Build](https://github.com/sebagomez/azurestorageexplorer/workflows/Build/badge.svg)
 [![GitHub Release](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/3/5.svg?label=GitHub%20Release)](https://dev.azure.com/sebagomez/azurestorageexplorer/_build/latest?definitionId=3)
 [![Docker push](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/2/2.svg?label=Docker%20Push)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)

@@ -9,8 +9,7 @@ WORKDIR /src
 
 COPY ./ /src
 
-RUN dotnet restore ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj && \
-    dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 
