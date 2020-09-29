@@ -24,6 +24,7 @@ jobs:
     - name: Get tagname
       run: |
         currDate=$(date +%Y%m%d%H%M)
+        echo Current Date: $currDate
         echo "::set-env name=build_number::$(currDate)"
         echo Build_Number: $build_number
     - name: Build and push Docker images
