@@ -22,9 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get tagname
-      run: |
-        currDate=$(date +%Y%m%d%H%M)
-        echo ::set-env name=build_number::$(date +%Y%m%d%H%M)
+      run: echo ::set-env name=build_number::$(date +%Y%m%d%H%M)
     - name: Build and push Docker images
       uses: docker/build-push-action@v1.1.1
       with:
