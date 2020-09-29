@@ -21,13 +21,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get tagname
+      run: |
+      currDate=$(date +%Y%m%d%H%M)
+      echo "::set-env name=Build_Number::$currDate"
+      echo Build_Number: $currDate
     - name: Build and push Docker images
       uses: docker/build-push-action@v1.1.1
       with:
         username: sebagomez
         password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: latest,${{ github.run_id }}
-        build_args: BUILD=${{ github.run_id }}
+        tags: latest,${{ env.Build_Number }}
+        build_args: BUILD=${{ env.Build_Number }}
         add_git_labels: true
         path: ./src
         push: true 
