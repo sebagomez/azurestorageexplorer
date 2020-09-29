@@ -30,6 +30,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: latest,${{ env.build_number }}
         build_args: BUILD=${{ env.build_number }}
-        add_git_labels: true
+        add_git_labels: false
         path: ./src
         push: true 
