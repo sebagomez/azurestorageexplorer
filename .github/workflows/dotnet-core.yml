@@ -29,8 +29,8 @@ jobs:
         username: sebagomez
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: sebagomez/azurestorageexplorer
-        tags: latest,$NOW
-        build_args: BUILD=$NOW
+        tags: latest,${{ GITHUB_RUN_ID }}
+        build_args: BUILD=${{ GITHUB_RUN_ID }}
         add_git_labels: true
         path: ./src
         push: true 
