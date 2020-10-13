@@ -4,7 +4,7 @@
 [![Docker push](https://img.shields.io/azure-devops/release/sebagomez/c6cf6702-2757-4576-8dfa-cf6e44e0b762/2/2.svg?label=Docker%20Push)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
  
-Try it live at ˜˜˜https://azurestorage.azurewebsites.net˜˜˜ (sorry, temporary down)
+Try it live at ~~https://azurestorage.azurewebsites.net~~ (sorry, temporary down)
 
 Or deploy it wherever you want thanks to the newly AzurePipelines created [Docker Images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/)
 
