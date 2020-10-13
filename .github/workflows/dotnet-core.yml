@@ -21,8 +21,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install XMLLint
+      run: sudo apt-get install libxml2-utils
     - name: Get tagname
-      run: echo ::set-env name=build_number::$(date +%Y%m%d%H%M)
+      run: echo "build_number=$(./version.sh)" >> $GITHUB_ENV
     - name: Build and push Docker images
       uses: docker/build-push-action@v1.1.1
       with:
