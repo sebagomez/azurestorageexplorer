@@ -13,7 +13,7 @@ RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/Az
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 
-LABEL maintainer="seba gomez <sebagomezcorrea@outlook.com>"
+LABEL maintainer="seba gomez <@sebagomez>"
 
 ARG BUILD
 ENV APPVERSION=$BUILD
