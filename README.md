@@ -96,4 +96,4 @@ dotnet build .\src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj
 
 ### Docker 
 
-There's a docker image at [sebagomez/buildazurestorage](https://hub.docker.com/r/sebagomez/buildazurestorage) that you can use to build the solution. Just start the container with the `build.sh` and execute the `container-build.sh` script inside of it.
+There's a docker image at [sebagomez/buildazurestorage](https://hub.docker.com/r/sebagomez/buildazurestorage) that you can use to build the solution. Just start the container with the `docker-run.sh` and execute the `container-build.sh` script inside of it.
