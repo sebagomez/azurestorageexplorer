@@ -1,7 +1,6 @@
 FROM sebagomez/buildazurestorage as builder
 
 WORKDIR /src
-
 COPY ./ /src
 
 RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
