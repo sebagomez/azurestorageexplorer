@@ -1,4 +1,4 @@
-FROM sebagomez/buildstorage as builder
+FROM sebagomez/buildazurestorage as builder
 
 WORKDIR /src
 
