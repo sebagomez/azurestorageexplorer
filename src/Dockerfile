@@ -1,9 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as builder
-
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt update && \
-    apt-get install -y nodejs && \
-    npm install -g @angular/cli
+FROM sebagomez/buildstorage as builder
 
 WORKDIR /src
 
@@ -11,7 +6,7 @@ COPY ./ /src
 
 RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 
 LABEL maintainer="seba gomez <@sebagomez>"
 

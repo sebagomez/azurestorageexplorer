@@ -10,7 +10,7 @@ Or deploy it wherever you want thanks to the newly AzurePipelines created [Docke
 
 # Azure Storage Explorer
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .net Core ~~2.1~~ ~~2.2~~ 3.1 and Angular.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1~~ 5.0 and Angular.
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -76,7 +76,7 @@ Kestrell will kick in and you'll see in the terminal what port number was asigne
 
 ## Build
 
-To build this repo make sure you install dotnet core 3.1 sdk and Node.js v10. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
+To build this repo make sure you install .NET 5.0 sdk and Node.js v14.15.4. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
 
 Go to ClientApp and install the Angular CLI  
 ```
