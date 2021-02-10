@@ -9,7 +9,7 @@ using StorageLibrary;
 
 namespace AzureWebStorageExplorer.Controllers
 {
-	[Produces("application/json")]
+    [Produces("application/json")]
 	[Route("api/Blobs")]
 	public class BlobsController : Controller
 	{
