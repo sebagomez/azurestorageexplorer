@@ -18,7 +18,7 @@
     "@angular/core": "^9.1.13",
     "@angular/forms": "8.2.14",
     "@angular/http": "^7.2.16",
-    "@angular/platform-browser": "8.2.14",
+    "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "8.2.14",
     "@angular/platform-server": "8.2.14",
     "@angular/router": "8.2.14",
