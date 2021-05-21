@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     paths:
-    - ./*
+    - build-image/*
     - src/**
     - .github/workflows/dotnet-core.yml
   pull_request:
