@@ -29,7 +29,7 @@ export class ContainersComponent extends BaseComponent {
 		this.utilsService.getData('api/Containers/GetContainers').subscribe(result => {
 			this.loading = false;
       this.containers = JSON.parse(result); 
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	containerChanged(event: Event) {
@@ -53,7 +53,9 @@ export class ContainersComponent extends BaseComponent {
 			this.newContainerName.nativeElement.value = "";
 			this.publicAccess.nativeElement.checked = false;
 			this.getContainers();
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => {
+				this.setError(error);
+		});
 
 	}
 

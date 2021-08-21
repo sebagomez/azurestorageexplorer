@@ -41,14 +41,14 @@ export class QmessagesComponent extends BaseComponent {
 			this.loading = false;
 			this.messages = JSON.parse(result);
 			this.showTable = true;
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	addMessage() {
 		this.utilsService.postData('api/Queues/NewQueueMessage?queue=' + encodeURIComponent(this.queue) + '&message=' + encodeURIComponent(this.newMessage.nativeElement.value), null).subscribe(result => {
 			this.getMessages();
 			this.newMessage.nativeElement.value = '';
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	removeMessage(event: Event) {
@@ -65,7 +65,7 @@ export class QmessagesComponent extends BaseComponent {
         this.getMessages(); //for some reason it taks a while to update the queue metadata after message deletion
       }, 500);
 			
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	cancelDeleteMessage() {
@@ -85,7 +85,7 @@ export class QmessagesComponent extends BaseComponent {
 			this.queue = "";
 			this.removeQueueFlag = false;
 			this.refresh.emit(true);
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	typingMessage(event: KeyboardEvent) {

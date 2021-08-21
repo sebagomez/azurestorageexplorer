@@ -29,7 +29,7 @@ export class QueuesComponent extends BaseComponent {
 		this.utilsService.getData('api/Queues/GetQueues').subscribe(result => {
 			this.loading = false;
 			this.queues = JSON.parse(result);
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 
 	}
 
@@ -52,7 +52,7 @@ export class QueuesComponent extends BaseComponent {
 		this.utilsService.postData('api/Queues/NewQueue?queue=' + this.newQueueName.nativeElement.value, null).subscribe(result => {
 			this.newQueueName.nativeElement.value = "";
 			this.getQueues();
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 
 	}
 

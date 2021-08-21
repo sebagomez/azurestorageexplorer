@@ -41,7 +41,7 @@ export class TabledataComponent extends BaseComponent {
 		this.utilsService.getData('api/Tables/QueryTable?table=' + this.storageTable + '&query=' + this.inputQuery.nativeElement.value).subscribe(result => {
 			this.data = JSON.parse(result);
 			this.processData();
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	insertData() {
@@ -53,7 +53,7 @@ export class TabledataComponent extends BaseComponent {
 		this.utilsService.putData('api/Tables/InsertData?table=' + this.storageTable + '&data=' + this.inputQuery.nativeElement.value, null).subscribe(result => {
 			this.inputQuery.nativeElement.value = '';
 			this.loading = false;
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	processData() {
@@ -109,7 +109,7 @@ export class TabledataComponent extends BaseComponent {
 
 		this.utilsService.deleteData('api/Tables/DeleteData?table=' + this.storageTable + '&partitionKey=' + partitionKey + '&rowKey=' + rowKey).subscribe(result => {
 			this.getData();
-		}, error => { this.setErrorMessage(error.statusText); }); 
+		}, error => { this.setError(error); }); 
 	}
 
 	removeTable() {
@@ -124,6 +124,6 @@ export class TabledataComponent extends BaseComponent {
 		this.utilsService.deleteData('api/Tables/DeleteTable?table=' + this.storageTable).subscribe(result => {
 			this.refresh.emit(true);
 			this.removeTableFlag = false;
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 }

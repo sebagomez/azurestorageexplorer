@@ -78,7 +78,7 @@ export class BlobsComponent extends BaseComponent {
     this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
       this.selected = '';
       this.getBlobs();
-    }, error => { this.setErrorMessage(error.statusText); });
+    }, error => { this.setError(error); });
   }
 
   cancelDeleteBlob() {
@@ -98,7 +98,7 @@ export class BlobsComponent extends BaseComponent {
       this.container = "";
       this.removeContainerFlag = false;
       this.refresh.emit(true);
-    }, error => { this.setErrorMessage(error.statusText); });
+    }, error => { this.setError(error); });
 
   }
 
@@ -137,7 +137,7 @@ export class BlobsComponent extends BaseComponent {
       link.click();
       document.body.removeChild(link);
 
-    }, error => { this.setErrorMessage(error.statusText); });
+    }, error => { this.setError(error); });
 
   }
 

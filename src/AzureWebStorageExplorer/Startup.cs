@@ -41,6 +41,7 @@ namespace AzureWebStorageExplorer
 				app.UseHsts();
 			}
 
+			app.UseMiddleware<ExceptionHandleMiddleware>();
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			if (!env.IsDevelopment())

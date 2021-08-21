@@ -28,7 +28,7 @@ export class SharesComponent extends BaseComponent {
 		this.utilsService.getData('api/Files/GetShares').subscribe(result => {
 			this.loading = false;
 			this.shares = JSON.parse(result);
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	sharedChanged(event: Event) {
@@ -51,7 +51,7 @@ export class SharesComponent extends BaseComponent {
 	//	this.utilsService.postData(url, null).subscribe(result => {
 	//		this.newShareName.nativeElement.value = "";
 	//		this.getShares();
-	//	}, error => { this.setErrorMessage(error.statusText); });
+	//	}, error => { this.setError(error); });
 
 	//}
 

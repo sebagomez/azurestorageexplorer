@@ -79,6 +79,6 @@ export class FilesComponent extends BaseComponent {
 			this.files = JSON.parse(result);
 			this.loading = false;
 			this.showTable = true;
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 }

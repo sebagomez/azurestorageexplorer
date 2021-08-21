@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+﻿import { Component, Inject, ViewChild } from '@angular/core';
 import { UtilsService } from '../services/utils/utils.service';
 import { BaseComponent } from '../base/base.component';
 
@@ -29,7 +29,7 @@ export class TablesComponent extends BaseComponent {
 		this.utilsService.getData('api/Tables/GetTables').subscribe(result => {
 			this.loading = false;
 			this.tables = JSON.parse(result);
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => { this.setError(error); });
 	}
 
 	tableChanged(event: Event) {
@@ -51,7 +51,9 @@ export class TablesComponent extends BaseComponent {
 		this.utilsService.postData('api/Tables/NewTable?table=' + this.newTableName.nativeElement.value, null).subscribe(result => {
 			this.newTableName.nativeElement.value = "";
 			this.getTables();
-		}, error => { this.setErrorMessage(error.statusText); });
+		}, error => {
+			this.setError(error);
+		});
 	}
 
 	forceRefresh(force: boolean) {

@@ -33,4 +33,12 @@ export class BaseComponent {
 			this.hasErrors = false;
 		}, 5000);
 	}
+
+	setError(error: any) {
+		if (error.error && error.error.statusText) {
+			this.setErrorMessage(error.error.statusText);
+			return;
+		}
+		this.setErrorMessage(error.statusText);
+	}
 }
