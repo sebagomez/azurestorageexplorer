@@ -43,13 +43,13 @@ import { UtilsService } from './services/utils/utils.service';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'containers', component: ContainersComponent },
-      { path: 'queues', component: QueuesComponent },
-      { path: 'tables', component: TablesComponent },
-      { path: 'files', component: SharesComponent }
-    ])
+    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
+    { path: 'containers', component: ContainersComponent },
+    { path: 'queues', component: QueuesComponent },
+    { path: 'tables', component: TablesComponent },
+    { path: 'files', component: SharesComponent }
+], { relativeLinkResolution: 'legacy' })
   ],
   providers: [UtilsService],
   bootstrap: [AppComponent]
