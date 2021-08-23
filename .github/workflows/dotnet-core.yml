@@ -16,12 +16,21 @@ env:
   solution: ./AzureWebExplorer.sln
 
 jobs:
+  
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    - name: Local Build
+      run: dotnet run --configuration Release .src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+
+  
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    
+    steps:
     - name: Install XMLLint
       run: sudo apt-get install libxml2-utils
     - name: Get tagname
