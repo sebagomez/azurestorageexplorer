@@ -53,7 +53,7 @@ export class QmessagesComponent extends BaseComponent {
 
 	removeMessage(event: Event) {
 		var element = (event.currentTarget as Element); //button
-		var messageId: string = element.parentElement!.parentElement!.children[2]!.textContent!;
+		var messageId: string = element.parentElement!.parentElement!.children[2]!.textContent!;	
 
 		this.selected = messageId;
 	}
