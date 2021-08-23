@@ -17,14 +17,16 @@
 				</div>
 			</th>
 			<th></th>
-			<th></th>
 			<th>
 				<div style="display:flex">
-					<input type="file" #fileInput placeholder="Upload file..." />
-					<button type="button" (click)="upload()">Upload</button>
+					<input class="ui button" type="file" #fileInput placeholder="Upload file..." />
+					<button class="ui button" type="button" (click)="upload()">Upload</button>
 				</div>
 			</th>
-	</thead>
+			<th>
+				<input #uploadToFolder placeholder="Upload to folder" />
+			</th>
+</thead>
 	<tbody>
 		<tr *ngIf="path != ''">
 			<td>

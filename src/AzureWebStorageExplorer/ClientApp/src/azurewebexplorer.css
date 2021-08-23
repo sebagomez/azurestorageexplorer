@@ -59,3 +59,8 @@
 .table-text{
     vertical-align: middle !important;
 }
+
+::placeholder {
+	color: gray;
+	font-style: italic;
+}

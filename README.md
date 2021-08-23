@@ -43,10 +43,21 @@ If you don't write a query the system will retrieve every Entity on the Table
 
 ## Docker
 
-This web app is not integrated with Azure Pipelines, and after the build process it'll create a Docker image and publishes it to [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/).
+This web app is not integrated with Azure Pipelines, and after the build process it'll create a Docker image (via multi-stage build) and publishes it to [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/).
 
 ```Dockerfile
-FROM sebagomez/buildazurestorage as builder
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal as builder
+
+ENV SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true SKIP_NODE_SASS_TESTS=true
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt update && \
+    apt-get install -y nodejs && \
+    apt-get install -y build-essential && \
+    apt-get install -y python2.7 && \
+    npm config set python /usr/bin/python2.7 && \
+    npm install -g @angular/cli 
+
 
 WORKDIR /src
 COPY ./ /src
