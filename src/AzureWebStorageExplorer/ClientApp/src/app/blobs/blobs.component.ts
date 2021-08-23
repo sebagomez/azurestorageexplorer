@@ -15,6 +15,7 @@ export class BlobsComponent extends BaseComponent {
   @Input() container: string = "";
   @ViewChild('fileInput', { read: null, static: false }) fileInput: any;
   @ViewChild('modal', { read: null, static: false }) modal: any;
+  @ViewChild('uploadToFolder', { read: null, static: false }) uploadToFolder: any;
 
   public showTable: boolean = false;
 
@@ -60,7 +61,6 @@ export class BlobsComponent extends BaseComponent {
         }
       }
 
-      //this.blobs = JSON.parse(result);
       this.loading = false;
       this.showTable = true;
     }, error => { this.setHttpError(error); });
@@ -109,7 +109,12 @@ export class BlobsComponent extends BaseComponent {
       const formData = new FormData();
       formData.append('files', fileBrowser.files[0]);
 
-      this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container + '&path=' + this.path, formData).onload = function () {
+      var fullPath = this.path
+      var folder = encodeURIComponent(this.uploadToFolder.nativeElement.value)
+      if (folder) {
+        fullPath += folder + "/"
+      }
+      this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container + '&path=' + fullPath, formData).onload = function () {
         that.getBlobs();
       };
     }
