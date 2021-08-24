@@ -17,7 +17,7 @@ export class QmessagesComponent extends BaseComponent {
 
 	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 	@Input() queue: string = "";
-  @ViewChild('newMessage', { read: null, static: false }) newMessage: any;
+  	@ViewChild('newMessage', { read: null, static: false }) newMessage: any;
 
 	constructor(utils: UtilsService) {
 		super(utils);

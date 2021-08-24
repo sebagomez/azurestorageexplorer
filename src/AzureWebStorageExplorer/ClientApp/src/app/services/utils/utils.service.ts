@@ -1,9 +1,8 @@
-import { Directive, Component, ViewChild, Renderer2, Inject, Injectable } from '@angular/core';
-import { ResponseContentType } from '@angular/http';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class UtilsService {
 
@@ -14,7 +13,7 @@ export class UtilsService {
 
 	constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
 
-    this.baseUrl = baseUrl;
+		this.baseUrl = baseUrl;
 		this.account = null;
 		this.key = null;
 
@@ -59,12 +58,12 @@ export class UtilsService {
 
 	getData(url: string) {
 		let credentials = this.loadCredentials(url);
-    return this.http.get(this.baseUrl + url + credentials, { responseType: "text" });
+		return this.http.get(this.baseUrl + url + credentials, { responseType: "text" });
 	}
 
 	getFile(url: string) {
 		let credentials = this.loadCredentials(url);
-    return this.http.get(this.baseUrl + url + credentials, { responseType: "blob", observe: "response" });
+		return this.http.get(this.baseUrl + url + credentials, { responseType: "blob", observe: "response" });
 	}
 
 	postData(url: string, body: any) {

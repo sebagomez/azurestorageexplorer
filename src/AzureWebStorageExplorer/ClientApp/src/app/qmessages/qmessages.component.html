@@ -26,17 +26,17 @@
 	<tbody>
 		<tr *ngFor="let message of messages">
 			<td class="collapsing">
-				<button *ngIf="selected != message.Key" title="Remove message" class="ui icon button" (click)="removeMessage($event)">
+				<button *ngIf="selected != message.key" title="Remove message" class="ui icon button" (click)="removeMessage($event)">
 					<i class="trash icon"></i>
 				</button>
-				<div *ngIf="selected == message.Key" class="ui buttons">
+				<div *ngIf="selected == message.key" class="ui buttons">
 					<button class="ui button" (click)="cancelDeleteMessage()">Cancel</button>
 					<div class="or"></div>
 					<button class="ui negative button" (click)="deleteMessage()">Delete</button>
 				</div>
 			</td>
-			<td colspan="2">{{ message.Value }}</td>
-			<td hidden="hidden">{{ message.Key }}</td>
+			<td colspan="2">{{ message.value }}</td>
+			<td hidden="hidden">{{ message.key }}</td>
 		</tr>
 	</tbody>
 	<tfoot>
