@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AzureWebStorageExplorer.Controllers.Data
+namespace StorageLibrary.Common
 {
-	public class FileShareItem : IEquatable<FileShareItem>, IComparable<FileShareItem>
+	public class FileShareItemWrapper : IEquatable<FileShareItemWrapper>, IComparable<FileShareItemWrapper>
 	{
 		public string Name { get; set; }
 		public string Parent { get; set; }
@@ -10,7 +10,7 @@ namespace AzureWebStorageExplorer.Controllers.Data
 		public string Url { get; set; }
 		public bool IsDirectory { get; set; }
 
-		public int CompareTo(FileShareItem other)
+		public int CompareTo(FileShareItemWrapper other)
 		{
 			if (other == null)
 				return -1;
@@ -24,7 +24,7 @@ namespace AzureWebStorageExplorer.Controllers.Data
 			return Url.CompareTo(other.Url);
 		}
 
-		public bool Equals(FileShareItem other)
+		public bool Equals(FileShareItemWrapper other)
 		{
 			if (other == null)
 				return false;

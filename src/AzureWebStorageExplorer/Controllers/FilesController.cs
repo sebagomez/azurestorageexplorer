@@ -1,48 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AzureWebStorageExplorer.Controllers.Data;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.WindowsAzure.Storage.File;
+using StorageLibrary.Common;
 
 namespace AzureWebStorageExplorer.Controllers
 {
-	[Produces("application/json")]
+    [Produces("application/json")]
     [Route("api/Files")]
     public class FilesController : Controller
     {
 		[HttpGet("[action]")]
 		public async Task<IEnumerable<string>> GetShares(string account, string key)
 		{
-			IEnumerable<CloudFileShare> shares = await StorageLibrary.File.ListFileSharesAsync(account, key);
+			IEnumerable<FileShareWrapper> shares = await StorageLibrary.File.ListFileSharesAsync(account, key);
 
 			return shares.Select(s => s.Name);
 		}
 
-		[HttpGet("[action]")]
-		public async Task<IEnumerable<FileShareItem>> GetFilesAndDirectories(string account, string key, string share, string folder)
-		{
-			IEnumerable<IListFileItem> files = await StorageLibrary.File.ListFilesAndDirsAsync(account, key, share, folder);
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<FileShareItemWrapper>> GetFilesAndDirectories(string account, string key, string share, string folder)
+        {
+            return await StorageLibrary.File.ListFilesAndDirsAsync(account, key, share, folder);
+        }
 
-			List<FileShareItem> list = new List<FileShareItem>();
+        [HttpGet("[action]")]
+        public async Task<FileResult> GetFile(string account, string key, string share, string file, string folder= null)
+        {
+            if (string.IsNullOrEmpty(share))
+                return null;
 
-			files.ToList().ForEach(f => {
+            string filePath = await StorageLibrary.File.GetFile(account, key, share, file, folder);
 
-				FileShareItem item = new FileShareItem
-				{
-					Name = f is CloudFileDirectory ? (f as CloudFileDirectory).Name : (f is CloudFile) ? (f as CloudFile).Name : "N/A",
-					Parent = f.Parent.Name,
-					ParentUrl = f.Parent.Uri.AbsoluteUri,
-					Url = f.StorageUri.PrimaryUri.AbsoluteUri,
-					IsDirectory = f is CloudFileDirectory
+            byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
 
-				};
+            Response.Headers.Add("Content-Disposition", $"inline; filename={HttpUtility.UrlEncode(file)}");
 
-				list.Add(item);
-			});
+            return File(fileBytes, "application/octet-stream", file);
 
-			list.Sort();
-			return list;
-		}
-	}
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteFile(string account, string key, string share, string file, string folder = null)
+        {
+            if (string.IsNullOrEmpty(file))
+                return BadRequest();
+
+            await StorageLibrary.File.DeleteFileAsync(account, key, share, file,folder);
+
+            return Ok();
+        }
+    }
 }

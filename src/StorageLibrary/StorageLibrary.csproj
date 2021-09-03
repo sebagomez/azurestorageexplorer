@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>1.6.1</Version>
+    <Version>1.7.0</Version>
     <Authors>Sebastián Gómez</Authors>
     <Copyright>(C) 2018-2021 @sebagomez. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
@@ -12,12 +12,18 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Services.Client" Version="5.8.4" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Util\" />
+    <Folder Include="Common\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Azure.Storage.Files.Shares" />
+    <None Remove="Common\" />
+  </ItemGroup>
   <ItemGroup>
     <None Update="azure.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
