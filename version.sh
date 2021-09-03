@@ -1,1 +1,1 @@
-xmllint --xpath 'string(//Version)' ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+xmllint --xpath 'string(//AzureStorageWebExplorerVersion)' ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj

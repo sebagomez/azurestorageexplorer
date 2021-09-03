@@ -5,6 +5,7 @@ on:
     paths:
     - build-image/*
     - src/**
+    - version.sh
     - .github/workflows/dotnet-core.yml
   pull_request:
     paths:
