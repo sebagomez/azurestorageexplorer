@@ -57,7 +57,6 @@ namespace StorageLibrary
 			if (string.IsNullOrEmpty(containerName))
 				return;
 
-			//CloudBlobClient blobClient = Client.GetBlobClient(account, key);
 			List<CloudBlobContainer> containers = await ListContainersAsync(account, key);
 			foreach (CloudBlobContainer container in containers)
 			{
