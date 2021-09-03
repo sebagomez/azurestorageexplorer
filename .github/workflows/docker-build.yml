@@ -1,30 +1,20 @@
-name: Build
+name: Docker build
 
 on:
   push:
+    branches:
+      - master
     paths:
     - build-image/*
     - src/**
     - version.sh
-    - .github/workflows/dotnet-core.yml
-  pull_request:
-    paths:
-    - src/**
-    - .github/workflows/dotnet-core.yml
+    - .github/workflows/docker-build.yml
 
 env:
   config: Release
   solution: ./AzureWebExplorer.sln
 
 jobs:
-  
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Local Build
-      run: dotnet build --configuration Release ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
 
   deploy:
     runs-on: ubuntu-latest

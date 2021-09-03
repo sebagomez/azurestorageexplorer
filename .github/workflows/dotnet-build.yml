@@ -1,0 +1,25 @@
+name: .NET build
+
+on:
+  push:
+    paths:
+    - src/**
+    - .github/workflows/dotnet-build.yml
+  pull_request:
+    paths:
+    - src/**
+    - .github/workflows/dotnet-build.yml
+
+env:
+  config: Release
+  solution: ./AzureWebExplorer.sln
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Local Build
+      run: dotnet build --configuration Release ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
