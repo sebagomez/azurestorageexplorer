@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StorageLibrary.Common;
 
@@ -49,6 +50,23 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
             await StorageLibrary.File.DeleteFileAsync(account, key, share, file,folder);
+
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UploadFile(string account, string key, string share, string folder, string fileName, List<IFormFile> files)
+        {
+            foreach (IFormFile file in files)
+                await StorageLibrary.File.CreateFileAsync(account, key, share, fileName, file.OpenReadStream(), folder);
+
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateSubDir(string account, string key, string share, string subDir, string folder = null)
+        {
+            await StorageLibrary.File.CreateSubDirectory(account, key, share, subDir, folder);
 
             return Ok();
         }
