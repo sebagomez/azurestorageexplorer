@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.Data.Services.Client" Version="5.8.4" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.8.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <None Remove="Azure.Storage.Files.Shares" />
     <None Remove="Common\" />
+    <None Remove="Azure.Storage.Blobs" />
   </ItemGroup>
   <ItemGroup>
     <None Update="azure.data">

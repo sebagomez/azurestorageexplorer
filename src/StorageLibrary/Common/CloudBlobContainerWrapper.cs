@@ -1,6 +1,6 @@
 ﻿namespace StorageLibrary.Common
 {
-    public class FileShareWrapper
+    public class CloudBlobContainerWrapper
     {
         public string Name { get; set; }
     }
