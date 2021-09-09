@@ -5,7 +5,7 @@
  
 Try it live at https://azurestorage.azurewebsites.net
 
-Or deploy it wherever you want thanks to the newly AzurePipelines created [Docker Images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/)
+Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) (created with GitHub Actions)
 
 # Azure Storage Explorer
 
