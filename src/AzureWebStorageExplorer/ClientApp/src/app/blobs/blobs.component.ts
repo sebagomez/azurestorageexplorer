@@ -49,7 +49,7 @@ export class BlobsComponent extends BaseComponent {
       let list = JSON.parse(result);
       this.blobs = new Array();
       for (var i = 0; i < list.length; i++) {
-        var b = list[i];
+        var b = decodeURI(list[i]);
         if (b.endsWith('/')) {
           var y = b.lastIndexOf('/');
           var x = b.substring(0, y - 1).lastIndexOf('/');
@@ -75,7 +75,7 @@ export class BlobsComponent extends BaseComponent {
   }
 
   deleteBlob() {
-    this.utilsService.postData('api/Blobs/DeleteBlob?blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
+    this.utilsService.postData('api/Blobs/DeleteBlob?container=' + this.container + '&blobUri=' + encodeURIComponent(this.selected), null).subscribe(result => {
       this.selected = '';
       this.getBlobs();
     }, error => { this.setError(error); });
@@ -124,14 +124,16 @@ export class BlobsComponent extends BaseComponent {
     var element = (event.currentTarget as Element); //button
     var blob: string = element.parentElement!.parentElement!.children[3]!.textContent!;
 
-    this.utilsService.getFile('api/Blobs/GetBlob?blobUri=' + blob).subscribe(result => {
+    this.utilsService.getFile('api/Blobs/GetBlob?container=' + this.container + '&blobUri=' + blob).subscribe(result => {
 
       var fileName: string = "NONAME";
       var contentDisposition: string = result.headers!.get("content-disposition")!;
       contentDisposition.split(";").forEach(token => {
         token = token.trim();
-        if (token.startsWith("filename="))
+        if (token.startsWith("filename=")) {
           fileName = token.substr("filename=".length);
+          fileName = fileName.replace(/"/g, '');
+        }
       });
 
       var blobUrl = URL.createObjectURL(result.body);
