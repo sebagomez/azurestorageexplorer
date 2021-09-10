@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
-using System.Web;
 using Azure;
-
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Files.Shares.Models;
 
@@ -15,8 +12,6 @@ namespace StorageLibrary
 {
     public class File
     {
-
-
 		public static async Task<List<FileShareWrapper>> ListFileSharesAsync(string account, string key)
 		{
             System.Threading.CancellationToken cancellationToken = new System.Threading.CancellationToken();
