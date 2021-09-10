@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <AzureStorageWebExplorerVersion>2.5.1</AzureStorageWebExplorerVersion>
+    <AzureStorageWebExplorerVersion>2.5.2</AzureStorageWebExplorerVersion>
   </PropertyGroup>
 
   <PropertyGroup>
