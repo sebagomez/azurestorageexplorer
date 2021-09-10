@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Azure;
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Files.Shares.Models;
 
@@ -11,8 +12,6 @@ namespace StorageLibrary
 {
     public class File
     {
-
-
 		public static async Task<List<FileShareWrapper>> ListFileSharesAsync(string account, string key)
 		{
             System.Threading.CancellationToken cancellationToken = new System.Threading.CancellationToken();
@@ -77,6 +76,18 @@ namespace StorageLibrary
             await childDir.DeleteIfExistsAsync();
         }
 
+        public static async Task CreateSubDirectory(string account, string key, string share, string folder, string subDir)
+        {
+            ShareDirectoryClient parentDir = GetShareDirectoryClient(account, key, share, folder);
+            await parentDir.CreateSubdirectoryAsync(subDir);
+        }
+
+        public static async Task CreateFileAsync(string account, string key, string share, string fileName, Stream fileContent, string folder = null)
+        {
+            ShareFileClient file = GetShareFileClient(account, key, share, fileName, folder);
+            file.Create(fileContent.Length);
+            await file.UploadRangeAsync(new HttpRange(0, fileContent.Length),fileContent);
+        }
 
         private static ShareDirectoryClient GetShareDirectoryClient(string account, string key, string share, string folder)
         {

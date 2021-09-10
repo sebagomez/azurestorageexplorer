@@ -13,6 +13,8 @@ export class FilesComponent extends BaseComponent {
 	@Output() refresh: EventEmitter<boolean> = new EventEmitter();
 
 	@Input() share: string = "";
+	@ViewChild('fileInput', { read: null, static: false }) fileInput: any;
+	@ViewChild('newFolder', { read: null, static: false }) newFolder: any;
 
 	public showTable: boolean = false;
 	public folder: string = "";
@@ -83,10 +85,10 @@ export class FilesComponent extends BaseComponent {
 	}
 
 	downloadFile(event: Event) {
-		var element = (event.currentTarget as Element); 
+		var element = (event.currentTarget as Element);
 		var file: string = element.children[0]!.textContent!;
 
-		this.utilsService.getFile('api/Files/GetFile?share=' + this.share + '&folder=' + this.folder  + '&file=' + file).subscribe(result => {
+		this.utilsService.getFile('api/Files/GetFile?share=' + this.share + '&folder=' + this.folder + '&file=' + file).subscribe(result => {
 
 			var fileName: string = "NONAME";
 			var contentDisposition: string = result.headers!.get("content-disposition")!;
@@ -106,8 +108,7 @@ export class FilesComponent extends BaseComponent {
 			link.click();
 			document.body.removeChild(link);
 
-		}, error =>
-		{
+		}, error => {
 			this.setError(error);
 		});
 	}
@@ -127,9 +128,34 @@ export class FilesComponent extends BaseComponent {
 		var element = (event.currentTarget as Element);
 		var file = (element.children[0].textContent as string).trim();
 
-		this.utilsService.postData('api/Files/DeleteFile?share=' + this.share + '&folder=' + this.folder + '&file=' +  file, null).subscribe(result => {
+		this.utilsService.postData('api/Files/DeleteFile?share=' + this.share + '&folder=' + this.folder + '&file=' + file, null).subscribe(result => {
 			this.selected = "";
 			this.getFiles();
 		}, error => { this.setError(error); });
+	}
+
+	createSubFolder() {
+
+		if (!this.newFolder.nativeElement.value)
+			return;
+
+		this.utilsService.postData('api/Files/CreateSubDir?share=' + this.share + '&folder=' + this.folder + '&subDir=' + this.newFolder.nativeElement.value, null).subscribe(result => {
+			this.selected = "";
+			this.getFiles();
+		}, error => { this.setError(error); });
+	}
+
+	upload() {
+		var that = this;
+		const fileBrowser = this.fileInput.nativeElement;
+		if (fileBrowser.files && fileBrowser.files[0]) {
+			const formData = new FormData();
+			formData.append('files', fileBrowser.files[0]);
+
+			var fileName = encodeURIComponent(fileBrowser.files[0].name)
+			this.utilsService.uploadFile('api/Files/UploadFile?share=' + this.share+ '&folder=' + this.folder + '&fileName=' +  fileName, formData).onload = function () {
+				that.getFiles();
+			};
+		}
 	}
 }
