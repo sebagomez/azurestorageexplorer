@@ -94,8 +94,10 @@ export class FilesComponent extends BaseComponent {
 			var contentDisposition: string = result.headers!.get("content-disposition")!;
 			contentDisposition.split(";").forEach(token => {
 				token = token.trim();
-				if (token.startsWith("filename="))
+				if (token.startsWith("filename=")) {
 					fileName = token.substr("filename=".length);
+					fileName = fileName.replace(/"/g, '');
+				}
 			});
 
 			var blobUrl = URL.createObjectURL(result.body);

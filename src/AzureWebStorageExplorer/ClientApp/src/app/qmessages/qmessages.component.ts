@@ -59,12 +59,9 @@ export class QmessagesComponent extends BaseComponent {
 	}
 
 	deleteMessage() {
-		this.utilsService.postData('api/Queues/DeleteMessage?queue=' + encodeURIComponent(this.queue) + '&messageId=' + encodeURIComponent(this.selected), null).subscribe(result => {
-      this.selected = '';
-      setTimeout(() => {
-        this.getMessages(); //for some reason it taks a while to update the queue metadata after message deletion
-      }, 500);
-			
+		this.utilsService.postData('api/Queues/DequeueMessage?queue=' + encodeURIComponent(this.queue), null).subscribe(result => {
+			this.selected = '';
+			this.getMessages();
 		}, error => { this.setError(error); });
 	}
 

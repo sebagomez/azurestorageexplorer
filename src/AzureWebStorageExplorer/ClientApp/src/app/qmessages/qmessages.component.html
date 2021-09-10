@@ -24,9 +24,9 @@
 			</th>
 </thead>
 	<tbody>
-		<tr *ngFor="let message of messages">
+		<tr *ngFor="let message of messages; index as i">
 			<td class="collapsing">
-				<button *ngIf="selected != message.key" title="Remove message" class="ui icon button" (click)="removeMessage($event)">
+				<button *ngIf="i == 0 && selected != message.key" title="Remove message" class="ui icon button" (click)="removeMessage($event)">
 					<i class="trash icon"></i>
 				</button>
 				<div *ngIf="selected == message.key" class="ui buttons">

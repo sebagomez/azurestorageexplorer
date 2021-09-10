@@ -5,7 +5,7 @@
  
 Try it live at https://azurestorage.azurewebsites.net
 
-Or deploy it wherever you want thanks to the newly AzurePipelines created [Docker Images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/)
+Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) (created with GitHub Actions)
 
 # Azure Storage Explorer
 
@@ -22,7 +22,7 @@ To login just enter your account name and key or SAS ([Shared Access Signature](
 
 **File Shares**: Navigate across File Shares and directories.
 
-**Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>=<PropertyValue>`
+**Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>='<PropertyValue>'`
 
 If you don't set PertitionKey or RowKey default values will be used ("1" for PartitionKey and a current timestamp for RowKey).  
 For example to create a new movie:
