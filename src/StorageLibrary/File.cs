@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Files.Shares.Models;
+
 using StorageLibrary.Common;
-//using Microsoft.WindowsAzure.Storage.File;
+using StorageLibrary.Util;
 
 namespace StorageLibrary
 {
@@ -24,12 +22,9 @@ namespace StorageLibrary
 
 			var shares = client.GetSharesAsync(ShareTraits.None, ShareStates.None, null, cancellationToken);
 			await foreach (var share in shares)
-			{
-				items.Add(new FileShareWrapper { Name = share.Name });	
-			}
+				items.Add(new FileShareWrapper { Name = share.Name });
 
             return items;
-
 		}
 
         public static async Task<List<FileShareItemWrapper>> ListFilesAndDirsAsync(string account, string key, string share, string folder = null)

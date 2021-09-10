@@ -4,6 +4,7 @@ using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 
 using StorageLibrary.Common;
+using StorageLibrary.Util;
 
 namespace StorageLibrary
 {

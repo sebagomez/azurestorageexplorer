@@ -4,7 +4,6 @@ obj/
 .vs/
 .vscode/
 
-
 PublishProfiles/
 Docker/root/
 packages/
@@ -17,6 +16,7 @@ packages/
 *.suo
 private*.data
 
+.DS_Store
 publish.bat
 
 npm-shrinkwrap.json
