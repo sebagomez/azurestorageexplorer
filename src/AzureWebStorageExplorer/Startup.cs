@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 
 namespace AzureWebStorageExplorer
 {
@@ -50,6 +51,8 @@ namespace AzureWebStorageExplorer
 			}
 
 			app.UseRouting();
+			app.UseMetricServer();
+			app.UseHttpMetrics();
 
 			app.UseEndpoints(endpoints =>
 			{
