@@ -11,7 +11,6 @@ on:
 
 env:
   config: Release
-  solution: ./AzureWebExplorer.sln
 
 jobs:
 
@@ -34,10 +33,10 @@ jobs:
       run: |
         build_number=$(./version.sh)
         echo $build_number
-        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/Chart.yaml
-        cat ./helm/Chart.yaml
-        sed -i -E "s/  tag:.*/  tag \"$build_number\"/" ./helm/values.yaml
-        cat ./helm/values.yaml
+        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azureexplorer/Chart.yaml
+        cat ./helm/azureexplorer/Chart.yaml
+        sed -i -E "s/  tag:.*/  tag \"$build_number\"/" ./helm/azureexplorer/values.yaml
+        cat ./helm/azureexplorer/values.yaml
 
     # - name: Run chart-releaser
     #   uses: helm/chart-releaser-action@v1.2.1
