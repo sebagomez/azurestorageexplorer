@@ -34,13 +34,11 @@ jobs:
         build_number=$(./version.sh)
         echo $build_number
         sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azureexplorer/Chart.yaml
-        cat ./helm/azureexplorer/Chart.yaml
         sed -i -E "s/  tag:.*/  tag \"$build_number\"/" ./helm/azureexplorer/values.yaml
-        cat ./helm/azureexplorer/values.yaml
 
-    # - name: Run chart-releaser
-    #   uses: helm/chart-releaser-action@v1.2.1
-    #   with:
-    #     charts_dir: helm
-    #   env:
-    #     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Run chart-releaser
+      uses: helm/chart-releaser-action@v1.2.1
+      with:
+        charts_dir: helm
+      env:
+        CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
