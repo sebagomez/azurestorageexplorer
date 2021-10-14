@@ -1,0 +1,44 @@
+name: Helm release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+    - helm/**/*
+    - src/AzureWebStorageExplorer/Directory.Build.props
+    - .github/workflows/helm-release.yml
+
+env:
+  config: Release
+  solution: ./AzureWebExplorer.sln
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.4.0
+
+    - name: Get tagname
+      run: |
+        build_number=$(./version.sh)
+        echo $build_number
+        sed -i '' -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/Chart.yaml
+        cat ./helm/Chart.yaml
+        sed -i '' -E "s/  tag:.*/  tag \"$build_number\"/" ./helm/values.yaml
+        cat ./helm/values.yaml
+
+    # - name: Run chart-releaser
+    #   uses: helm/chart-releaser-action@v1.2.1
+    #   with:
+    #     charts_dir: helm
+    #   env:
+    #     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

@@ -1,1 +1,1 @@
-xmllint --xpath 'string(//AzureStorageWebExplorerVersion)' ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+xmllint --xpath 'string(//AzureStorageWebExplorerVersion)' ./src/AzureWebStorageExplorer/Directory.Build.props
