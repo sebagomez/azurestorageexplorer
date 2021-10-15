@@ -7,7 +7,6 @@ on:
     paths:
     - build-image/*
     - src/**
-    - version.sh
     - .github/workflows/docker-build.yml
 
 env:

@@ -4,6 +4,12 @@ metadata:
   name: {{ include "azurestorageexplorer.fullname" . }}
   labels:
     {{- include "azurestorageexplorer.labels" . | nindent 4 }}
+  {{- if .Values.serviceMetrics.enabled }}
+  annotations:
+    {{- range .Values.serviceMetrics.annotations }}
+    {{.}}
+    {{- end}}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

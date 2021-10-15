@@ -40,6 +40,12 @@ service:
   type: ClusterIP
   port: 80
 
+serviceMetrics:
+  enabled: true
+  annotations: 
+    - "prometheus.io/scrape: 'true'"
+    - "prometheus.io/scheme: http"
+
 ingress:
   enabled: false
   className: ""
