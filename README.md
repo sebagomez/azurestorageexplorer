@@ -83,6 +83,28 @@ To fire a container with the latest version just run the following command
 
 Then open your browser and navigate to http://localhost:5555, and voilá!
 
+## Kubernetes
+
+As of version 2.7.1 there's a new Helm chart with this project ready to be deployed in your favorite K8s cluster.  
+If you want this app to run in your cluster, make sure you have [helm](https://helm.sh/docs/intro/install/) installed on your system.
+
+Add the repo
+
+`helm repo add sebagomez https://sebagomez.github.io/azurestorageexplorer`
+
+Install the chart
+
+`helm install azurestorageexplorer sebagomez/azurestorageexplorer`
+
+The helm chart provides a deployment and a service. If you're running locally with minikube just open the port-forwarding feature with 
+`minikube service azurestorageexplorer`
+
+or 
+
+PORT-FORWARDING WITH KUBECTL
+
+Thanks to [this repo](https://github.com/int128/helm-github-pages) for the info and detailed steps on how to create your own Helm repo with GitHub pages.
+
 ## Run locally
 
 If you want to run this site on your own environment, don't want to clone it, and don't want to get into Docker (seriously, go learn some Docker), you can now do the following: 

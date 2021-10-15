@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "azureexplorer.name" -}}
+{{- define "azurestorageexplorer.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "azureexplorer.fullname" -}}
+{{- define "azurestorageexplorer.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "azureexplorer.chart" -}}
+{{- define "azurestorageexplorer.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "azureexplorer.labels" -}}
-helm.sh/chart: {{ include "azureexplorer.chart" . }}
-{{ include "azureexplorer.selectorLabels" . }}
+{{- define "azurestorageexplorer.labels" -}}
+helm.sh/chart: {{ include "azurestorageexplorer.chart" . }}
+{{ include "azurestorageexplorer.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "azureexplorer.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "azureexplorer.name" . }}
+{{- define "azurestorageexplorer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "azurestorageexplorer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "azureexplorer.serviceAccountName" -}}
+{{- define "azurestorageexplorer.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "azureexplorer.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "azurestorageexplorer.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

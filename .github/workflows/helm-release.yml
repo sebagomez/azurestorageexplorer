@@ -40,9 +40,9 @@ jobs:
       run: |
         build_number=$(./version.sh)
         echo $build_number
-        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azureexplorer/Chart.yaml
-        sed -i -E "s/version:.*/version: \"$build_number\"/" ./helm/azureexplorer/Chart.yaml
-        sed -i -E "s/  tag:.*/  tag: \"$build_number\"/" ./helm/azureexplorer/values.yaml
+        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azurestorageexplorer/Chart.yaml
+        sed -i -E "s/version:.*/version: \"$build_number\"/" ./helm/azurestorageexplorer/Chart.yaml
+        sed -i -E "s/  tag:.*/  tag: \"$build_number\"/" ./helm/azurestorageexplorer/values.yaml
 
     - name: Run chart-releaser
       uses: helm/chart-releaser-action@v1.2.1
