@@ -99,9 +99,14 @@ Install the chart
 The helm chart provides a deployment and a service. If you're running locally with minikube just open the port-forwarding feature with 
 `minikube service azurestorageexplorer`
 
-or 
+or, you can follow helm instructions the get the application URL:
 
-PORT-FORWARDING WITH KUBECTL
+```sh
+export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=azurestorageexplorer,app.kubernetes.io/instance=azurestorageexplorer" -o jsonpath="{.items[0].metadata.name}")
+export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+echo "Visit http://127.0.0.1:8080 to use your application"
+kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+```
 
 Thanks to [this repo](https://github.com/int128/helm-github-pages) for the info and detailed steps on how to create your own Helm repo with GitHub pages.
 
