@@ -15,15 +15,15 @@
     "@angular/animations": "12.2.2",
     "@angular/common": "12.2.2",
     "@angular/compiler": "12.2.2",
-    "@angular/core": "^12.2.2",
+    "@angular/core": "^12.2.10",
     "@angular/forms": "12.2.2",
-    "@angular/platform-browser": "^12.2.2",
+    "@angular/platform-browser": "^12.2.10",
     "@angular/platform-browser-dynamic": "12.2.2",
     "@angular/platform-server": "12.2.2",
     "@angular/router": "12.2.2",
     "@nguniversal/module-map-ngfactory-loader": "8.1.1",
     "bootstrap": "^4.5.3",
-    "core-js": "^3.16.2",
+    "core-js": "^3.18.3",
     "jquery": "^3.6.0",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.1",
@@ -33,13 +33,13 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.2",
-    "@angular/cli": "12.2.2",
+    "@angular-devkit/build-angular": "^12.2.10",
+    "@angular/cli": "12.2.10",
     "@angular/compiler-cli": "12.2.2",
     "@angular/language-service": "12.2.2",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.10",
-    "@types/node": "^12.20.19",
+    "@types/node": "^12.20.33",
     "codelyzer": "^6.0.0",
     "glob-parent": "^5.1.2",
     "jasmine-core": "~3.6.0",
@@ -57,6 +57,7 @@
     "tslint": "~6.1.0"
   },
   "resolutions": {
-    "glob-parent": "^5.1.2"
+    "glob-parent": "^5.1.2",
+    "set-value": "^4.1.0"
   }
 }

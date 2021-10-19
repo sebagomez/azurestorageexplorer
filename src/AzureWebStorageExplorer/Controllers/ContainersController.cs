@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Prometheus;
 using StorageLibrary;
 using StorageLibrary.Common;
 
@@ -9,12 +10,16 @@ namespace AzureWebStorageExplorer.Controllers
 {
     [Produces("application/json")]
 	[Route("api/Containers")]
-	public class ContainersController : Controller
+	public class ContainersController : CounterController
 	{
-		[HttpGet("[action]")]
+        private static readonly Counter ContainerCounter = Metrics.CreateCounter("containerscontroller_counter_total", "Keep ContainersController access count");
+
+        [HttpGet("[action]")]
 		public async Task<IEnumerable<string>> GetContainers(string account, string key)
 		{
-			List<CloudBlobContainerWrapper> containers = await Container.ListContainersAsync(account, key);
+            Increment(ContainerCounter);
+
+            List<CloudBlobContainerWrapper> containers = await Container.ListContainersAsync(account, key);
 
 			return containers.Select(c => c.Name);
 		}
@@ -22,6 +27,8 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> DeleteContainer(string account, string key, string container)
         {
+            Increment(ContainerCounter);
+
             if (string.IsNullOrEmpty(container))
                 return BadRequest();
 
@@ -33,6 +40,8 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> NewContainer(string account, string key, string container, bool publicAccess)
         {
+            Increment(ContainerCounter);
+
             if (string.IsNullOrEmpty(container))
                 return BadRequest();
 

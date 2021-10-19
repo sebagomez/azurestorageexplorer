@@ -3,12 +3,15 @@ using System.Threading.Tasks;
 using Azure;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Prometheus;
 
 namespace AzureWebStorageExplorer
 {
     public class ExceptionHandleMiddleware
     {
         private readonly RequestDelegate next;
+
+        private static readonly Counter ExceptionCounter = Metrics.CreateCounter("unhandledexceptions_counter_total", "Keep unhandled exception count");
 
         public ExceptionHandleMiddleware(RequestDelegate next)
         {
@@ -23,6 +26,8 @@ namespace AzureWebStorageExplorer
             }
             catch (RequestFailedException rfex)
             {
+                ExceptionCounter.Inc();
+
                 context.Response.Clear();
                 context.Response.ContentType = @"application/json";
                 context.Response.StatusCode = rfex.Status;
@@ -31,6 +36,8 @@ namespace AzureWebStorageExplorer
             }
             catch (Exception ex)
             {
+                ExceptionCounter.Inc();
+
                 context.Response.Clear();
                 context.Response.ContentType = @"application/json";
                 context.Response.StatusCode = 500;

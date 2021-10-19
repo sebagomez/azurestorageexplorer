@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Prometheus;
 using StorageLibrary;
 using StorageLibrary.Common;
 
@@ -10,11 +11,15 @@ namespace AzureWebStorageExplorer.Controllers
 {
     [Produces("application/json")]
     [Route("api/Blobs")]
-    public class BlobsController : Controller
+    public class BlobsController : CounterController
     {
+        private static readonly Counter BlobCounter = Metrics.CreateCounter("blobscontroller_counter_total", "Keep BlobsController access count");
+
         [HttpGet("[action]")]
         public async Task<IActionResult> GetBlobs(string account, string key, string container, string path)
         {
+            Increment(BlobCounter);
+
             if (string.IsNullOrEmpty(container))
                 return Ok(new List<string>());
 
@@ -26,6 +31,8 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpGet("[action]")]
         public async Task<FileResult> GetBlob(string account, string key, string container, string blobUri)
         {
+            Increment(BlobCounter);
+
             if (string.IsNullOrEmpty(blobUri))
                 return null;
 
@@ -40,6 +47,8 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> DeleteBlob(string account, string key, string container, string blobUri)
         {
+            Increment(BlobCounter);
+
             if (string.IsNullOrEmpty(blobUri))
                 return BadRequest();
 
@@ -52,6 +61,8 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> UploadBlob(string account, string key, string container, string path, List<IFormFile> files)
         {
+            Increment(BlobCounter);
+
             foreach (IFormFile file in files)
                 await Container.CreateBlobAsync(account, key, container, path + file.FileName, file.OpenReadStream());
 
