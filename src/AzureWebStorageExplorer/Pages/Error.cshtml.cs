@@ -19,7 +19,8 @@ namespace AzureWebStorageExplorer.Pages
 			_logger = logger;
 		}
 
-		public string RequestId { get; set; }
+#nullable enable
+		public string? RequestId { get; set; }
 
 		public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 

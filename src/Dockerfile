@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0-focal as builder
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal as builder
 
 ENV SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true SKIP_NODE_SASS_TESTS=true
 
@@ -16,7 +16,7 @@ COPY ./ /src
 
 RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
 LABEL maintainer="seba gomez <@sebagomez>"
 
