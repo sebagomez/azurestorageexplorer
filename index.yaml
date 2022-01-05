@@ -23,6 +23,16 @@ entries:
     version: 0.1.1
   azurestorageexplorer:
   - apiVersion: v2
+    appVersion: 2.8.2
+    created: "2022-01-05T21:48:24.999220451Z"
+    description: A Helm chart for Kubernetes
+    digest: f887acdb1ef3de335903ab3901295dd10e50b9a6f9603c574f864f1f91894909
+    name: azurestorageexplorer
+    type: application
+    urls:
+    - https://github.com/sebagomez/azurestorageexplorer/releases/download/azurestorageexplorer-2.8.2/azurestorageexplorer-2.8.2.tgz
+    version: 2.8.2
+  - apiVersion: v2
     appVersion: 2.8.1
     created: "2022-01-05T21:42:43.138022365Z"
     description: A Helm chart for Kubernetes
@@ -72,4 +82,4 @@ entries:
     urls:
     - https://github.com/sebagomez/azurestorageexplorer/releases/download/azurestorageexplorer-2.7.1/azurestorageexplorer-2.7.1.tgz
     version: 2.7.1
-generated: "2022-01-05T21:42:43.138044265Z"
+generated: "2022-01-05T21:48:24.999262951Z"
