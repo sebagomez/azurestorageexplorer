@@ -23,7 +23,8 @@ namespace AzureWebStorageExplorer.Controllers
             if (string.IsNullOrEmpty(container))
                 return Ok(new List<string>());
 
-            List<BlobItemWrapper> blobs = await Container.ListBlobsAsync(account, key, container, path);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            List<BlobItemWrapper> blobs = await factory.Containers.ListBlobsAsync(container, path);
 
             return Ok(blobs.Select(b => b.Url));
         }
@@ -37,7 +38,8 @@ namespace AzureWebStorageExplorer.Controllers
                 return null;
 
             string fileName = GetFileName(container, blobUri);
-            string blobPath = await Container.GetBlob(account, key, container, fileName);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            string blobPath = await factory.Containers.GetBlob(container, fileName);
 
             byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(blobPath);
 
@@ -53,7 +55,8 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
             string fileName = GetFileName(container, blobUri);
-            await Container.DeleteBlobAsync(account, key, container, fileName);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Containers.DeleteBlobAsync(container, fileName);
 
             return Ok();
         }
@@ -63,8 +66,9 @@ namespace AzureWebStorageExplorer.Controllers
         {
             Increment(BlobCounter);
 
+			StorageFactory factory = Util.GetStorageFactory(account, key);
             foreach (IFormFile file in files)
-                await Container.CreateBlobAsync(account, key, container, path + file.FileName, file.OpenReadStream());
+                await factory.Containers.CreateBlobAsync(container, path + file.FileName, file.OpenReadStream());
 
             return Ok();
         }

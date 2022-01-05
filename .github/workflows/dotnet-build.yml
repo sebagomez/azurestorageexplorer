@@ -4,10 +4,12 @@ on:
   push:
     paths:
     - src/**
+    - tests/**
     - .github/workflows/dotnet-build.yml
   pull_request:
     paths:
     - src/**
+    - tests/**
     - .github/workflows/dotnet-build.yml
 
 env:
@@ -25,4 +27,6 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - name: Local Build
-      run: dotnet build --configuration Release ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+      run: dotnet build --configuration Release ./AzureWebExplorer.sln
+    - name: Run Tests
+      run: dotnet test ./tests/StorageLibTests/StorageLibTests.csproj

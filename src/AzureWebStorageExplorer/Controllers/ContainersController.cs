@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Prometheus;
+
 using StorageLibrary;
 using StorageLibrary.Common;
 
@@ -19,7 +21,8 @@ namespace AzureWebStorageExplorer.Controllers
 		{
             Increment(ContainerCounter);
 
-            List<CloudBlobContainerWrapper> containers = await Container.ListContainersAsync(account, key);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
 			return containers.Select(c => c.Name);
 		}
@@ -32,7 +35,8 @@ namespace AzureWebStorageExplorer.Controllers
             if (string.IsNullOrEmpty(container))
                 return BadRequest();
 
-            await Container.DeleteAsync(account, key, container);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Containers.DeleteAsync(container);
 
             return Ok();
         }
@@ -45,7 +49,8 @@ namespace AzureWebStorageExplorer.Controllers
             if (string.IsNullOrEmpty(container))
                 return BadRequest();
 
-            await Container.CreateAsync(account, key, container, publicAccess);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Containers.CreateAsync(container, publicAccess);
 
             return Ok();
         }
