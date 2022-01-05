@@ -10,6 +10,7 @@ namespace StorageLibrary
 		public IContainer Containers { get; set; }
 
 		public ITable Tables { get; set; }
+		public IFile Files { get; set; }
 
 		public StorageFactory()
 		: this(string.Empty, string.Empty, string.Empty, true)
@@ -22,12 +23,14 @@ namespace StorageLibrary
 				Queues = new MockQueue();
 				Containers = new MockContainer();
 				Tables = new MockTable();
+				Files = new MockFile();
 			}
 			else
 			{
 				Queues = new AzureQueue(account, key, endpoint);
 				Containers = new AzureContainer(account, key, endpoint);
 				Tables = new AzureTable(account, key, endpoint);
+				Files = new AzureFile(account,key, endpoint);
 			}
 		}
 	}

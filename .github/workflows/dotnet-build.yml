@@ -27,6 +27,6 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - name: Local Build
-      run: dotnet build --configuration Release ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+      run: dotnet build --configuration Release ./src/AzureWebExplorer.sln
     - name: Run Tests
       run: dotnet test ./tests/StorageLibTests/StorageLibTests.csproj

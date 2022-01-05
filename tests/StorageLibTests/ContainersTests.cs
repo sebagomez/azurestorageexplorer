@@ -22,7 +22,7 @@ namespace StorageLibTests
 				new BlobItemWrapper { Name =  "fromOne:3", Url = "fromOne:3"}
 			};
 
-            StorageFactory factory = new StorageFactory();
+			StorageFactory factory = new StorageFactory();
 			List<BlobItemWrapper> blobs = await factory.Containers.ListBlobsAsync(containerName, string.Empty);
 
 			Assert.IsTrue(expected.Count == blobs.Count, $"Different amount returned. {string.Join(",", blobs)}");
@@ -40,8 +40,8 @@ namespace StorageLibTests
 				new CloudBlobContainerWrapper { Name =  "three"}
 			};
 
-            StorageFactory factory = new StorageFactory();
-            List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
+			StorageFactory factory = new StorageFactory();
+			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
 			Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
 			for	(int i = 0; i < expected.Count; i++)
@@ -60,8 +60,8 @@ namespace StorageLibTests
 				new CloudBlobContainerWrapper { Name =  container}
 			};
 
-            StorageFactory factory = new StorageFactory();
-            await factory.Containers.CreateAsync(container, true);
+			StorageFactory factory = new StorageFactory();
+			await factory.Containers.CreateAsync(container, true);
 
 			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
@@ -80,8 +80,8 @@ namespace StorageLibTests
 				new CloudBlobContainerWrapper { Name =  "three"}
 			};
 
-            StorageFactory factory = new StorageFactory();
-            await factory.Containers.DeleteAsync(container);
+			StorageFactory factory = new StorageFactory();
+			await factory.Containers.DeleteAsync(container);
 
 			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 

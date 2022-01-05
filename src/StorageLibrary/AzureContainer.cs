@@ -11,115 +11,115 @@ using StorageLibrary.Interfaces;
 
 namespace StorageLibrary
 {
-    internal class AzureContainer : StorageObject, IContainer
-    {
+	internal class AzureContainer : StorageObject, IContainer
+	{
 		public AzureContainer(string account, string key, string endpoint)
-        : base(account, key, endpoint) { }
+		: base(account, key, endpoint) { }
 
-        public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
 
-            List<CloudBlobContainerWrapper> results = new List<CloudBlobContainerWrapper>();
-            await foreach (var container in blobServiceClient.GetBlobContainersAsync())
-            {
-                results.Add(new CloudBlobContainerWrapper
-                {
-                    Name = container.Name
-                });
-            }
+			List<CloudBlobContainerWrapper> results = new List<CloudBlobContainerWrapper>();
+			await foreach (var container in blobServiceClient.GetBlobContainersAsync())
+			{
+				results.Add(new CloudBlobContainerWrapper
+				{
+					Name = container.Name
+				});
+			}
 
-            return results;
-        }
+			return results;
+		}
 
-        public async Task<List<BlobItemWrapper>> ListBlobsAsync(string containerName, string path)
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+		public async Task<List<BlobItemWrapper>> ListBlobsAsync(string containerName, string path)
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            List<BlobItemWrapper> results = new List<BlobItemWrapper>();
+			List<BlobItemWrapper> results = new List<BlobItemWrapper>();
 
-            string localPath = "/";
-            if (!string.IsNullOrEmpty(path))
-                localPath = path;
+			string localPath = "/";
+			if (!string.IsNullOrEmpty(path))
+				localPath = path;
 
-            await foreach (BlobHierarchyItem blobItem in container.GetBlobsByHierarchyAsync(BlobTraits.None, BlobStates.None, "/", path, CancellationToken.None))
-            {
-                BlobItemWrapper wrapper = null;
-                if (blobItem.IsBlob)
-                {
-                    BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
+			await foreach (BlobHierarchyItem blobItem in container.GetBlobsByHierarchyAsync(BlobTraits.None, BlobStates.None, "/", path, CancellationToken.None))
+			{
+				BlobItemWrapper wrapper = null;
+				if (blobItem.IsBlob)
+				{
+					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-                    wrapper = new BlobItemWrapper
-                    {
-                        Name = blobClient.Name,
-                        Url = blobClient.Uri.AbsoluteUri
-                    };
+					wrapper = new BlobItemWrapper
+					{
+						Name = blobClient.Name,
+						Url = blobClient.Uri.AbsoluteUri
+					};
 
-                }
-                else if (blobItem.IsPrefix)
-                {
-                    wrapper = new BlobItemWrapper
-                    {
-                        Name = blobItem.Prefix,
-                        Url = $"{container.Uri}{localPath}{blobItem.Prefix}"
-                    };
-                }
+				}
+				else if (blobItem.IsPrefix)
+				{
+					wrapper = new BlobItemWrapper
+					{
+						Name = blobItem.Prefix,
+						Url = $"{container.Uri}{localPath}{blobItem.Prefix}"
+					};
+				}
 
-                if (wrapper != null && !results.Contains(wrapper))
-                    results.Add(wrapper);
-            }
+				if (wrapper != null && !results.Contains(wrapper))
+					results.Add(wrapper);
+			}
 
-            return results;
-        }
+			return results;
+		}
 
-        public async Task DeleteAsync(string containerName)
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+		public async Task DeleteAsync(string containerName)
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            await container.DeleteAsync();
-        }
+			await container.DeleteAsync();
+		}
 
-        public async Task CreateAsync(string containerName, bool publicAccess)
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+		public async Task CreateAsync(string containerName, bool publicAccess)
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            PublicAccessType accessType = publicAccess ? PublicAccessType.BlobContainer : PublicAccessType.None;
-            await container.CreateAsync(accessType);
-        }
+			PublicAccessType accessType = publicAccess ? PublicAccessType.BlobContainer : PublicAccessType.None;
+			await container.CreateAsync(accessType);
+		}
 
-        public async Task DeleteBlobAsync(string containerName, string blobName)
-        {
+		public async Task DeleteBlobAsync(string containerName, string blobName)
+		{
 
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            BlobClient blob = container.GetBlobClient(blobName);
+			BlobClient blob = container.GetBlobClient(blobName);
 
-            await blob.DeleteAsync();
-        }
+			await blob.DeleteAsync();
+		}
 
-        public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            await container.UploadBlobAsync(blobName, fileContent);
-        }
+			await container.UploadBlobAsync(blobName, fileContent);
+		}
 
-        public async Task<string> GetBlob(string containerName, string blobName)
-        {
-            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+		public async Task<string> GetBlob(string containerName, string blobName)
+		{
+			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
-            BlobClient blob = container.GetBlobClient(blobName);
+			BlobClient blob = container.GetBlobClient(blobName);
 
-            string tmpPath = Path.GetTempFileName();
-            await blob.DownloadToAsync(tmpPath);
+			string tmpPath = Path.GetTempFileName();
+			await blob.DownloadToAsync(tmpPath);
 
-            return tmpPath;
-        }
-    }
+			return tmpPath;
+		}
+	}
 }
