@@ -8,17 +8,17 @@ using StorageLibrary.Interfaces;
 
 namespace StorageLibrary.Mocks
 {
-    internal class MockContainer : IContainer
-    {
-        Dictionary<string, List<string>> containers = new Dictionary<string, List<string>>()
-        {
-            { "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
-            { "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
-            { "three", new List<string> {"fromThree:1"}}
-        };
+	internal class MockContainer : IContainer
+	{
+		Dictionary<string, List<string>> containers = new Dictionary<string, List<string>>()
+		{
+			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
+			{ "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
+			{ "three", new List<string> {"fromThree:1"}}
+		};
 
-        public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
-        {
+		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
+		{
 			return await Task.Run(() => {
 				List<CloudBlobContainerWrapper> retList = new List<CloudBlobContainerWrapper>();
 				foreach(string key in containers.Keys)
@@ -26,35 +26,35 @@ namespace StorageLibrary.Mocks
 				
 				return retList;
 			});
-        }
+		}
 
-        public async Task<List<BlobItemWrapper>> ListBlobsAsync(string containerName, string path)
-        {
-            return await Task.Run(() => {
+		public async Task<List<BlobItemWrapper>> ListBlobsAsync(string containerName, string path)
+		{
+			return await Task.Run(() => {
 				if (!containers.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
-            	List<BlobItemWrapper> results = new List<BlobItemWrapper>();
+				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
 				foreach(string val in containers[containerName])
 					results.Add(new BlobItemWrapper { Name = val, Url = val });
 
 				return results;
 			});
-        }
+		}
 
-        public async Task CreateAsync(string containerName, bool publicAccess)
-        {
-            await Task.Run(() => {
+		public async Task CreateAsync(string containerName, bool publicAccess)
+		{
+			await Task.Run(() => {
 				if (containers.ContainsKey(containerName))
 					throw new InvalidOperationException($"Container '{containerName}' already exists");
 				
 				containers.Add(containerName, new List<string>());
 			});
-        }
+		}
 
-        public async Task DeleteBlobAsync(string containerName, string blobName)
-        {
-            await Task.Run(() => {
+		public async Task DeleteBlobAsync(string containerName, string blobName)
+		{
+			await Task.Run(() => {
 				if (!containers.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 				
@@ -63,11 +63,11 @@ namespace StorageLibrary.Mocks
 
 				containers[containerName].Remove(containerName);
 			});
-        }
+		}
 
-        public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
-        {
-            await Task.Run(() => {
+		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
+		{
+			await Task.Run(() => {
 				if (!containers.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 				
@@ -76,10 +76,10 @@ namespace StorageLibrary.Mocks
 
 				containers[containerName].Add(blobName);
 			});
-        }
+		}
 
-        public async Task<string> GetBlob(string containerName, string blobName)
-        {
+		public async Task<string> GetBlob(string containerName, string blobName)
+		{
 			return await Task.Run(() => {
 				if (!containers.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
@@ -89,16 +89,16 @@ namespace StorageLibrary.Mocks
 
 				return blobName;
 			});
-        }
+		}
 
-        public async Task DeleteAsync(string containerName)
-        {
-             await Task.Run(() => {
+		public async Task DeleteAsync(string containerName)
+		{
+			 await Task.Run(() => {
 				if (!containers.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 				
 				containers.Remove(containerName);
 			});
-        }
-    }
+		}
+	}
 }

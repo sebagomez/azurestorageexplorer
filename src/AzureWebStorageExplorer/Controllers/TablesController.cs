@@ -7,78 +7,84 @@ using StorageLibrary.Common;
 
 namespace AzureWebStorageExplorer.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Tables")]
-    public class TablesController : CounterController
-    {
-        private static readonly Counter TablesCounter = Metrics.CreateCounter("tablescontroller_counter_total", "Keep TablesController access count");
+	[Produces("application/json")]
+	[Route("api/Tables")]
+	public class TablesController : CounterController
+	{
+		private static readonly Counter TablesCounter = Metrics.CreateCounter("tablescontroller_counter_total", "Keep TablesController access count");
 
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<string>> GetTables(string account, string key)
-        {
-            Increment(TablesCounter);
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<string>> GetTables(string account, string key)
+		{
+			Increment(TablesCounter);
 
-            return await Table.ListTablesAsync(account, key);
-        }
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			return await factory.Tables.ListTablesAsync();
+		}
 
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<TableEntityWrapper>> QueryTable(string account, string key, string table, string query)
-        {
-            Increment(TablesCounter);
+		[HttpGet("[action]")]
+		public async Task<IEnumerable<TableEntityWrapper>> QueryTable(string account, string key, string table, string query)
+		{
+			Increment(TablesCounter);
 
-            return await Table.QueryAsync(account, key, table, query);
-        }
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			return await factory.Tables.QueryAsync(table, query);
+		}
 
-        [HttpPut("[action]")]
-        public async Task<IActionResult> InsertData(string account, string key, string table, string data)
-        {
-            Increment(TablesCounter);
+		[HttpPut("[action]")]
+		public async Task<IActionResult> InsertData(string account, string key, string table, string data)
+		{
+			Increment(TablesCounter);
 
-            if (string.IsNullOrEmpty(table) || string.IsNullOrEmpty(data))
-                return BadRequest();
+			if (string.IsNullOrEmpty(table) || string.IsNullOrEmpty(data))
+				return BadRequest();
 
-            await Table.InsertAsync(account, key, table, data);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			await factory.Tables.InsertAsync(table, data);
 
-            return Ok();
-        }
+			return Ok();
+		}
 
-        [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteData(string account, string key, string table, string partitionKey, string rowKey)
-        {
-            Increment(TablesCounter);
+		[HttpDelete("[action]")]
+		public async Task<IActionResult> DeleteData(string account, string key, string table, string partitionKey, string rowKey)
+		{
+			Increment(TablesCounter);
 
-            if (string.IsNullOrEmpty(table) || string.IsNullOrEmpty(partitionKey) || string.IsNullOrEmpty(rowKey))
-                return BadRequest();
+			if (string.IsNullOrEmpty(table) || string.IsNullOrEmpty(partitionKey) || string.IsNullOrEmpty(rowKey))
+				return BadRequest();
 
-            await Table.DeleteEntityAsync(account, key, table, partitionKey, rowKey);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			await factory.Tables.DeleteEntityAsync(table, partitionKey, rowKey);
 
-            return Ok();
-        }
+			return Ok();
+		}
 
-        [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteTable(string account, string key, string table)
-        {
-            Increment(TablesCounter);
+		[HttpDelete("[action]")]
+		public async Task<IActionResult> DeleteTable(string account, string key, string table)
+		{
+			Increment(TablesCounter);
 
-            if (string.IsNullOrEmpty(table))
-                return BadRequest();
+			if (string.IsNullOrEmpty(table))
+				return BadRequest();
 
-            await Table.Delete(account, key, table);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			await factory.Tables.Delete(table);
 
-            return Ok();
-        }
+			return Ok();
+		}
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> NewTable(string account, string key, string table)
-        {
-            Increment(TablesCounter);
+		[HttpPost("[action]")]
+		public async Task<IActionResult> NewTable(string account, string key, string table)
+		{
+			Increment(TablesCounter);
 
-            if (string.IsNullOrEmpty(table))
-                return BadRequest();
+			if (string.IsNullOrEmpty(table))
+				return BadRequest();
 
-            await Table.Create(account, key, table);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			await factory.Tables.Create(table);
 
-            return Ok();
-        }
-    }
+			return Ok();
+		}
+	}
 }

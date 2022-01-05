@@ -9,6 +9,8 @@ namespace StorageLibrary
 		public IQueue Queues { get; private set; }
 		public IContainer Containers { get; set; }
 
+		public ITable Tables { get; set; }
+
 		public StorageFactory()
 		: this(string.Empty, string.Empty, string.Empty, true)
 		{ }
@@ -19,11 +21,13 @@ namespace StorageLibrary
 			{
 				Queues = new MockQueue();
 				Containers = new MockContainer();
+				Tables = new MockTable();
 			}
 			else
 			{
 				Queues = new AzureQueue(account, key, endpoint);
 				Containers = new AzureContainer(account, key, endpoint);
+				Tables = new AzureTable(account, key, endpoint);
 			}
 		}
 	}
