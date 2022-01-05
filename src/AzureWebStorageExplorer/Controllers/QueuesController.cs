@@ -12,22 +12,23 @@ namespace AzureWebStorageExplorer.Controllers
     [Route("api/Queues")]
     public class QueuesController : CounterController
     {
-        private static readonly Counter FilesCounter = Metrics.CreateCounter("queuescontroller_counter_total", "Keep QueuesController access count");
+        private static readonly Counter QueueCounter = Metrics.CreateCounter("queuescontroller_counter_total", "Keep QueuesController access count");
 
         [HttpGet("[action]")]
         public async Task<IEnumerable<string>> GetQueues(string account, string key)
         {
-            Increment(FilesCounter);
-
-            return await Queue.ListQueuesAsync(account, key);
+            Increment(QueueCounter);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+			return await factory.Queue.ListQueuesAsync();
         }
 
         [HttpGet("[action]")]
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetMessages(string account, string key, string queue)
         {
-            Increment(FilesCounter);
+            Increment(QueueCounter);
 
-            List<PeekedMessageWrapper> messages = await Queue.GetAllMessagesAsync(account, key, queue);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            List<PeekedMessageWrapper> messages = await factory.Queue.GetAllMessagesAsync(queue);
 
             return messages.Select(m => new KeyValuePair<string, string>(m.Id, m.Message));
         }
@@ -35,12 +36,13 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> DequeueMessage(string account, string key, string queue)
         {
-            Increment(FilesCounter);
+            Increment(QueueCounter);
 
             if (string.IsNullOrEmpty(queue))
                 return BadRequest();
 
-            await Queue.DequeueMessage(account, key, queue);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Queue.DequeueMessage(queue);
 
             return Ok();
         }
@@ -48,12 +50,13 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> NewQueue(string account, string key, string queue)
         {
-            Increment(FilesCounter);
+            Increment(QueueCounter);
 
             if (string.IsNullOrEmpty(queue))
                 return BadRequest();
 
-            await Queue.CreateAsync(account, key, queue);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Queue.CreateAsync(queue);
 
             return Ok();
         }
@@ -61,12 +64,13 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> NewQueueMessage(string account, string key, string queue, string message)
         {
-            Increment(FilesCounter);
+            Increment(QueueCounter);
 
             if (string.IsNullOrEmpty(queue))
                 return BadRequest();
 
-            await Queue.CreateMessageAsync(account, key, queue, message);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Queue.CreateMessageAsync(queue, message);
 
             return Ok();
         }
@@ -74,12 +78,13 @@ namespace AzureWebStorageExplorer.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> DeleteQueue(string account, string key, string queue)
         {
-            Increment(FilesCounter);
+            Increment(QueueCounter);
 
             if (string.IsNullOrEmpty(queue))
                 return BadRequest();
 
-            await Queue.DeleteAsync(account, key, queue);
+			StorageFactory factory = Util.GetStorageFactory(account, key);
+            await factory.Queue.DeleteAsync(queue);
 
             return Ok();
         }

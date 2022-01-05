@@ -8,7 +8,7 @@ using StorageLibrary.Util;
 
 namespace StorageLibrary
 {
-    public class Queue
+    internal class Queue
     {
         public static async Task<List<string>> ListQueuesAsync(string account, string key)
         {
