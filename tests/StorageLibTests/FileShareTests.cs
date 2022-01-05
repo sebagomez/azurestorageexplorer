@@ -6,7 +6,7 @@ using StorageLibrary.Common;
 
 namespace StorageLibTests
 {
-    [TestClass]
+    //[TestClass]
 	public class FileShareTests : BaseTests
 	{
 		[TestMethod]

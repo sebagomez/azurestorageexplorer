@@ -10,22 +10,22 @@ using StorageLibrary.Util;
 namespace StorageLibrary
 {
     public class Container
-	{
-		public static async Task<List<CloudBlobContainerWrapper>> ListContainersAsync(string account, string key)
-		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(Client.GetConnectionString(account, key));
+    {
+        public static async Task<List<CloudBlobContainerWrapper>> ListContainersAsync(string account, string key)
+        {
+            BlobServiceClient blobServiceClient = new BlobServiceClient(Client.GetConnectionString(account, key));
 
-			List<CloudBlobContainerWrapper> results = new List<CloudBlobContainerWrapper>();
-			await foreach (var container in blobServiceClient.GetBlobContainersAsync())
-			{
-				results.Add(new CloudBlobContainerWrapper
-				{
-					Name = container.Name
-				});
-			}
+            List<CloudBlobContainerWrapper> results = new List<CloudBlobContainerWrapper>();
+            await foreach (var container in blobServiceClient.GetBlobContainersAsync())
+            {
+                results.Add(new CloudBlobContainerWrapper
+                {
+                    Name = container.Name
+                });
+            }
 
-			return results;
-		}
+            return results;
+        }
 
         public static async Task<List<BlobItemWrapper>> ListBlobsAsync(string account, string key, string containerName, string path)
         {

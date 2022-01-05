@@ -4,7 +4,7 @@ using StorageLibrary;
 
 namespace StorageLibTests
 {
-	[TestClass]
+	//[TestClass]
 	public class TableTests : BaseTests
 	{
 		[TestMethod]

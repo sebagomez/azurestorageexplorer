@@ -4,7 +4,7 @@ using StorageLibrary;
 
 namespace StorageLibTests
 {
-	[TestClass]
+	//[TestClass]
 	public class BaseTests
 	{
 		public readonly string ACCOUNT = Settings.Instance.Account;

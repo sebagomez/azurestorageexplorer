@@ -9,7 +9,7 @@ using StorageLibrary.Util;
 namespace StorageLibrary
 {
     public class Queue
-	{
+    {
         public static async Task<List<string>> ListQueuesAsync(string account, string key)
         {
             QueueServiceClient client = new QueueServiceClient(Client.GetConnectionString(account, key));
