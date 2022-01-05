@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Azure.Storage.Queues;
-using Azure.Storage.Queues.Models;
 
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
@@ -33,7 +31,7 @@ namespace StorageLibrary.Mocks
         {
 			return await Task.Run(() => {
 				if (!queues.ContainsKey(queueName))
-					throw new NullReferenceException($"Queue named '{queueName}' does not exist");
+					throw new NullReferenceException($"Queue '{queueName}' does not exist");
 
             	List<PeekedMessageWrapper> results = new List<PeekedMessageWrapper>();
 				foreach(string val in queues[queueName])
@@ -47,11 +45,11 @@ namespace StorageLibrary.Mocks
         {
             await Task.Run(() => {
 				if (!queues.ContainsKey(queueName))
-					throw new NullReferenceException($"Queue named '{queueName}' does not exist");
+					throw new NullReferenceException($"Queue '{queueName}' does not exist");
 				
 				int count = queues[queueName].Count;
 				if (count == 0)
-					throw new NullReferenceException($"Queue named '{queueName}' is empty");
+					throw new NullReferenceException($"Queue '{queueName}' is empty");
 
 				queues[queueName].RemoveAt(0);
 			});
@@ -61,7 +59,7 @@ namespace StorageLibrary.Mocks
         {
             await Task.Run(() => {
 				if (queues.ContainsKey(queueName))
-					throw new InvalidOperationException($"Queue named '{queueName}' already exists");
+					throw new InvalidOperationException($"Queue '{queueName}' already exists");
 				
 				queues.Add(queueName, new List<string>());
 			});
@@ -71,7 +69,7 @@ namespace StorageLibrary.Mocks
         {
             await Task.Run(() => {
 				if (!queues.ContainsKey(queueName))
-					throw new NullReferenceException($"Queue named '{queueName}' does not exist");
+					throw new NullReferenceException($"Queue '{queueName}' does not exist");
 				
 				queues.Remove(queueName);
 			});
@@ -81,7 +79,7 @@ namespace StorageLibrary.Mocks
         {
             await Task.Run(() => {
 				if (!queues.ContainsKey(queueName))
-					throw new NullReferenceException($"Queue named '{queueName}' does not exist");
+					throw new NullReferenceException($"Queue '{queueName}' does not exist");
 				
 				queues[queueName].Add(message);
 			});

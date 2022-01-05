@@ -22,5 +22,10 @@ namespace StorageLibrary.Common
 
 			return Url == other.Url;
 		}
+
+		public override string ToString()  
+        {  
+            return Url;  
+        } 
 	}
 }

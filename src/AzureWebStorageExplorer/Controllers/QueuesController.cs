@@ -19,7 +19,7 @@ namespace AzureWebStorageExplorer.Controllers
         {
             Increment(QueueCounter);
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-			return await factory.Queue.ListQueuesAsync();
+			return await factory.Queues.ListQueuesAsync();
         }
 
         [HttpGet("[action]")]
@@ -28,7 +28,7 @@ namespace AzureWebStorageExplorer.Controllers
             Increment(QueueCounter);
 
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-            List<PeekedMessageWrapper> messages = await factory.Queue.GetAllMessagesAsync(queue);
+            List<PeekedMessageWrapper> messages = await factory.Queues.GetAllMessagesAsync(queue);
 
             return messages.Select(m => new KeyValuePair<string, string>(m.Id, m.Message));
         }
@@ -42,7 +42,7 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-            await factory.Queue.DequeueMessage(queue);
+            await factory.Queues.DequeueMessage(queue);
 
             return Ok();
         }
@@ -56,7 +56,7 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-            await factory.Queue.CreateAsync(queue);
+            await factory.Queues.CreateAsync(queue);
 
             return Ok();
         }
@@ -70,7 +70,7 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-            await factory.Queue.CreateMessageAsync(queue, message);
+            await factory.Queues.CreateMessageAsync(queue, message);
 
             return Ok();
         }
@@ -84,7 +84,7 @@ namespace AzureWebStorageExplorer.Controllers
                 return BadRequest();
 
 			StorageFactory factory = Util.GetStorageFactory(account, key);
-            await factory.Queue.DeleteAsync(queue);
+            await factory.Queues.DeleteAsync(queue);
 
             return Ok();
         }

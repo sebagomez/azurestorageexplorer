@@ -6,7 +6,8 @@ namespace StorageLibrary
 {
 	public class StorageFactory
 	{
-		public IQueue Queue { get; private set; }
+		public IQueue Queues { get; private set; }
+		public IContainer Containers { get; set; }
 
 		public StorageFactory()
 		: this(string.Empty, string.Empty, string.Empty, true)
@@ -16,11 +17,13 @@ namespace StorageLibrary
 		{
 			if (mock)
 			{
-				Queue = new MockQueue();
+				Queues = new MockQueue();
+				Containers = new MockContainer();
 			}
 			else
 			{
-				Queue = new AzureQueue(account, key, endpoint);
+				Queues = new AzureQueue(account, key, endpoint);
+				Containers = new AzureContainer(account, key, endpoint);
 			}
 		}
 	}

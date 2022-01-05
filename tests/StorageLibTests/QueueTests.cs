@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using StorageLibrary;
 using StorageLibrary.Common;
 
@@ -16,7 +18,7 @@ namespace StorageLibTests
             List<string> expected = new List<string>() { "one", "two", "three" };
 
             StorageFactory factory = new StorageFactory();
-            List<string> queues = await factory.Queue.ListQueuesAsync();
+            List<string> queues = await factory.Queues.ListQueuesAsync();
 
             CollectionAssert.AreEqual(expected, queues);
         }
@@ -28,7 +30,7 @@ namespace StorageLibTests
             string queue = "one";
 
             StorageFactory factory = new StorageFactory();
-            List<PeekedMessageWrapper> messages = await factory.Queue.GetAllMessagesAsync(queue);
+            List<PeekedMessageWrapper> messages = await factory.Queues.GetAllMessagesAsync(queue);
 
             foreach (PeekedMessageWrapper msg in messages)
             {
@@ -46,8 +48,8 @@ namespace StorageLibTests
             string queue = "one";
 
             StorageFactory factory = new StorageFactory();
-            await factory.Queue.DequeueMessage(queue);
-            List<PeekedMessageWrapper> messages = await factory.Queue.GetAllMessagesAsync(queue);
+            await factory.Queues.DequeueMessage(queue);
+            List<PeekedMessageWrapper> messages = await factory.Queues.GetAllMessagesAsync(queue);
 
             foreach (PeekedMessageWrapper msg in messages)
             {
@@ -65,9 +67,9 @@ namespace StorageLibTests
             List<string> expected = new List<string>() { "one", "two", "three", queue };
 
             StorageFactory factory = new StorageFactory();
-            await factory.Queue.CreateAsync(queue);
+            await factory.Queues.CreateAsync(queue);
 
-            List<string> queues = await factory.Queue.ListQueuesAsync();
+            List<string> queues = await factory.Queues.ListQueuesAsync();
 
             CollectionAssert.AreEqual(expected, queues);
         }
@@ -79,11 +81,11 @@ namespace StorageLibTests
             StorageFactory factory = new StorageFactory();
             try
             {
-                await factory.Queue.CreateAsync(queue);
+                await factory.Queues.CreateAsync(queue);
             }
             catch (InvalidOperationException ioe)
             {
-                Assert.IsTrue(ioe.Message == "Queue named 'two' already exists", ioe.Message);
+                Assert.IsTrue(ioe.Message == "Queue 'two' already exists", ioe.Message);
                 return;
             }
 
@@ -97,9 +99,9 @@ namespace StorageLibTests
             List<string> expected = new List<string>() { "two", "three" };
 
             StorageFactory factory = new StorageFactory();
-            await factory.Queue.DeleteAsync(queue);
+            await factory.Queues.DeleteAsync(queue);
 
-            List<string> queues = await factory.Queue.ListQueuesAsync();
+            List<string> queues = await factory.Queues.ListQueuesAsync();
 
             CollectionAssert.AreEqual(expected, queues);
         }
@@ -111,11 +113,11 @@ namespace StorageLibTests
             StorageFactory factory = new StorageFactory();
 			try
 			{
-            await factory.Queue.DeleteAsync(queue);
+            await factory.Queues.DeleteAsync(queue);
 			}
 			catch (NullReferenceException nre)
 			{
-                Assert.IsTrue(nre.Message == "Queue named 'four' does not exist", nre.Message);
+                Assert.IsTrue(nre.Message == "Queue 'four' does not exist", nre.Message);
                 return;
 			}
 
@@ -130,8 +132,8 @@ namespace StorageLibTests
             string queue = "one";
 
             StorageFactory factory = new StorageFactory();
-			await factory.Queue.CreateMessageAsync(queue, message);
-            List<PeekedMessageWrapper> messages = await factory.Queue.GetAllMessagesAsync(queue);
+			await factory.Queues.CreateMessageAsync(queue, message);
+            List<PeekedMessageWrapper> messages = await factory.Queues.GetAllMessagesAsync(queue);
 
             foreach (PeekedMessageWrapper msg in messages)
             {
