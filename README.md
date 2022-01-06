@@ -125,7 +125,7 @@ Kestrell will kick in and you'll see in the terminal what port number was asigne
 
 ## Build
 
-To build this repo make sure you install .NET 5.0 sdk and Node.js v14.15.4. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
+To build this repo make sure you install .NET 6.0 sdk and Node.js v14.15.4. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
 
 Go to ClientApp and install the Angular CLI  
 ```
@@ -145,4 +145,6 @@ dotnet build .\src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj
 
 ### Docker 
 
-There's a docker image at [sebagomez/buildazurestorage](https://hub.docker.com/r/sebagomez/buildazurestorage) that you can use to build the solution. Just start the container with the `docker-run.sh` and execute the `container-build.sh` script inside of it.
+There's a docker image at [sebagomez/buildazurestorage](https://hub.docker.com/r/sebagomez/buildazurestorage) that you can use to build the solution. Just run the `./build.sh` script and the output will be copied to the `./bin` folder.
+
+Then just got to the folder and run `dotnet AzureWebStorageExplorer.dll`.

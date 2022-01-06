@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StorageLibrary;
@@ -34,6 +35,26 @@ namespace StorageLibTests
 		}
 
 		[TestMethod]
+		public async Task FailCreateTable()
+		{
+			string table = "tableOne";
+
+			StorageFactory factory = new StorageFactory();
+			try
+			{
+				await factory.Tables.Create(table);
+			}
+			catch (InvalidOperationException ioe)
+			{
+				Assert.IsTrue(ioe.Message == $"Table '{table}' already exists", ioe.Message);
+				return;
+			}
+
+			Assert.Fail("An InvalidOperationException should have been thrown.");
+			
+		}
+
+		[TestMethod]
 		public async Task DeleteTable()
 		{
 			string table = "tableTwo";
@@ -45,6 +66,25 @@ namespace StorageLibTests
 			List<string> queues = await factory.Tables.ListTablesAsync();
 
 			CollectionAssert.AreEqual(expected, queues);
+		}
+
+		[TestMethod]
+		public async Task FailDeleteTable()
+		{
+			string table = "tableFour";
+
+			StorageFactory factory = new StorageFactory();
+			try
+			{
+				await factory.Tables.Delete(table);
+			}
+			catch(NullReferenceException nre)
+			{
+				Assert.IsTrue(nre.Message == $"Table '{table}' does not exist", nre.Message);
+				return;
+			}
+
+			Assert.Fail("An NullReferenceException should have been thrown.");
 		}
 	}
 }
