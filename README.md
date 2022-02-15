@@ -14,7 +14,7 @@ Azure Storage Web Explorer makes it easier for developers to browse and manage B
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
-![Screenshot](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/NewMainScreen.png?raw=true)
+![Blobs](res/containers.png)
 
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
