@@ -11,3 +11,5 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y python2.7 && \
     npm config set python /usr/bin/python2.7 && \
     npm install -g @angular/cli 
+
+EXPOSE 80 443 5000 5001
