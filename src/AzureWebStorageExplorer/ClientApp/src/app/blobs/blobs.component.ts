@@ -57,7 +57,7 @@ export class BlobsComponent extends BaseComponent {
         }
         else {
           var y = b.lastIndexOf('/');
-          this.blobs.push({ name: b.substring(y+1), url: b });
+          this.blobs.push({ name: b.substring(y + 1), url: b });
         }
       }
 
@@ -114,8 +114,13 @@ export class BlobsComponent extends BaseComponent {
       if (folder) {
         fullPath += folder + "/"
       }
-      this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container + '&path=' + fullPath, formData).onload = function () {
-        that.getBlobs();
+      let xhr = this.utilsService.uploadFile('api/Blobs/UploadBlob?container=' + this.container + '&path=' + fullPath, formData);
+      xhr.onload = function () {
+        if (xhr.status != 200) { // analyze HTTP status of the response
+          that.setErrorMessage(`There was a problem uploading the file ${xhr.status}: ${xhr.statusText}`)
+        } else {
+          that.getBlobs();
+        }
       };
     }
   }
