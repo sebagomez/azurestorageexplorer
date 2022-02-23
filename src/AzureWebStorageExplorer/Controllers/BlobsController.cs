@@ -61,7 +61,7 @@ namespace AzureWebStorageExplorer.Controllers
 			return Ok();
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("[action]"),DisableRequestSizeLimit]
 		public async Task<IActionResult> UploadBlob(string account, string key, string container, string path, List<IFormFile> files)
 		{
 			Increment(BlobCounter);
