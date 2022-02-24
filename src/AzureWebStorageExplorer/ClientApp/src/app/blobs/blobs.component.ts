@@ -104,10 +104,20 @@ export class BlobsComponent extends BaseComponent {
 
   upload() {
     var that = this;
+    var megs = 100;
+    var maxSize = (1024 * 1024 * megs);
     const fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
+
+      var fileToUpload = fileBrowser.files[0];
+      if (fileToUpload.size > maxSize)
+      {
+        this.setErrorMessage(`File cannot be larger than ${megs} MBs`);
+        return;
+      }
+
       const formData = new FormData();
-      formData.append('files', fileBrowser.files[0]);
+      formData.append('files', fileToUpload);
 
       var fullPath = this.path
       var folder = encodeURIComponent(this.uploadToFolder.nativeElement.value)
