@@ -18,10 +18,10 @@ export class BaseComponent {
 		this.loading = false;
 	}
 
-  setHttpError(error: HttpErrorResponse) {
-    var desc = JSON.parse(error.error);
-    this.setErrorMessage(desc.title);
-  }
+	setHttpError(error: HttpErrorResponse) {
+		var desc = JSON.parse(error.error);
+		this.setErrorMessage(desc.title);
+	}
 
 	setErrorMessage(message: string) {
 		this.errorMessage = message;
@@ -37,6 +37,10 @@ export class BaseComponent {
 	setError(error: any) {
 		if (error.error && error.error.statusText) {
 			this.setErrorMessage(error.error.statusText);
+			return;
+		}
+		if (error.message) {
+			this.setErrorMessage(error.message);
 			return;
 		}
 		this.setErrorMessage(error.statusText);

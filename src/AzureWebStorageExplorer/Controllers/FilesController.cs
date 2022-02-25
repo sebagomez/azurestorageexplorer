@@ -69,7 +69,7 @@ namespace AzureWebStorageExplorer.Controllers
 			return Ok();
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("[action]"),RequestSizeLimitAttribute(Util.MAX_UPLOAD_SIZE)]
 		public async Task<IActionResult> UploadFile(string account, string key, string share, string folder, string fileName, List<IFormFile> files)
 		{
 			Increment(FilesCounter);

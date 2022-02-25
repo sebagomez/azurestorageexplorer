@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AzureWebStorageExplorer.Controllers
@@ -10,12 +11,13 @@ namespace AzureWebStorageExplorer.Controllers
 		[HttpGet("[action]")]
 		public string GetVersion(string account, string key)
 		{
-			string envVer = System.Environment.GetEnvironmentVariable("APPVERSION");
-			if (!string.IsNullOrEmpty(envVer))
+			string? envVer = Environment.GetEnvironmentVariable("APPVERSION");
+			if (!(envVer is null))
 				return envVer;
 
 			Assembly assembly = Assembly.GetExecutingAssembly();
-			return assembly.GetName().Version.ToString();
+			Version? assVer = assembly.GetName().Version;
+			return $"{assVer?.Major}.{assVer?.Minor}.{assVer?.Build}";
 		}
 	}
 }

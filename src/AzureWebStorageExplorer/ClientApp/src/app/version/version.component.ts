@@ -18,9 +18,9 @@ export class VersionComponent {
 	}
 
 	getversion() {
-    this.utilsService.getData('api/Util/GetVersion')
-      .subscribe(result => {
-        this.currentVersion = result.toString()
-      });
+		this.utilsService.getData('api/Util/GetVersion')
+			.subscribe(result => {
+				this.currentVersion = result.toString()
+			});
 	}
 }

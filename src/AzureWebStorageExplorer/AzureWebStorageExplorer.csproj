@@ -6,6 +6,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
+    <Nullable>enable</Nullable>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 
     <!-- Set this to true if you enable server-side prerendering -->
@@ -15,7 +16,7 @@
     <FileVersion>$(AzureStorageWebExplorerVersion)</FileVersion>
     <Authors>Sebastián Gómez</Authors>
     <Product>Azure Storage web explorer</Product>
-    <Copyright>(C) 2021 @sebagomez. All rights reserved.</Copyright>
+    <Copyright>(C) 2022 @sebagomez. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>favicon.ico</PackageIcon>

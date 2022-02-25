@@ -4,15 +4,17 @@ using System;
 namespace AzureWebStorageExplorer
 {
     public class Util
-	{
-		public static StorageFactory GetStorageFactory(string account, string key, string endpoint = "core.windows.net")
-		{
-			string mock =  Environment.GetEnvironmentVariable("MOCK");
-			if (!string.IsNullOrWhiteSpace(mock) && mock == bool.TrueString)
-				return new StorageFactory();
+    {
+        const long MAX_MEGS = 100;
+        public const long MAX_UPLOAD_SIZE = 1024 * 1024 * MAX_MEGS;
+        public static StorageFactory GetStorageFactory(string account, string key, string endpoint = "core.windows.net")
+        {
+            string mock = Environment.GetEnvironmentVariable("MOCK");
+            if (!string.IsNullOrWhiteSpace(mock) && mock == bool.TrueString)
+                return new StorageFactory();
 
-			return new StorageFactory(account, key, endpoint);
-		}
+            return new StorageFactory(account, key, endpoint);
+        }
 
-	}
+    }
 }

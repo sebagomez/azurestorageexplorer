@@ -81,11 +81,21 @@ export class UtilsService {
 		return this.http.delete(this.baseUrl + url + credentials);
 	}
 
-	uploadFile(url: string, data: FormData) {
+	uploadFile(url: string, fileToUpload: File) {
+		var megs = 100;
+		var maxSize = (1024 * 1024 * megs);
+
+		if (fileToUpload.size > maxSize) {
+			throw new Error(`File cannot be larger than ${megs} MBs`)
+		}
+
+		const formData = new FormData();
+		formData.append('files', fileToUpload);
+
 		const xhr = new XMLHttpRequest();
 		let credentials = this.loadCredentials(url);
 		xhr.open('POST', this.baseUrl + url + credentials, true);
-		xhr.send(data);
+		xhr.send(formData);
 		return xhr;
 	}
 }

@@ -149,12 +149,23 @@ export class FilesComponent extends BaseComponent {
 		var that = this;
 		const fileBrowser = this.fileInput.nativeElement;
 		if (fileBrowser.files && fileBrowser.files[0]) {
-			const formData = new FormData();
-			formData.append('files', fileBrowser.files[0]);
+			var fileToUpload = fileBrowser.files[0];
+			var fileName = encodeURIComponent(fileToUpload.name)
 
-			var fileName = encodeURIComponent(fileBrowser.files[0].name)
-			this.utilsService.uploadFile('api/Files/UploadFile?share=' + this.share+ '&folder=' + this.folder + '&fileName=' +  fileName, formData).onload = function () {
-				that.getFiles();
+			var xhr;
+			try {
+				xhr = this.utilsService.uploadFile('api/Files/UploadFile?share=' + this.share + '&folder=' + this.folder + '&fileName=' + fileName, fileToUpload);
+			}
+			catch (error) {
+				that.setError(error);
+				return;
+			}
+			xhr.onload = function () {
+				if (xhr.status != 200) { // analyze HTTP status of the response
+					that.setErrorMessage(`There was a problem uploading the file ${xhr.status}: ${xhr.statusText}`)
+				} else {
+					that.getFiles();
+				}
 			};
 		}
 	}
