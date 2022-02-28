@@ -50,14 +50,21 @@ export class BlobsComponent extends BaseComponent {
 			this.blobs = new Array();
 			for (var i = 0; i < list.length; i++) {
 				var b = decodeURI(list[i]);
-				if (b.endsWith('/')) {
+				if (b.endsWith('/')) { //it's a folder
 					var y = b.lastIndexOf('/');
 					var x = b.substring(0, y - 1).lastIndexOf('/');
 					this.blobs.push({ name: b.substring(x + 1, y + 1), isFolder: true, url: b });
 				}
-				else {
+				else { //it's a file
 					var y = b.lastIndexOf('/');
-					this.blobs.push({ name: b.substring(y + 1), url: b });
+					var q = b.indexOf('?', y);
+					var fileName = b.substring(y + 1);
+					var fileUrl = b;
+					if (q > -1) {
+						fileName = b.substring(y + 1, q);
+						fileUrl = b.substring(0, q);
+					}
+					this.blobs.push({ name: fileName, url: fileUrl });
 				}
 			}
 
