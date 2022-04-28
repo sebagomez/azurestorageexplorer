@@ -80,7 +80,9 @@ ENTRYPOINT ["dotnet", "AzureWebStorageExplorer.dll"]
 
 To fire a container with the latest version just run the following command
 
-`docker run --rm -it -p 5555:80 sebagomez/azurestorageexplorer`
+```sh
+docker run --rm -it -p 5555:80 sebagomez/azurestorageexplorer
+```
 
 Then open your browser and navigate to http://localhost:5555, and voilá!
 
@@ -91,14 +93,21 @@ If you want this app to run in your cluster, make sure you have [helm](https://h
 
 Add the repo
 
-`helm repo add sebagomez https://sebagomez.github.io/azurestorageexplorer`
+```sh
+helm repo add sebagomez https://sebagomez.github.io/azurestorageexplorer
+```
 
 Install the chart
 
-`helm install azurestorageexplorer sebagomez/azurestorageexplorer`
+```sh
+helm install azurestorageexplorer sebagomez/azurestorageexplorer
+```
 
 The helm chart provides a deployment and a service. If you're running locally with minikube just open the port-forwarding feature with 
-`minikube service azurestorageexplorer`
+
+```sh
+minikube service azurestorageexplorer
+```
 
 or, you can follow helm instructions the get the application URL:
 
@@ -129,18 +138,18 @@ Kestrell will kick in and you'll see in the terminal what port number was asigne
 To build this repo make sure you install .NET 6.0 sdk and Node.js v14.15.4. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
 
 Go to ClientApp and install the Angular CLI  
-```
+```sh
 cd .\src\AzureWebStorageExplorer\ClientApp\
 npm install -g @angular/cli
 ```
 
 Update the packages  
-```
+```sh
 npm update
 ```
 
 Build the project
-```
+```sh
 dotnet build .\src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj
 ```
 
