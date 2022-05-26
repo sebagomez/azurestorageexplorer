@@ -97,8 +97,10 @@ Install the chart
 
 `helm install azurestorageexplorer sebagomez/azurestorageexplorer`
 
-The helm chart provides a deployment and a service. If you're running locally with minikube just open the port-forwarding feature with 
-`minikube service azurestorageexplorer`
+The helm chart provides a deployment and a service, you can enable port-forwarding to that service with the following command: 
+```sh
+kubectl port-forward service/azurestorageexplorer 8080:80
+```
 
 or, you can follow helm instructions the get the application URL:
 
