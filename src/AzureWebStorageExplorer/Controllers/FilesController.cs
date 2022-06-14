@@ -37,7 +37,7 @@ namespace AzureWebStorageExplorer.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public async Task<FileResult> GetFile(string account, string key, string share, string file, string folder= null)
+		public async Task<FileResult?> GetFile(string account, string key, string share, string file, string? folder = null)
 		{
 			Increment(FilesCounter);
 
@@ -56,7 +56,7 @@ namespace AzureWebStorageExplorer.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> DeleteFile(string account, string key, string share, string file, string folder = null)
+		public async Task<IActionResult> DeleteFile(string account, string key, string share, string file, string? folder = null)
 		{
 			Increment(FilesCounter);
 
@@ -82,7 +82,7 @@ namespace AzureWebStorageExplorer.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> CreateSubDir(string account, string key, string share, string subDir, string folder = null)
+		public async Task<IActionResult> CreateSubDir(string account, string key, string share, string subDir, string? folder = null)
 		{
 			Increment(FilesCounter);
 

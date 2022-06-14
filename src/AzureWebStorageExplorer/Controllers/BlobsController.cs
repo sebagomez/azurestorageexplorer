@@ -30,7 +30,7 @@ namespace AzureWebStorageExplorer.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public async Task<FileResult> GetBlob(string account, string key, string container, string blobUri)
+		public async Task<FileResult?> GetBlob(string account, string key, string container, string blobUri)
 		{
 			Increment(BlobCounter);
 

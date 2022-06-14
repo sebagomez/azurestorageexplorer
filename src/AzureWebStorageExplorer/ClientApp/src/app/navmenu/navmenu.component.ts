@@ -25,6 +25,6 @@ export class NavMenuComponent {
 	logOut(event: Event) {
 
 		this.utilsService.clearCredentials();
-		location.reload(true);
+		location.reload();
 	}
 }

@@ -8,6 +8,8 @@ Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) (created with GitHub Actions)
 
+<img src="./res/AzureExplorerLogo-White.png" alt="drawing" width="50"/>
+
 # Azure Storage Explorer
 
 Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0~~ 6.0 and Angular.

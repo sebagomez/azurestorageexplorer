@@ -18,20 +18,10 @@ namespace StorageLibrary
 
 		public StorageFactory(string account, string key, string endpoint = "core.windows.net", bool mock = false)
 		{
-			if (mock)
-			{
-				Queues = new MockQueue();
-				Containers = new MockContainer();
-				Tables = new MockTable();
-				Files = new MockFile();
-			}
-			else
-			{
-				Queues = new AzureQueue(account, key, endpoint);
-				Containers = new AzureContainer(account, key, endpoint);
-				Tables = new AzureTable(account, key, endpoint);
-				Files = new AzureFile(account,key, endpoint);
-			}
+			Queues = mock ? new MockQueue():new AzureQueue(account, key, endpoint);
+			Containers = mock ? new MockContainer():new AzureContainer(account, key, endpoint);
+			Tables = mock ? new MockTable() :  new AzureTable(account, key, endpoint);
+			Files = mock ? new MockFile() : new AzureFile(account,key, endpoint);
 		}
 	}
 }

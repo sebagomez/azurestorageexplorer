@@ -66,10 +66,14 @@
   white-space: pre-wrap;
 }
 
-.querybuttons {
-}
+.logo{
+	width: 35px;
+	height: 35;
 
+	border: 35px;
+}
 ::placeholder {
   color: gray;
   font-style: italic;
 }
+

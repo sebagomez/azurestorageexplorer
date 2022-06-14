@@ -11,6 +11,7 @@ packages/
 **/wwwroot/dist/
 !**/**/wwwroot/dist/azurewebexplorer.css
 **/Properties/launchSettings.json
+.angular/
 
 *.user
 *.suo
