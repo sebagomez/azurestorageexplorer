@@ -1,7 +1,6 @@
  @using Utils
  @using Microsoft.AspNetCore.Components
 
-@inject ProtectedSessionStorage ProtectedSessionStore
 
 <div class="ui pointing menu">
 	<a class="item" href="/">
@@ -35,11 +34,14 @@
 	public string? Selected { get; set; }
 
 	[Inject]
+	ProtectedSessionStorage? SessionStorage {get; set;}
+
+	[Inject]
 	NavigationManager? NavManager { get; set;}
 
 	public async Task LogOut()
 	{
-		await Credentials.ClearAsync(ProtectedSessionStore);
+		await Credentials.ClearAsync(SessionStorage!);
 		NavManager!.NavigateTo("/login");
 	}
 

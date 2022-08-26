@@ -10,11 +10,8 @@ namespace web.Pages
 	{
 		public string? Account { get; set; }
 		public string? ErrorMessage { get; set; }
-
 		public bool HasError { get; set; } = false;
-
 		public bool Loading { get; set; } = false;
-
 		public StorageFactory? AzureStorage { get; set; }
 
 		public Credentials? AzureCredentials { get; set; }
@@ -26,8 +23,10 @@ namespace web.Pages
 		ProtectedSessionStorage? SessionStorage {get; set;}
 
 		[Parameter]
-		public string? Selected { get; set; }
+		public EventCallback RefreshNeeded { get; set; }
 
+		[Parameter]
+		public string? Selected { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -44,6 +43,11 @@ namespace web.Pages
 				AzureStorage = Util.GetStorageFactory(AzureCredentials!);
 
 			Account = AzureCredentials!.Account;
+		}
+
+		protected void RefreshParent()
+		{
+			StateHasChanged();
 		}
 	}
 }

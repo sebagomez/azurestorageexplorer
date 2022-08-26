@@ -1,0 +1,28 @@
+
+	<div class="web-error-ui ui red message" style="display:none" @attributes="this.ErrorAtts">@ErrorMessage</div>
+
+
+@code
+{
+	[Parameter]
+	public bool HasError { get; set; } = false;
+	[Parameter]
+	public string? ErrorMessage { get; set; }
+
+	private Dictionary<string, object> ErrorAtts = new Dictionary<string, object>();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (HasError && ErrorAtts.ContainsKey("style"))
+		{
+			ErrorAtts.Remove("style");
+			await Task.Delay(5 * 1000);
+			ErrorAtts.Add("style", "display:none");
+		}
+	}
+	protected override void OnInitialized()
+	{
+		if (! ErrorAtts.ContainsKey("style"))
+			ErrorAtts.Add("style", "display:none");
+	}
+}

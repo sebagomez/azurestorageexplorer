@@ -19,17 +19,27 @@ namespace web.Pages
 		protected override async Task OnInitializedAsync()
 		{	
 			await base.OnInitializedAsync();
+		}
 
-			AzureContainers = await AzureStorage!.Containers.ListContainersAsync();
+		protected override async Task OnParametersSetAsync()
+		{
+			await LoadContainers();
+		}
+
+		private async Task LoadContainers()
+		{
+			AzureContainers = (await AzureStorage!.Containers.ListContainersAsync()).OrderBy(c => c.Name ).ToList();
 		}
 
 		public async Task NewContainer()
 		{
 			if (string.IsNullOrWhiteSpace(NewContainerName))
 				return;
+
 			try
 			{
 				await AzureStorage!.Containers.CreateAsync(NewContainerName, PublicAccess);
+				NewContainerName = string.Empty;
 			}
 			catch (RequestFailedException rfex)
 			{
@@ -40,10 +50,6 @@ namespace web.Pages
 			{
 				HasError = true;
 				ErrorMessage = ex.Message;
-			}
-			finally
-			{
-				StateHasChanged();
 			}
 		}
 

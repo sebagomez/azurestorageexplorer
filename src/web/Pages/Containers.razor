@@ -3,7 +3,9 @@
 @using StorageLibrary.Common;
 @inherits web.Pages.BaseComponent
 
-<BaseComponent Selected="Containers"/>
+<BaseComponent Selected="Containers" RefreshNeeded="RefreshParent"/>
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
 
 <p></p>
 
