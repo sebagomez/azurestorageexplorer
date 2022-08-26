@@ -1,0 +1,85 @@
+@inherits web.Pages.BaseComponent
+
+@if (CurrentContainer is null)
+{
+	<em>Select a container to see the blobs here</em>
+}
+else
+{
+	<em>Blobs for @CurrentContainer will appear here</em>
+}
+
+
+@* 
+<div *ngIf="loading" class="ui active text centered inline loader">
+	<em>Fetching data from {{ container }}...</em>
+</div>
+
+<table class="ui blue table" *ngIf="showTable">
+	<thead>
+		<tr>
+			<th>
+				<button *ngIf="!removeContainerFlag" class="ui icon button" (click)="removeContainer($event)">
+					<i class="trash icon"></i>
+				</button>
+				<div *ngIf="removeContainerFlag" class="ui buttons">
+					<button class="ui button" (click)="cancelDeleteContainer()">Cancel</button>
+					<div class="or"></div>
+					<button class="ui negative button" (click)="deleteContainer()">Delete</button>
+				</div>
+			</th>
+			<th></th>
+			<th>
+				<div style="display:flex">
+					<input class="ui button" type="file" #fileInput placeholder="Upload file..." />
+					<button class="ui button" type="button" (click)="upload()">Upload</button>
+				</div>
+			</th>
+			<th>
+				<input #uploadToFolder placeholder="Upload to folder" />
+			</th>
+</thead>
+	<tbody>
+		<tr *ngIf="path != ''">
+			<td>
+				<button class="ui icon button" (click)="moveUp($event)">
+					<i class="caret square up icon"></i>
+				</button>
+			</td>
+			<td colspan="2" class="table-text">{{ path }}</td>
+		</tr>
+		<tr *ngFor="let blob of blobs">
+			<td class="collapsing">
+				<button *ngIf="selected != blob.url" class="ui icon button" (click)="removeBlob($event)">
+					<i class="trash icon"></i>
+				</button>
+				<div *ngIf="selected == blob.url" class="ui buttons">
+					<button class="ui button" (click)="cancelDeleteBlob()">Cancel</button>
+					<div class="or"></div>
+					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
+				</div>
+			</td>
+			<td class="collapsing">
+				<button *ngIf="!blob.isFolder" class="ui icon button" (click)="downloadBlob($event)">
+					<i class="download icon"></i>
+				</button>
+				<button *ngIf="blob.isFolder" class="ui icon button" (click)="enterFolder($event)">
+					<i class="folder icon"></i>
+				</button>
+			</td>
+			<td colspan="2" class="table-text">{{ blob.name }}</td>
+			<td style="display:none">{{ blob.url }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th colspan="2">{{ blobs.length }} blobs found</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</tfoot>
+</table>
+
+<div *ngIf="hasErrors" class="ui negative message errorMessage">
+	<div class="header">{{ errorMessage }}</div>
+</div> *@

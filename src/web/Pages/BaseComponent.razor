@@ -1,0 +1,9 @@
+
+<NavMenu Selected="@Selected" Account="@Account" />
+
+@if (HasError)
+{
+	<div class="ui negative message">
+		<div class="header">@ErrorMessage</div>
+	</div>
+}

@@ -1,0 +1,80 @@
+ @using Utils
+ @using Microsoft.AspNetCore.Components
+
+@inject ProtectedSessionStorage ProtectedSessionStore
+
+<div class="ui pointing menu">
+	<a class="item" href="/">
+		<img src="/res/AzureExplorerLogo.png" class="logo" alt="Azure Web Storage Explorer Logo">
+	</a>
+	<a class="item" href="/">
+		<h4 class="azure">Azure Storage web explorer</h4>
+	</a>
+	<a class="item" href="/containers">
+		<div @attributes="this.BlobAtts">Blobs</div>
+	</a>
+	<a class="item" href="/queues">
+		<div @attributes="this.QueueAtts">Queues</div>
+	</a>
+	<a class="item" href="/tables">
+		<div @attributes="this.TableAtts">Tables</div>
+	</a>
+	<a class="item" href="/files">
+		<div @attributes="this.FileAtts">Files</div>
+	</a>
+	<div class="menu">
+		<a class="item" @onclick="LogOut">Logout @Account</a>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public string? Account { get; set; }
+
+	[Parameter]
+	public string? Selected { get; set; }
+
+	[Inject]
+	NavigationManager? NavManager { get; set;}
+
+	public async Task LogOut()
+	{
+		await Credentials.ClearAsync(ProtectedSessionStore);
+		NavManager!.NavigateTo("/login");
+	}
+
+	private Dictionary<string, object> BlobAtts = new Dictionary<string, object>();
+	private Dictionary<string, object> QueueAtts = new Dictionary<string, object>();
+	private Dictionary<string, object> TableAtts = new Dictionary<string, object>();
+	private Dictionary<string, object> FileAtts = new Dictionary<string, object>();
+
+	protected override void OnInitialized()
+	{
+		if (BlobAtts.ContainsKey("class"))
+			BlobAtts.Remove("class");
+		if (QueueAtts.ContainsKey("class"))
+			QueueAtts.Remove("class");
+		if (TableAtts.ContainsKey("class"))
+			TableAtts.Remove("class");
+		if (FileAtts.ContainsKey("class"))
+			FileAtts.Remove("class");
+
+		switch (Selected)
+		{
+			case "Containers":
+				BlobAtts.Add("class", "selectedMenu");
+				break;
+			case "Tables":
+				TableAtts.Add("class", "selectedMenu");
+				break;
+			case "Queues":
+				QueueAtts.Add("class", "selectedMenu");
+				break;
+			case "Files":
+				FileAtts.Add("class", "selectedMenu");
+				break;
+		}
+
+		base.OnInitialized();
+	}
+}

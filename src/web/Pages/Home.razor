@@ -1,0 +1,22 @@
+@page "/"
+@page "/home"
+@inherits web.Pages.BaseComponent
+
+<BaseComponent Selected="Home"/>
+
+<a href="https://github.com/sebagomez/azurestorageexplorer">
+	<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
+</a>
+<p></p>
+<p></p>
+<p>Welcome to the revamped version of Azure Storage web explorer</p>
+<p>This is a side project that I work on whenever I find the time and will. Want to contribute in any way? head over to the repo at <a href="https://github.com/sebagomez/azurestorageexplorer">https://github.com/sebagomez/azurestorageexplorer</a></p>
+<p>With this site you can manage</p>
+<ul>
+	<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Upload, download and delete blobs.</li>
+	<li><strong>Queues</strong>: Create Queues and messages.</li>
+	<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. To retrieve data, you must provide a query (or leave blank) in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; '&lt;PropertyValue&gt;'</code>(mind the quotes <code>'</code>), being <code>&lt;operator&gt;</code> one of the <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators">supported comparison operators</a></li>
+	<li><strong>Files Shares</strong>: Navigate thrugh your file shares and directories. Upload, download and delete files.</li>
+</ul>
+@* 
+<Version Class="footer"/> *@
