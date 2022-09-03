@@ -7,6 +7,8 @@ namespace StorageLibrary.Common
         public string Name { get; set; }
         public string Url { get; set; }
 
+		public bool IsFolder { get => Url.EndsWith("/"); }
+
 		public int CompareTo(BlobItemWrapper other)
 		{
 			if (other == null)

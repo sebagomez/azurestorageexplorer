@@ -12,7 +12,7 @@ namespace web.Pages
 		public bool ShowError { get; set; }
 		public string? ErrorMessage { get; set; }
 		public string? AzureAccount { get; set; } = "sebgomez";
-		public string? AzureKey { get; set; } = "bzIky6NbKkkETpJ8hLL2GAb7YVpgHkIjAdkdMYoP8TK4vkSW2jxKqZ15rTwKQJXrowYaid2NW5ZX+ASt3d+bjw==";
+		public string? AzureKey { get; set; } = "LOT6kY6ik0pqDqzPXacwZLLG0psx2aCvpDAkdxSYEQyb2emB0XvxuW1VnZbYPhl+M5dziMlEQRpn+AStUoma/g==";
 		public string AzureUrl { get; set; } = "core.windows.net";
 
 		[Inject]

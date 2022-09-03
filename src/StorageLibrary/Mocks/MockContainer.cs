@@ -12,9 +12,11 @@ namespace StorageLibrary.Mocks
 	{
 		Dictionary<string, List<string>> containers = new Dictionary<string, List<string>>()
 		{
-			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
-			{ "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
-			{ "three", new List<string> {"fromThree:1"}}
+			// { "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
+			// { "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
+			// { "three", new List<string> {"fromThree:1"}},
+			// { "empty", new List<string> {}},
+			{ "with-folders", new List<string> {"root-file", "folder1/", "folder1/file"}},
 		};
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
@@ -36,7 +38,24 @@ namespace StorageLibrary.Mocks
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
 				foreach(string val in containers[containerName])
-					results.Add(new BlobItemWrapper { Name = val, Url = val });
+				{
+					int slash = val.LastIndexOf("/");
+					if (!string.IsNullOrEmpty(path))
+					{
+						if (val == path)
+							continue;
+
+						if (slash >= 0 && val.Substring(0,slash + 1) == path)
+						{
+							results.Add(new BlobItemWrapper { Name = val, Url = val });		
+						}
+					}
+					else 
+					{
+						if (slash < 0 || slash == val.Length -1)
+							results.Add(new BlobItemWrapper { Name = val, Url = val });		
+					}
+				}
 
 				return results;
 			});

@@ -7,26 +7,26 @@
 else
 {
 	<em>Blobs for @CurrentContainer will appear here</em>
-}
+	if (Loading){
+		<em>Fetching data from @CurrentContainer...</em>	
+	}
 
-
-@* 
-<div *ngIf="loading" class="ui active text centered inline loader">
-	<em>Fetching data from {{ container }}...</em>
-</div>
-
-<table class="ui blue table" *ngIf="showTable">
+	if (ShowTable) {
+	<table class="ui blue table">
 	<thead>
 		<tr>
 			<th>
-				<button *ngIf="!removeContainerFlag" class="ui icon button" (click)="removeContainer($event)">
+				@if (!RemoveContainerFlag){
+				<button class="ui icon button" onclick="FlagContainerToDelete">
 					<i class="trash icon"></i>
 				</button>
-				<div *ngIf="removeContainerFlag" class="ui buttons">
-					<button class="ui button" (click)="cancelDeleteContainer()">Cancel</button>
+				} else {
+				<div class="ui buttons">
+					<button class="ui button" onclick="CancelDeleteContainer">Cancel</button>
 					<div class="or"></div>
-					<button class="ui negative button" (click)="deleteContainer()">Delete</button>
+					<button class="ui negative button" onclick="DeleteContainer">Delete</button>
 				</div>
+				}
 			</th>
 			<th></th>
 			<th>
@@ -38,47 +38,78 @@ else
 			<th>
 				<input #uploadToFolder placeholder="Upload to folder" />
 			</th>
-</thead>
-	<tbody>
-		<tr *ngIf="path != ''">
-			<td>
-				<button class="ui icon button" (click)="moveUp($event)">
-					<i class="caret square up icon"></i>
-				</button>
-			</td>
-			<td colspan="2" class="table-text">{{ path }}</td>
 		</tr>
-		<tr *ngFor="let blob of blobs">
+	</thead>
+	<tbody>
+		@if (CurrentPath != "")
+		{
+			<tr>
+				<td>
+					<button class="ui icon button" onclick="MoveUp">
+						<i class="caret square up icon"></i>
+					</button>
+				</td>
+				<td colspan="2" class="table-text">@CurrentPath</td>
+			</tr>
+		}
+		
+		@foreach (var Folder in AzureContainerFolders)
+		{
+			<tr>
+				<td class="collapsing">
+					<button class="ui icon button" @onclick="@(e => EnterFolder(e, Folder.Url))">
+						<i class="folder icon"></i>
+					</button>
+				</td>
+				<td colspan="2" class="table-text">@Folder.Name</td>
+				<td style="display:none">@Folder.Url</td>
+			</tr>
+		}
+
+		@foreach (var Blob in AzureContainerBlobs)
+		{
+			<tr>
 			<td class="collapsing">
-				<button *ngIf="selected != blob.url" class="ui icon button" (click)="removeBlob($event)">
-					<i class="trash icon"></i>
-				</button>
-				<div *ngIf="selected == blob.url" class="ui buttons">
-					<button class="ui button" (click)="cancelDeleteBlob()">Cancel</button>
-					<div class="or"></div>
-					<button class="ui negative button" (click)="deleteBlob()">Delete</button>
-				</div>
+				@if (SelectedBlob != Blob.Url) 
+				{
+					<button class="ui icon button" @onclick="@(e => FlagBlobToDelete(e, Blob.Url))"> 
+						<i class="trash icon"></i>
+					</button>
+				} else 
+				{
+					<div class="ui buttons">
+						<button class="ui button" onclick="CancelDeleteBlob">Cancel</button>
+						<div class="or"></div>
+						<button class="ui negative button" onclick="DeleteBlob">Delete</button>
+					</div>
+				}
 			</td>
 			<td class="collapsing">
-				<button *ngIf="!blob.isFolder" class="ui icon button" (click)="downloadBlob($event)">
+				<button class="ui icon button" onclick="DownloadBlob">
 					<i class="download icon"></i>
 				</button>
-				<button *ngIf="blob.isFolder" class="ui icon button" (click)="enterFolder($event)">
-					<i class="folder icon"></i>
-				</button>
 			</td>
-			<td colspan="2" class="table-text">{{ blob.name }}</td>
-			<td style="display:none">{{ blob.url }}</td>
-		</tr>
+			<td colspan="2" class="table-text">@Blob.Name</td>
+			<td style="display:none">@Blob.Url</td>
+			</tr>
+		}
 	</tbody>
 	<tfoot>
 		<tr>
-			<th colspan="2">{{ blobs.length }} blobs found</th>
+			<th colspan="2">@AzureContainerBlobs.Count @Plural found</th>
 			<th></th>
 			<th></th>
 		</tr>
 	</tfoot>
 </table>
+
+	}
+
+}
+
+
+@* 
+
 
 <div *ngIf="hasErrors" class="ui negative message errorMessage">
 	<div class="header">{{ errorMessage }}</div>
