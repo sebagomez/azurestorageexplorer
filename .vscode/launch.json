@@ -65,6 +65,27 @@
 				"/Views": "${workspaceFolder}/Views"
 			}
 		},
+		{
+			"name": "Blazor WEB (Mock)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}/src/web/bin/Debug/net6.0/web.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/src/web",
+			"stopAtEntry": false,
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"MOCK": "true"
+			},
+			"sourceFileMap": {
+				"/Views": "${workspaceFolder}/Views"
+			}
+		},
         {
             "name": ".NET Core Attach",
             "type": "coreclr",

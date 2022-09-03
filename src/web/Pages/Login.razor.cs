@@ -37,15 +37,15 @@ namespace web.Pages
 				if (string.IsNullOrWhiteSpace(AzureAccount) || string.IsNullOrWhiteSpace(AzureKey) || string.IsNullOrWhiteSpace(AzureUrl))
 					return;
 
-				StorageFactory factory = new StorageFactory(AzureAccount, AzureKey, AzureUrl);
-				var containers = await factory.Containers.ListContainersAsync();
-
 				Credentials cred = new Credentials
 				{
 					Account = AzureAccount,
 					Key = AzureKey,
 					Endpoint = AzureUrl
 				};
+
+				StorageFactory factory = Util.GetStorageFactory(cred);
+				var containers = await factory.Containers.ListContainersAsync();
 
 				await cred.SaveAsync(SessionStorage!);
 
