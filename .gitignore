@@ -1,8 +1,6 @@
 bin/
 obj/
-.svn/
 .vs/
-.vscode/
 
 PublishProfiles/
 Docker/root/
