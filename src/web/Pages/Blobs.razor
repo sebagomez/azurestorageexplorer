@@ -1,12 +1,13 @@
 @inherits web.Pages.BaseComponent
 
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
 @if (CurrentContainer is null)
 {
 	<em>Select a container to see the blobs here</em>
 }
 else
 {
-	<em>Blobs for @CurrentContainer will appear here</em>
 	if (Loading){
 		<em>Fetching data from @CurrentContainer...</em>	
 	}
