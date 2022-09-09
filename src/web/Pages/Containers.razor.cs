@@ -11,6 +11,8 @@ namespace web.Pages
 
 		public bool PublicAccess { get; set; }
 
+		private Dictionary<string, Dictionary<string, object>> ContainerAtts = new Dictionary<string, Dictionary<string, object>>();
+
 		[Parameter]
 		public string? SelectedContainer { get; set; }
 
@@ -28,7 +30,12 @@ namespace web.Pages
 
 		private async Task LoadContainers()
 		{
-			AzureContainers = (await AzureStorage!.Containers.ListContainersAsync()).OrderBy(c => c.Name ).ToList();
+			ContainerAtts.Clear();
+			foreach(CloudBlobContainerWrapper container in (await AzureStorage!.Containers.ListContainersAsync()).OrderBy(c => c.Name))
+			{
+				ContainerAtts[container.Name] = new Dictionary<string, object>();
+				AzureContainers.Add(container);
+			}
 		}
 
 		public async Task NewContainer()
@@ -55,7 +62,17 @@ namespace web.Pages
 
 		public void SelectedChanged(MouseEventArgs e, string selectedContainer)
 		{
+			if (SelectedContainer == selectedContainer)
+				return;
+
+			if ((!string.IsNullOrEmpty(SelectedContainer)) && ContainerAtts[SelectedContainer].ContainsKey("style"))
+				ContainerAtts[SelectedContainer].Remove("style");
+
 			SelectedContainer = selectedContainer;
+
+			ContainerAtts[SelectedContainer]["style"] = "font-weight: bold;";
+
+			StateHasChanged();
 		}
 
 		public override async Task SelectionDeletedAsync()

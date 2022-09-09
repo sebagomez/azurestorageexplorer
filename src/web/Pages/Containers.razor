@@ -33,7 +33,7 @@ else
 		<div class="child ui vertical pointing menu">
 			@foreach(CloudBlobContainerWrapper container in AzureContainers)
 			{
-				<a class="item" @onclick="@(e => SelectedChanged(e, container.Name))">@container.Name</a>
+				<a class="item" @attributes="ContainerAtts[container.Name]" @onclick="@(e => SelectedChanged(e, container.Name))">@container.Name</a>
 			}
 		</div>
 
