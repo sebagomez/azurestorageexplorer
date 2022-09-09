@@ -19,7 +19,11 @@ namespace web.Pages
 
 		public bool RemoveContainerFlag { get; set; } = false;
 
-		public string Plural { get => AzureContainerBlobs.Count + AzureContainerFolders.Count == 1 ? "blob" : "blobs"; }
+		public int FolderSpan { get => SelectedBlob != "" ? 3: 2; }
+
+		public string Plural { get => FileCount == 1 ? "blob" : "blobs"; }
+
+		public int FileCount { get => AzureContainerBlobs.Count + AzureContainerFolders.Count; }
 
 		List<BlobItemWrapper> AzureContainerBlobs = new List<BlobItemWrapper>();
 		List<BlobItemWrapper> AzureContainerFolders = new List<BlobItemWrapper>();
@@ -49,8 +53,8 @@ namespace web.Pages
 						AzureContainerBlobs.Add(blob);
 				}
 
-				AzureContainerFolders.OrderBy( b => b.Name);
-				AzureContainerBlobs.OrderBy( b => b.Name);
+				AzureContainerFolders = AzureContainerFolders.OrderBy( b => b.Name).ToList();
+				AzureContainerBlobs = AzureContainerBlobs.OrderBy( b => b.Name).ToList();
 				
 				ShowTable = true;
 				Loading = false;
@@ -64,27 +68,48 @@ namespace web.Pages
 
 		public void FlagContainerToDelete()
 		{
-
+			RemoveContainerFlag = true;
 		}
 
-		public void DeleteContainer()
+		public async Task DeleteContainer()
 		{
-
+			try
+			{
+				await AzureStorage!.Containers.DeleteAsync(CurrentContainer!);
+				RemoveContainerFlag = false;
+				await Parent!.SelectionDeletedAsync();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 		}
 
 		public void CancelDeleteContainer()
 		{
-
+			RemoveContainerFlag = false;
 		}
 
 		public void FlagBlobToDelete(EventArgs args, string blobUrl)
 		{
-
+			SelectedBlob = blobUrl;
 		}
 
-		public void MoveUp()
+		public void CancelDeleteBlob()
 		{
+			SelectedBlob = "";
+		}
 
+		public async Task MoveUp()
+		{
+			int parentSlash = CurrentPath.LastIndexOf("/", CurrentPath.Length - 2);
+			if (parentSlash < 0)
+				CurrentPath = "";
+			else
+				CurrentPath = CurrentPath.Substring(0,parentSlash);
+			
+			await LoadBlobs();
 		}
 
 		public async Task EnterFolder(EventArgs args, string blobUrl)

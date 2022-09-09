@@ -17,14 +17,14 @@ else
 		<tr>
 			<th>
 				@if (!RemoveContainerFlag){
-				<button class="ui icon button" onclick="FlagContainerToDelete">
+				<button class="ui icon button" @onclick="FlagContainerToDelete">
 					<i class="trash icon"></i>
 				</button>
 				} else {
 				<div class="ui buttons">
-					<button class="ui button" onclick="CancelDeleteContainer">Cancel</button>
+					<button class="ui button" @onclick="CancelDeleteContainer">Cancel</button>
 					<div class="or"></div>
-					<button class="ui negative button" onclick="DeleteContainer">Delete</button>
+					<button class="ui negative button" @onclick="DeleteContainer">Delete</button>
 				</div>
 				}
 			</th>
@@ -45,11 +45,11 @@ else
 		{
 			<tr>
 				<td>
-					<button class="ui icon button" onclick="MoveUp">
+					<button class="ui icon button" @onclick="MoveUp">
 						<i class="caret square up icon"></i>
 					</button>
 				</td>
-				<td colspan="2" class="table-text">@CurrentPath</td>
+				<td colspan="3" class="table-text">@CurrentPath</td>
 			</tr>
 		}
 		
@@ -61,7 +61,7 @@ else
 						<i class="folder icon"></i>
 					</button>
 				</td>
-				<td colspan="2" class="table-text">@Folder.Name</td>
+				<td colspan="@FolderSpan" class="table-text">@Folder.Name</td>
 				<td style="display:none">@Folder.Url</td>
 			</tr>
 		}
@@ -75,10 +75,11 @@ else
 					<button class="ui icon button" @onclick="@(e => FlagBlobToDelete(e, Blob.Url))"> 
 						<i class="trash icon"></i>
 					</button>
-				} else 
+				} 
+				else 
 				{
 					<div class="ui buttons">
-						<button class="ui button" onclick="CancelDeleteBlob">Cancel</button>
+						<button class="ui button" @onclick="CancelDeleteBlob">Cancel</button>
 						<div class="or"></div>
 						<button class="ui negative button" onclick="DeleteBlob">Delete</button>
 					</div>
@@ -96,7 +97,7 @@ else
 	</tbody>
 	<tfoot>
 		<tr>
-			<th colspan="2">@AzureContainerBlobs.Count @Plural found</th>
+			<th colspan="2">@FileCount @Plural found</th>
 			<th></th>
 			<th></th>
 		</tr>

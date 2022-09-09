@@ -3,7 +3,7 @@
 @using StorageLibrary.Common;
 @inherits web.Pages.BaseComponent
 
-<BaseComponent Selected="Containers" RefreshNeeded="RefreshParent"/>
+<BaseComponent Selected="Containers" />
 
 <Error HasError=@HasError ErrorMessage=@ErrorMessage />
 
@@ -38,7 +38,7 @@ else
 		</div>
 
 		<div class="child" style="padding-left:20px">
-			<Blobs CurrentContainer="@SelectedContainer" />
+			<Blobs CurrentContainer="@SelectedContainer" Parent="@this" />
 		</div>
 
 	</div>

@@ -23,10 +23,16 @@ namespace web.Pages
 		ProtectedSessionStorage? SessionStorage {get; set;}
 
 		[Parameter]
-		public EventCallback RefreshNeeded { get; set; }
+		public string? Selected { get; set; }
 
 		[Parameter]
-		public string? Selected { get; set; }
+		public BaseComponent? Parent { get; set; }
+
+		public virtual Task SelectionDeletedAsync()
+		{
+			StateHasChanged();
+			return Task.CompletedTask;
+		}
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -43,11 +49,6 @@ namespace web.Pages
 				AzureStorage = Util.GetStorageFactory(AzureCredentials!);
 
 			Account = AzureCredentials!.Account;
-		}
-
-		protected void RefreshParent()
-		{
-			StateHasChanged();
 		}
 	}
 }

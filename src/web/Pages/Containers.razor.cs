@@ -1,8 +1,7 @@
 using Azure;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using StorageLibrary;
 using StorageLibrary.Common;
-using web.Utils;
 
 namespace web.Pages
 {
@@ -12,6 +11,7 @@ namespace web.Pages
 
 		public bool PublicAccess { get; set; }
 
+		[Parameter]
 		public string? SelectedContainer { get; set; }
 
 		List<CloudBlobContainerWrapper> AzureContainers = new List<CloudBlobContainerWrapper>();
@@ -56,6 +56,14 @@ namespace web.Pages
 		public void SelectedChanged(MouseEventArgs e, string selectedContainer)
 		{
 			SelectedContainer = selectedContainer;
+		}
+
+		public override async Task SelectionDeletedAsync()
+		{
+			SelectedContainer = null;
+			await LoadContainers();
+
+			await base.SelectionDeletedAsync();
 		}
 	}
 }
