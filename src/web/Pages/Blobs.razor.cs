@@ -11,6 +11,7 @@ namespace web.Pages
 		[Parameter]
 		public string? CurrentContainer { get; set; }
 
+		[Parameter]
 		public string CurrentPath { get; set; } = "";
 
 		public string? SelectedBlob { get; set; }
@@ -114,7 +115,8 @@ namespace web.Pages
 
 		public async Task EnterFolder(EventArgs args, string blobUrl)
 		{
-			CurrentPath = blobUrl;
+			Uri uri = new Uri(blobUrl);
+			CurrentPath = uri.LocalPath.Replace($"/{CurrentContainer}/"!, "");
 			await LoadBlobs();
 		}
 

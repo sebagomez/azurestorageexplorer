@@ -30,6 +30,7 @@ namespace web.Pages
 
 		private async Task LoadContainers()
 		{
+			AzureContainers.Clear();
 			ContainerAtts.Clear();
 			foreach(CloudBlobContainerWrapper container in (await AzureStorage!.Containers.ListContainersAsync()).OrderBy(c => c.Name))
 			{
@@ -66,10 +67,13 @@ namespace web.Pages
 				return;
 
 			if ((!string.IsNullOrEmpty(SelectedContainer)) && ContainerAtts[SelectedContainer].ContainsKey("style"))
+			{
 				ContainerAtts[SelectedContainer].Remove("style");
-
+				ContainerAtts[SelectedContainer]["class"] = "item";
+			}
 			SelectedContainer = selectedContainer;
 
+			ContainerAtts[SelectedContainer]["class"] = "item active";
 			ContainerAtts[SelectedContainer]["style"] = "font-weight: bold;";
 
 			StateHasChanged();

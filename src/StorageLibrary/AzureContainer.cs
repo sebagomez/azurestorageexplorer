@@ -52,7 +52,7 @@ namespace StorageLibrary
 
 					wrapper = new BlobItemWrapper
 					{
-						Name = blobClient.Name,
+						Name = blobClient.Name.StartsWith(localPath) ? blobClient.Name.Substring(localPath.Length) : blobClient.Name,
 						Url = blobClient.Uri.AbsoluteUri
 					};
 

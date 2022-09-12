@@ -104,3 +104,8 @@
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.link{
+	color: #4183c4;
+	cursor: pointer;
+}
