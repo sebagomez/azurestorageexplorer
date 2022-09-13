@@ -18,11 +18,17 @@ else
 	<thead>
 		<tr>
 			<th style="min-width: 100px" >@CurrentPath</th>
+			<th colspan="2">
+				<InputFile OnChange="@LoadFile"/>
+			</th>
+		</tr>
+		<tr>
+			<th style="min-width: 100px" >@CurrentPath</th>
 			<th>
 				<div style="display:flex;justify-content: space-around;">
-					<input class="ui button" type="file" #fileInput placeholder="Upload file..." />
-					<input #uploadToFolder placeholder="Upload to folder" />
-					<button class="ui button" type="button" (click)="upload()">Upload</button>
+					<input class="ui button" type="file" @bind="FileInput" placeholder="Upload file..." />
+					<input @bind="UploadFolder" placeholder="Upload to folder" />
+					<button class="ui button" type="button" @onclick="UploadBlob">Upload</button>
 				</div>
 			</th>
 			<th>
@@ -50,7 +56,7 @@ else
 		@foreach (var Folder in AzureContainerFolders)
 		{
 			<tr>
-				<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder.Url))" >@Folder.Name</a></td>
+				<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder.Url))">@Folder.Name</a></td>
 				<td style="display:none">@Folder.Url</td>
 			</tr>
 		}
@@ -66,7 +72,7 @@ else
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
 							<div class="item"><i class="download icon"></i>Download</div>
-							<div class="red item" style="color: firebrick !important;"><i class="trash icon"></i>Delete</div>
+							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob.Url))"><i class="trash icon"></i>Delete</div>
 						</div>
 					</div>
 				</div>
