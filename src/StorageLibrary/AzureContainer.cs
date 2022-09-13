@@ -50,11 +50,11 @@ namespace StorageLibrary
 				{
 					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri);
+					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength);
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}");
+					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}",0);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))
@@ -100,7 +100,7 @@ namespace StorageLibrary
 			await container.UploadBlobAsync(blobName, fileContent);
 		}
 
-		public async Task<string> GetBlob(string containerName, string blobName)
+		public async Task<string> GetBlobAsync(string containerName, string blobName)
 		{
 			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
 			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);

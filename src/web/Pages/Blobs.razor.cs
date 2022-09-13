@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-using StorageLibrary;
+using Microsoft.JSInterop;
 using StorageLibrary.Common;
-using web.Utils;
 
 namespace web.Pages
 {
 	public partial class Blobs : BaseComponent
 	{
+		const long MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5 Megs
+
 		[Parameter]
 		public string? CurrentContainer { get; set; }
 
@@ -29,6 +29,9 @@ namespace web.Pages
 
 		List<BlobItemWrapper> AzureContainerBlobs = new List<BlobItemWrapper>();
 		List<BlobItemWrapper> AzureContainerFolders = new List<BlobItemWrapper>();
+
+		[Inject]
+		IJSRuntime? JS {get;set;}
 
 		protected override async Task OnParametersSetAsync()
 		{
@@ -97,22 +100,41 @@ namespace web.Pages
 
 		public async Task EnterFolder(EventArgs args, string blobUrl)
 		{
-			Uri uri = new Uri(blobUrl);
-			CurrentPath = uri.LocalPath.Replace($"/{CurrentContainer}/"!, "");
+			BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+			if (blob.IsFile)
+				return;
+
+			CurrentPath = blob.Name;
 			await LoadBlobs();
 		}
 
-		public void DownloadBlob()
+		public  async Task DownloadBlob(EventArgs args, string blobUrl)
 		{
+			try
+			{
+				BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+				string path = await AzureStorage!.Containers.GetBlobAsync(CurrentContainer, blob.FullName);
 
+				FileStream fileStream = File.OpenRead(path);
+
+				using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+				await JS!.InvokeVoidAsync("downloadFileFromStream", blob.Name, streamRef);
+
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 		}
 
 		public async Task DeleteBlob(EventArgs args, string blobUrl)
 		{
 			try
 			{
-				Uri uri = new Uri(blobUrl);
-				await AzureStorage!.Containers.DeleteBlobAsync(CurrentContainer, uri.LocalPath.Replace($"/{CurrentContainer}/"!, ""));
+				BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+				await AzureStorage!.Containers.DeleteBlobAsync(CurrentContainer, blob.FullName);
 				await LoadBlobs();
 			}
 			catch (Exception ex)
@@ -129,7 +151,7 @@ namespace web.Pages
 				if (!string.IsNullOrEmpty(CurrentPath) && !CurrentPath.EndsWith("/"))
 					CurrentPath += "/";
 
-				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{CurrentPath}{FileToUpload!.Name}", FileToUpload.OpenReadStream());
+				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{CurrentPath}{FileToUpload!.Name}", FileToUpload.OpenReadStream(MAX_UPLOAD_SIZE));
 				await LoadBlobs();
 			}
 			catch (Exception ex)

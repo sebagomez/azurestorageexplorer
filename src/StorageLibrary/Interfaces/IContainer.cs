@@ -14,6 +14,6 @@ namespace StorageLibrary.Interfaces
 		Task CreateAsync(string containerName, bool publicAccess);
 		Task DeleteBlobAsync(string containerName, string blobName);
 		Task CreateBlobAsync(string containerName, string blobName, Stream fileContent);
-		Task<string> GetBlob(string containerName, string blobName);
+		Task<string> GetBlobAsync(string containerName, string blobName);
 	}
 }

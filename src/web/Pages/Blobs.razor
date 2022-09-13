@@ -58,14 +58,22 @@ else
 	@foreach (var Blob in AzureContainerBlobs)
 	{
 		<tr>
-			<td colspan="2" class="table-text">@Blob.Name</td>
+			<td class="table-text">@Blob.Name</td>
+			@if (Blob.SizeInMBs > 1)
+			{
+				<td class="table-text" style="text-align: end;">@Blob.SizeInMBs.ToString("0.##") MBs</td>
+			}
+			else
+			{
+				<td class="table-text" style="text-align: end;">@Blob.SizeInKBs.ToString("0.##") KBs</td>
+			}
 			<td style="display:none">@Blob.Url</td>
 			<td>
 				<div class="ui compact menu">
 					<div class="ui simple dropdown item">
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
-							<div class="item"><i class="download icon"></i>Download</div>
+							<div class="item" @onclick="@(e => DownloadBlob(e, Blob.Url))"><i class="download icon"></i>Download</div>
 							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob.Url))">
 								<i class="trash icon"></i>Delete
 							</div>
@@ -86,4 +94,3 @@ else
 	}
 
 }
- 
