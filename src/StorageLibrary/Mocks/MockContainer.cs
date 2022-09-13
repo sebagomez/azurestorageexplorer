@@ -49,13 +49,13 @@ namespace StorageLibrary.Mocks
 
 						if (slash >= 0 && val.Substring(0,slash + 1) == path)
 						{
-							results.Add(new BlobItemWrapper { Name = val.Replace(path, ""), Url = val });		
+							results.Add(new BlobItemWrapper(val));		
 						}
 					}
 					else 
 					{
 						if (slash < 0 || slash == val.Length -1)
-							results.Add(new BlobItemWrapper { Name = val, Url = val });	
+							results.Add(new BlobItemWrapper(val));	
 					}
 				}
 

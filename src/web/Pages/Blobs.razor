@@ -18,15 +18,9 @@ else
 	<thead>
 		<tr>
 			<th style="min-width: 100px" >@CurrentPath</th>
-			<th colspan="2">
-				<InputFile OnChange="@LoadFile"/>
-			</th>
-		</tr>
-		<tr>
-			<th style="min-width: 100px" >@CurrentPath</th>
 			<th>
 				<div style="display:flex;justify-content: space-around;">
-					<input class="ui button" type="file" @bind="FileInput" placeholder="Upload file..." />
+					<InputFile class="ui button" OnChange="@LoadFile"/>
 					<input @bind="UploadFolder" placeholder="Upload to folder" />
 					<button class="ui button" type="button" @onclick="UploadBlob">Upload</button>
 				</div>
@@ -44,41 +38,43 @@ else
 		</tr>
 	</thead>
 	<tbody>
-		@if (CurrentPath != "")
-		{
-			<tr>
-				<td colspan="3">
-					<a class="link" title="Go to parent directory" @onclick="MoveUp">..</a>
-				</td>
-			</tr>
-		}
-		
-		@foreach (var Folder in AzureContainerFolders)
-		{
-			<tr>
-				<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder.Url))">@Folder.Name</a></td>
-				<td style="display:none">@Folder.Url</td>
-			</tr>
-		}
+	@if (CurrentPath != "")
+	{
+		<tr>
+			<td colspan="3">
+				<a class="link" title="Go to parent directory" @onclick="MoveUp">..</a>
+			</td>
+		</tr>
+	}
+			
+	@foreach (var Folder in AzureContainerFolders)
+	{
+		<tr>
+			<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder.Url))">@Folder.Name</a></td>
+			<td style="display:none">@Folder.Url</td>
+		</tr>
+	}
 
-		@foreach (var Blob in AzureContainerBlobs)
-		{
-			<tr>
+	@foreach (var Blob in AzureContainerBlobs)
+	{
+		<tr>
 			<td colspan="2" class="table-text">@Blob.Name</td>
 			<td style="display:none">@Blob.Url</td>
-			<td class="">
+			<td>
 				<div class="ui compact menu">
 					<div class="ui simple dropdown item">
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
 							<div class="item"><i class="download icon"></i>Download</div>
-							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob.Url))"><i class="trash icon"></i>Delete</div>
+							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob.Url))">
+								<i class="trash icon"></i>Delete
+							</div>
 						</div>
 					</div>
 				</div>
 			</td>
-			</tr>
-		}
+		</tr>
+	}
 	</tbody>
 	<tfoot>
 		<tr>

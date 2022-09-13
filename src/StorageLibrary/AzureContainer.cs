@@ -50,20 +50,11 @@ namespace StorageLibrary
 				{
 					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-					wrapper = new BlobItemWrapper
-					{
-						Name = blobClient.Name.StartsWith(localPath) ? blobClient.Name.Substring(localPath.Length) : blobClient.Name,
-						Url = blobClient.Uri.AbsoluteUri
-					};
-
+					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri);
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper
-					{
-						Name = blobItem.Prefix,
-						Url = $"{container.Uri}{localPath}{blobItem.Prefix}"
-					};
+					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}");
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))

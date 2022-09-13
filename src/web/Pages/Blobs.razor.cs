@@ -49,10 +49,10 @@ namespace web.Pages
 
 				foreach (var blob in await AzureStorage!.Containers.ListBlobsAsync(CurrentContainer!, CurrentPath))
 				{
-					if (blob.IsFolder)
-						AzureContainerFolders.Add(blob);
-					else
+					if (blob.IsFile)
 						AzureContainerBlobs.Add(blob);
+					else
+						AzureContainerFolders.Add(blob);
 				}
 
 				AzureContainerFolders = AzureContainerFolders.OrderBy(b => b.Name).ToList();
@@ -112,7 +112,7 @@ namespace web.Pages
 			try
 			{
 				Uri uri = new Uri(blobUrl);
-				await AzureStorage!.Containers.DeleteBlobAsync(CurrentContainer, uri.LocalPath);
+				await AzureStorage!.Containers.DeleteBlobAsync(CurrentContainer, uri.LocalPath.Replace($"/{CurrentContainer}/"!, ""));
 				await LoadBlobs();
 			}
 			catch (Exception ex)
@@ -126,6 +126,9 @@ namespace web.Pages
 		{
 			try
 			{
+				if (!string.IsNullOrEmpty(CurrentPath) && !CurrentPath.EndsWith("/"))
+					CurrentPath += "/";
+
 				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{CurrentPath}{FileToUpload!.Name}", FileToUpload.OpenReadStream());
 				await LoadBlobs();
 			}
