@@ -91,10 +91,11 @@ namespace web.Pages
 			if (parentSlash < 0)
 				CurrentPath = "";
 			else
-				CurrentPath = CurrentPath.Substring(0, parentSlash);
+				CurrentPath = CurrentPath.Substring(0, parentSlash + 1);
 
 			UploadFolder = CurrentPath;
 
+			StateHasChanged();
 			await LoadBlobs();
 		}
 
@@ -104,7 +105,10 @@ namespace web.Pages
 			if (blob.IsFile)
 				return;
 
-			CurrentPath = blob.Name;
+			CurrentPath = blob.FullName;
+			UploadFolder = CurrentPath;
+
+			StateHasChanged();
 			await LoadBlobs();
 		}
 
@@ -148,10 +152,10 @@ namespace web.Pages
 		{
 			try
 			{
-				if (!string.IsNullOrEmpty(CurrentPath) && !CurrentPath.EndsWith("/"))
-					CurrentPath += "/";
+				if (!string.IsNullOrEmpty(UploadFolder) && !UploadFolder.EndsWith("/"))
+					UploadFolder += "/";
 
-				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{CurrentPath}{FileToUpload!.Name}", FileToUpload.OpenReadStream(MAX_UPLOAD_SIZE));
+				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", FileToUpload.OpenReadStream(MAX_UPLOAD_SIZE));
 				await LoadBlobs();
 			}
 			catch (Exception ex)

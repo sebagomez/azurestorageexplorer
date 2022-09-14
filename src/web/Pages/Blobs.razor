@@ -21,7 +21,7 @@ else
 			<th>
 				<div style="display:flex;justify-content: space-around;">
 					<InputFile class="ui button" OnChange="@LoadFile"/>
-					<input @bind="UploadFolder" placeholder="Upload to folder" />
+					<input @bind-value="UploadFolder" placeholder="Upload to folder" />
 					<button class="ui button" type="button" @onclick="UploadBlob">Upload</button>
 				</div>
 			</th>
