@@ -11,10 +11,10 @@ namespace StorageLibrary.Common
 		public string Container { get => m_internalUri.Segments[1]; }
 		public string FullName { get => $"{Path}{Name}"; }
 		public bool IsFile { get => !m_internalUri.Segments[m_internalUri.Segments.Length - 1].EndsWith("/"); }
-		public string Url 
-		{ 
+		public string Url
+		{
 			get { return m_internalUri.OriginalString; }
-			private set { m_internalUri = new Uri(value); } 
+			private set { m_internalUri = new Uri(value); }
 		}
 
 		public long Size { get; private set; }
@@ -22,6 +22,8 @@ namespace StorageLibrary.Common
 		public decimal SizeInKBs { get => (decimal)Size / 1024; }
 
 		public decimal SizeInMBs { get => (decimal)Size / 1024 / 1024; }
+
+		public BlobItemWrapper(string url) : this(url, 0) { }
 
 		public BlobItemWrapper(string url, long? size)
 		{
