@@ -1,3 +1,5 @@
+@using System.Reflection
+
 <div class="@Class">
 	<div class="version">
 	<a href="https://hub.docker.com/r/sebagomez/azurestorageexplorer">v @CurrentVersion</a> by <a href="https://twitter.com/sebagomez">@@sebagomez</a>
@@ -6,6 +8,17 @@
 </div>
 @code {
 	[Parameter]
-	public string Class {get;set;} = "parent";
-	public string CurrentVersion {get;set;} = "2.9.5";
+	public string Class { get; set; } = "parent";
+	public string CurrentVersion { get => GetVersion(); }
+
+	private string GetVersion()
+	{
+		string? envVer = Environment.GetEnvironmentVariable("APPVERSION");
+		if (!(envVer is null))
+			return envVer;
+
+		Assembly assembly = Assembly.GetExecutingAssembly();
+		System.Version? assVer = assembly.GetName().Version;
+		return $"{assVer!.Major}.{assVer!.Minor}.{assVer!.Build}";
+	}
 }

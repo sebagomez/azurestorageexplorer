@@ -80,7 +80,8 @@
 			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-				"MOCK": "true"
+				"MOCK": "true",
+				"APPVERSION": "MOCK"
 			},
 			"sourceFileMap": {
 				"/Views": "${workspaceFolder}/Views"
