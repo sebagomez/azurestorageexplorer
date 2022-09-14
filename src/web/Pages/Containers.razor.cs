@@ -48,12 +48,9 @@ namespace web.Pages
 			{
 				await AzureStorage!.Containers.CreateAsync(NewContainerName, PublicAccess);
 				NewContainerName = string.Empty;
+				await LoadContainers();
+
 			}
-			catch (RequestFailedException rfex)
-			{
-				HasError = true;
-				ErrorMessage = rfex.Message;
-			} 
 			catch (Exception ex)
 			{
 				HasError = true;
