@@ -10,6 +10,7 @@ namespace StorageLibrary.Mocks
 {
 	internal class MockContainer : IContainer
 	{
+		static readonly string FAKE_URL = "https://this.is.fake";
 		static Dictionary<string, List<string>> s_containers = new Dictionary<string, List<string>>()
 		{
 			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
@@ -17,7 +18,7 @@ namespace StorageLibrary.Mocks
 			{ "three", new List<string> {"fromThree:1"}},
 			{ "empty", new List<string> {}},
 			{ "with-folder", new List<string> {"root-file", "folder1/", "folder1/file"}},
-			{ "with-many-folders", new List<string> {"file-at-root", "folder1/", "folder1/file1", "folder1/folder11/", "folder1/folder11/file-at-11"}},
+			{ "with-many-folders", new List<string> {"file-at-root", "folder1/", "folder1/file1", "folder1/folder11/", "folder1/folder11/file-at-11", "folder1/folder11/another-file-at-11"}},
 			{ "brothers", new List<string> {"ale/", "seba/", "ale/lauti", "ale/alfo", "ale/ciro", "seba/jose", "seba/juan", "seba/benja" }},
 		};
 
@@ -41,23 +42,44 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
+				var rand = new Random();
 				foreach (string val in s_containers[containerName])
 				{
 					int slash = val.LastIndexOf("/");
+
+					string[] deep = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
+					string[] dirs = val.Split("/", StringSplitOptions.RemoveEmptyEntries);
+
 					if (!string.IsNullOrEmpty(path))
 					{
 						if (val == path)
 							continue;
 
-						if (slash >= 0 && val.Substring(0, slash + 1) == path)
+						if (dirs.Length > (deep.Length + 1) || dirs.Length <= deep.Length)
+							continue;
+
+						bool inCurrentDir = true;
+						if (dirs.Length >= deep.Length)
 						{
-							results.Add(new BlobItemWrapper(val, 0));
+							for(int i = 0; i < dirs.Length -1; i++)
+							{
+								if (dirs[i] != deep[i])
+								{
+									inCurrentDir &= false;
+									break;
+								}
+							}
 						}
+
+						if (inCurrentDir)
+							results.Add(new BlobItemWrapper($"{FAKE_URL}/{containerName}/{val}", rand.NextInt64(512, 5* 1024 * 1024)));
 					}
 					else
 					{
-						if (slash < 0 || slash == val.Length - 1)
-							results.Add(new BlobItemWrapper(val, 0));
+						if (dirs.Length > 1)
+							continue;
+
+						results.Add(new BlobItemWrapper($"{FAKE_URL}/{containerName}/{val}", rand.NextInt64(512, 5* 1024 * 1024)));
 					}
 				}
 
