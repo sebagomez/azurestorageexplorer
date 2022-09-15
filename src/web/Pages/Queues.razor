@@ -1,0 +1,41 @@
+@page "/queues"
+
+@using StorageLibrary.Common;
+@inherits web.Pages.BaseComponent
+
+<BaseComponent Selected="Queues" />
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+<p></p>
+
+<div class="ui action input">
+	<input @bind="NewQueueName" type="text" placeholder="New queue...">
+	<button class="ui icon button" @onclick="NewQueue">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
+@if (Loading)
+{
+	<em>Loading queues...</em>
+}
+else 
+{
+
+<div class="parent">
+
+	<div class="child ui vertical pointing menu">
+		@foreach(string queue in AzureQueues)
+		{
+			<a class="item" @attributes="QueuesAtts[queue]" @onclick="@(e => SelectedChanged(e, queue))">@queue</a>
+		}
+	</div>
+
+	<QMessages CurrentQueue="@SelectedQueue" Parent="this" />
+
+</div>
+
+}
