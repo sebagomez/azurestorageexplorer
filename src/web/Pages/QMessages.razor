@@ -5,7 +5,7 @@
 
 @if (CurrentQueue is null)
 {
-	<em>Select a container to see the blobs here</em>
+	<em>Select a queue to see the messages here</em>
 }
 else
 {
@@ -19,7 +19,7 @@ else
 	<table class="ui blue table">
 	<thead>
 		<tr>
-			<th></th>
+			<th style="min-width: 100px"></th>
 			<th>
 				<div style="display:flex;justify-content: space-around;">
 					<input @bind-value="NewMessage" placeholder="New message..." />
@@ -43,8 +43,9 @@ else
 	@for (int i = 0; i < AzureQueueMessages.Count; i++)
 	{
 		var msg = AzureQueueMessages[i];
+		var colSpan = i == 0 ? 2 : 3;
 		<tr>
-			<td class="table-text">@msg.Message</td>
+			<td colspan="@colSpan"  class="table-text">@msg.Message</td>
 			@if (i == 0)
 			{
 			<td>
@@ -53,7 +54,7 @@ else
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
 							<div class="red item" style="color: firebrick !important;" @onclick="DeleteMessage">
-								<i class="trash icon"></i>Delete
+								<i class="trash icon"></i>Dequeue
 							</div>
 						</div>
 					</div>

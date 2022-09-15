@@ -25,17 +25,18 @@
 else 
 {
 
-<div class="parent">
+	<div class="parent">
 
-	<div class="child ui vertical pointing menu">
-		@foreach(string queue in AzureQueues)
-		{
-			<a class="item" @attributes="QueuesAtts[queue]" @onclick="@(e => SelectedChanged(e, queue))">@queue</a>
-		}
+		<div class="child ui vertical pointing menu">
+			@foreach(string queue in AzureQueues)
+			{
+				<a class="item" @attributes="QueuesAtts[queue]" @onclick="@(e => SelectedChanged(e, queue))">@queue</a>
+			}
+		</div>
+
+		<div class="child" style="padding-left:20px">
+			<QMessages CurrentQueue="@SelectedQueue" Parent="this" />
+		</div>
 	</div>
-
-	<QMessages CurrentQueue="@SelectedQueue" Parent="this" />
-
-</div>
 
 }
