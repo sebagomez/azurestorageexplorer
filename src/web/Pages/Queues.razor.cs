@@ -70,5 +70,13 @@ namespace web.Pages
 
 			StateHasChanged();
 		}
+
+		public override async Task SelectionDeletedAsync()
+		{
+			SelectedQueue = null;
+			await LoadQueues();
+
+			await base.SelectionDeletedAsync();
+		}
 	}
 }

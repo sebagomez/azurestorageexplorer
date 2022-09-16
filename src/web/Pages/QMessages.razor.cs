@@ -15,7 +15,6 @@ namespace web.Pages
 
 		List<PeekedMessageWrapper> AzureQueueMessages = new List<PeekedMessageWrapper>();
 
-
 		protected override async Task OnParametersSetAsync()
 		{
 			await LoadMessages();
