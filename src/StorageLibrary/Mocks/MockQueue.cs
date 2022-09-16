@@ -16,25 +16,27 @@ namespace StorageLibrary.Mocks
 			{ "three", new List<string> {"fromThree:1"}}
 		};
 
-		public async Task<List<string>> ListQueuesAsync()
+		public async Task<List<QueueWrapper>> ListQueuesAsync()
 		{
-			return await Task.Run(() => {
-				List<string> retList = new List<string>();
-				foreach(string key in s_queues.Keys)
-					retList.Add(key);
-				
+			return await Task.Run(() =>
+			{
+				List<QueueWrapper> retList = new List<QueueWrapper>();
+				foreach (string key in s_queues.Keys)
+					retList.Add(new QueueWrapper { Name = key });
+
 				return retList;
 			});
 		}
 
 		public async Task<List<PeekedMessageWrapper>> GetAllMessagesAsync(string queueName)
 		{
-			return await Task.Run(() => {
+			return await Task.Run(() =>
+			{
 				if (!s_queues.ContainsKey(queueName))
 					throw new NullReferenceException($"Queue '{queueName}' does not exist");
 
 				List<PeekedMessageWrapper> results = new List<PeekedMessageWrapper>();
-				foreach(string val in s_queues[queueName])
+				foreach (string val in s_queues[queueName])
 					results.Add(new PeekedMessageWrapper { Id = val, Message = val });
 
 				return results;
@@ -43,10 +45,11 @@ namespace StorageLibrary.Mocks
 
 		public async Task DequeueMessage(string queueName)
 		{
-			await Task.Run(() => {
+			await Task.Run(() =>
+			{
 				if (!s_queues.ContainsKey(queueName))
 					throw new NullReferenceException($"Queue '{queueName}' does not exist");
-				
+
 				int count = s_queues[queueName].Count;
 				if (count == 0)
 					throw new NullReferenceException($"Queue '{queueName}' is empty");
@@ -57,30 +60,33 @@ namespace StorageLibrary.Mocks
 
 		public async Task CreateAsync(string queueName)
 		{
-			await Task.Run(() => {
+			await Task.Run(() =>
+			{
 				if (s_queues.ContainsKey(queueName))
 					throw new InvalidOperationException($"Queue '{queueName}' already exists");
-				
+
 				s_queues.Add(queueName, new List<string>());
 			});
 		}
 
 		public async Task DeleteAsync(string queueName)
 		{
-			await Task.Run(() => {
+			await Task.Run(() =>
+			{
 				if (!s_queues.ContainsKey(queueName))
 					throw new NullReferenceException($"Queue '{queueName}' does not exist");
-				
+
 				s_queues.Remove(queueName);
 			});
 		}
 
 		public async Task CreateMessageAsync(string queueName, string message)
 		{
-			await Task.Run(() => {
+			await Task.Run(() =>
+			{
 				if (!s_queues.ContainsKey(queueName))
 					throw new NullReferenceException($"Queue '{queueName}' does not exist");
-				
+
 				s_queues[queueName].Add(message);
 			});
 		}

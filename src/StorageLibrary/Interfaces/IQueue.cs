@@ -7,7 +7,7 @@ namespace StorageLibrary.Interfaces
 {
 	public interface IQueue 
 	{
-		Task<List<string>> ListQueuesAsync();
+		Task<List<QueueWrapper>> ListQueuesAsync();
 		Task<List<PeekedMessageWrapper>> GetAllMessagesAsync(string queueName);
 		Task DequeueMessage(string queueName);
 		Task CreateAsync(string queueName);

@@ -13,12 +13,12 @@ namespace StorageLibrary
 	{
 		public AzureQueue(string account, string key, string endpoint)
 		: base(account, key, endpoint) { }
-		public async Task<List<string>> ListQueuesAsync()
+		public async Task<List<QueueWrapper>> ListQueuesAsync()
 		{
 			QueueServiceClient client = new QueueServiceClient(ConnectionString);
-			List<string> results = new List<string>();
+			List<QueueWrapper> results = new List<QueueWrapper>();
 			await foreach (var q in client.GetQueuesAsync())
-				results.Add(q.Name);
+				results.Add(new QueueWrapper { Name = q.Name } );
 
 			return results;
 		}

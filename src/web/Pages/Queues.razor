@@ -28,9 +28,9 @@ else
 	<div class="parent">
 
 		<div class="child ui vertical pointing menu">
-			@foreach(string queue in AzureQueues)
+			@foreach(QueueWrapper queue in AzureQueues)
 			{
-				<a class="item" @attributes="QueuesAtts[queue]" @onclick="@(e => SelectedChanged(e, queue))">@queue</a>
+				<a class="item" @attributes="QueuesAtts[queue.Name]" @onclick="@(e => SelectedChanged(e, queue.Name))">@queue.Name</a>
 			}
 		</div>
 

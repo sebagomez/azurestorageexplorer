@@ -11,7 +11,7 @@ namespace web.Pages
 		[Parameter]
 		public string? SelectedQueue { get; set; }
 		private Dictionary<string, Dictionary<string, object>> QueuesAtts = new Dictionary<string, Dictionary<string, object>>();
-		List<string> AzureQueues = new List<string>();
+		List<QueueWrapper> AzureQueues = new List<QueueWrapper>();
 
 		protected override async Task OnInitializedAsync()
 		{	
@@ -27,9 +27,9 @@ namespace web.Pages
 		{
 			AzureQueues.Clear();
 			QueuesAtts.Clear();
-			foreach(string queue in (await AzureStorage!.Queues.ListQueuesAsync()).OrderBy(q => q))
+			foreach(QueueWrapper queue in (await AzureStorage!.Queues.ListQueuesAsync()).OrderBy(q => q.Name))
 			{
-				QueuesAtts[queue] = new Dictionary<string, object>();
+				QueuesAtts[queue.Name] = new Dictionary<string, object>();
 				AzureQueues.Add(queue);
 			}
 		}

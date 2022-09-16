@@ -65,6 +65,7 @@ namespace web.Pages
 					return;
 
 				await AzureStorage!.Queues.CreateMessageAsync(CurrentQueue, NewMessage);
+				NewMessage = string.Empty;
 				await LoadMessages();
 			}
 			catch (Exception ex)
