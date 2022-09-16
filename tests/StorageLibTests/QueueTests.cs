@@ -15,12 +15,17 @@ namespace StorageLibTests
 		[TestMethod]
 		public async Task GetQueues()
 		{
-			List<string> expected = new List<string>() { "one", "two", "three" };
+			List<QueueWrapper> expected = new List<QueueWrapper>()
+			{
+				new QueueWrapper {Name = "one"},
+				new QueueWrapper {Name = "two"},
+				new QueueWrapper {Name = "three" }
+			};
 
 			StorageFactory factory = new StorageFactory();
-			List<string> queues = await factory.Queues.ListQueuesAsync();
+			List<QueueWrapper> queues = await factory.Queues.ListQueuesAsync();
 
-			CollectionAssert.AreEqual(expected, queues);
+			CompareQueues(expected, queues);
 		}
 
 		[TestMethod]
@@ -64,14 +69,20 @@ namespace StorageLibTests
 		public async Task CreateQueue()
 		{
 			string queue = "four";
-			List<string> expected = new List<string>() { "one", "two", "three", queue };
+			List<QueueWrapper> expected = new List<QueueWrapper>()
+			{
+				new QueueWrapper {Name = "one"},
+				new QueueWrapper {Name ="two"},
+				new QueueWrapper {Name = "three" },
+				new QueueWrapper {Name = queue }
+			};
 
 			StorageFactory factory = new StorageFactory();
 			await factory.Queues.CreateAsync(queue);
 
-			List<string> queues = await factory.Queues.ListQueuesAsync();
+			List<QueueWrapper> queues = await factory.Queues.ListQueuesAsync();
 
-			CollectionAssert.AreEqual(expected, queues);
+			CompareQueues(expected, queues);
 		}
 
 		[TestMethod]
@@ -85,7 +96,7 @@ namespace StorageLibTests
 			}
 			catch (InvalidOperationException ioe)
 			{
-				Assert.IsTrue(ioe.Message == "Queue 'two' already exists", ioe.Message);
+				Assert.IsTrue(ioe.Message == $"Queue '{queue}' already exists", ioe.Message);
 				return;
 			}
 
@@ -96,28 +107,33 @@ namespace StorageLibTests
 		public async Task DeleteQueue()
 		{
 			string queue = "one";
-			List<string> expected = new List<string>() { "two", "three" };
+			List<QueueWrapper> expected = new List<QueueWrapper>()
+			{
+				new QueueWrapper {Name ="two"},
+				new QueueWrapper {Name = "three" },
+				new QueueWrapper {Name = "four" },
+			};
 
 			StorageFactory factory = new StorageFactory();
 			await factory.Queues.DeleteAsync(queue);
 
-			List<string> queues = await factory.Queues.ListQueuesAsync();
+			List<QueueWrapper> queues = await factory.Queues.ListQueuesAsync();
 
-			CollectionAssert.AreEqual(expected, queues);
+			CompareQueues(expected, queues);
 		}
 
-		 [TestMethod]
+		[TestMethod]
 		public async Task FailDeleteQueue()
 		{
-			string queue = "four";
+			string queue = "five";
 			StorageFactory factory = new StorageFactory();
 			try
 			{
-			await factory.Queues.DeleteAsync(queue);
+				await factory.Queues.DeleteAsync(queue);
 			}
 			catch (NullReferenceException nre)
 			{
-				Assert.IsTrue(nre.Message == "Queue 'four' does not exist", nre.Message);
+				Assert.IsTrue(nre.Message == $"Queue '{queue}' does not exist", nre.Message);
 				return;
 			}
 
@@ -128,8 +144,8 @@ namespace StorageLibTests
 		public async Task AddMessage()
 		{
 			string message = "newMessage";
-			List<string> expected = new List<string> { "fromOne:1", "fromOne:2", "fromOne:3", message };
-			string queue = "one";
+			List<string> expected = new List<string> { "fromTwo:1", "fromTwo:2", message };
+			string queue = "two";
 
 			StorageFactory factory = new StorageFactory();
 			await factory.Queues.CreateMessageAsync(queue, message);
@@ -142,6 +158,13 @@ namespace StorageLibTests
 			}
 
 			Assert.IsTrue(expected.Count == 0, $"More messages were expected: {string.Join(",", expected)}");
+		}
+
+		private void CompareQueues(List<QueueWrapper> expected, List<QueueWrapper> returned)
+		{
+			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			for	(int i = 0; i < expected.Count; i++)
+				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}
 	}
 }
