@@ -2,3 +2,95 @@
 
 <Error HasError=@HasError ErrorMessage=@ErrorMessage />
 
+
+@if (CurrentFileShare is null)
+{
+	<em>Select a file share to see the files here</em>
+}
+else
+{
+	if (Loading){
+		<em>Fetching data from @CurrentFileShare...</em>	
+	}
+
+	if (ShowTable) {
+
+	<table class="ui blue table">
+	<thead>
+		<tr>
+			<th style="min-width: 100px" >@CurrentPath</th>
+			<th>
+				<div style="display:flex;justify-content: space-around;">
+					<InputFile class="ui button" OnChange="@LoadFile"/>
+					<button class="ui button" type="button" @onclick="UploadFile">Upload</button>
+				</div>
+			</th>
+			<th>
+				<div class="ui compact menu">
+					<div class="ui simple dropdown item">
+						<i class="ellipsis vertical icon"></i>
+						<div class="menu">
+							<div class="red item" style="color: firebrick !important;" @onclick="DeleteFileShare"><i class="trash icon"></i>Delete</div>
+						</div>
+					</div>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+	@if (CurrentPath != "")
+	{
+		<tr>
+			<td colspan="3">
+				<a class="link" title="Go to parent directory" @onclick="MoveUp">..</a>
+			</td>
+		</tr>
+	}
+			
+	@foreach (var dir in AzureFileShareDirectories)
+	{
+		<tr>
+			<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, dir.Url))">@dir.Name</a></td>
+			<td style="display:none">@dir.Url</td>
+		</tr>
+	}
+
+	@foreach (var file in AzureFileShareFiles)
+	{
+		<tr>
+			<td class="table-text">@file.Name</td>
+			@if (file.SizeInMBs > 1)
+			{
+				<td class="table-text" style="text-align: end;">@file.SizeInMBs.ToString("0.##") MBs</td>
+			}
+			else
+			{
+				<td class="table-text" style="text-align: end;">@file.SizeInKBs.ToString("0.##") KBs</td>
+			}
+			<td style="display:none">@file.Url</td>
+			<td>
+				<div class="ui compact menu">
+					<div class="ui simple dropdown item">
+						<i class="ellipsis vertical icon"></i>
+						<div class="menu">
+							<div class="item" @onclick="@(e => DownloadFile(e, file.Url))"><i class="download icon"></i>Download</div>
+							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteFile(e, file.Url))">
+								<i class="trash icon"></i>Delete
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th colspan="3">@FileCount @Plural found</th>
+		</tr>
+	</tfoot>
+</table>
+
+	}
+
+}

@@ -76,8 +76,9 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Share '{share}' does not exist");
 
 				List<FileShareItemWrapper> results = new List<FileShareItemWrapper>();
+				var rand = new Random();
 				foreach(string val in files[share])
-					results.Add(new FileShareItemWrapper { Name = val });
+					results.Add(new FileShareItemWrapper(val, false, rand.NextInt64(512, 5* 1024 * 1024)));
 
 				return results;
 			});

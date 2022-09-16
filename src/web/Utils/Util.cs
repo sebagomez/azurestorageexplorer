@@ -4,7 +4,7 @@ namespace web.Utils
 {
 	public class Util
 	{
-		const long MAX_MEGS = 100;
+		const long MAX_MEGS = 10;
 		public const long MAX_UPLOAD_SIZE = 1024 * 1024 * MAX_MEGS;
 
 		public static StorageFactory GetStorageFactory(Credentials cred)

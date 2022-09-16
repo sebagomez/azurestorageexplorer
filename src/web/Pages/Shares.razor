@@ -3,7 +3,7 @@
 @using StorageLibrary.Common;
 @inherits web.Pages.BaseComponent
 
-<BaseComponent Selected="File Shares" />
+<BaseComponent Selected="FileShares" />
 
 <Error HasError=@HasError ErrorMessage=@ErrorMessage />
 
@@ -34,7 +34,7 @@ else
 		</div>
 
 		<div class="child" style="padding-left:20px">
-			<Files CurrentFileShare="@SelectedFileShare" Parent="@this" />
+			<Files CurrentFileShare="@SelectedFileShare" CurrentPath="" Parent="@this" />
 		</div>
 	</div>
 

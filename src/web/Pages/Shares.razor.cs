@@ -38,13 +38,39 @@ namespace web.Pages
 
 		public async Task NewFileShare()
 		{
+			if (string.IsNullOrWhiteSpace(NewFileShareName))
+				return;
 
+			try
+			{
+				// New FileShare
+				NewFileShareName = string.Empty;
+				await LoadFileShares();
+
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 		}
 
 		public void SelectedChanged(MouseEventArgs e, string selectedFileShare)
 		{
+			if (SelectedFileShare == selectedFileShare)
+				return;
 
+			if ((!string.IsNullOrEmpty(SelectedFileShare)) && FileShareAtts[SelectedFileShare].ContainsKey("style"))
+			{
+				FileShareAtts[SelectedFileShare].Remove("style");
+				FileShareAtts[SelectedFileShare]["class"] = "item";
+			}
+			SelectedFileShare = selectedFileShare;
+
+			FileShareAtts[SelectedFileShare]["class"] = "item active";
+			FileShareAtts[SelectedFileShare]["style"] = "font-weight: bold;";
+
+			StateHasChanged();
 		}
-
 	}
 }

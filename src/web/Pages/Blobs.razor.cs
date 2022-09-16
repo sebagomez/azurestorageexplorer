@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using StorageLibrary.Common;
+using web.Utils;
 
 namespace web.Pages
 {
 	public partial class Blobs : BaseComponent
 	{
-		const long MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5 Megs
-
 		[Parameter]
 		public string? CurrentContainer { get; set; }
 
@@ -23,9 +22,9 @@ namespace web.Pages
 
 		public bool ShowTable { get; set; } = false;
 
-		public string Plural { get => FileCount == 1 ? "blob" : "blobs"; }
+		public string Plural { get => FileCount == 1 ? "object" : "objects"; }
 
-		public int FileCount { get => AzureContainerBlobs.Count; }
+		public int FileCount { get => AzureContainerBlobs.Count + AzureContainerFolders.Count; }
 
 		List<BlobItemWrapper> AzureContainerBlobs = new List<BlobItemWrapper>();
 		List<BlobItemWrapper> AzureContainerFolders = new List<BlobItemWrapper>();
@@ -155,7 +154,7 @@ namespace web.Pages
 				if (!string.IsNullOrEmpty(UploadFolder) && !UploadFolder.EndsWith("/"))
 					UploadFolder += "/";
 
-				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", FileToUpload.OpenReadStream(MAX_UPLOAD_SIZE));
+				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", FileToUpload.OpenReadStream(Util.MAX_UPLOAD_SIZE));
 				await LoadBlobs();
 			}
 			catch (Exception ex)
