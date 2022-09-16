@@ -1,0 +1,41 @@
+@page "/fileshares"
+
+@using StorageLibrary.Common;
+@inherits web.Pages.BaseComponent
+
+<BaseComponent Selected="File Shares" />
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+<p></p>
+
+<div class="ui action input">
+	<input @bind="NewFileShareName" type="text" placeholder="New file share...">
+	<button class="ui icon button" @onclick="NewFileShare">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
+@if (Loading)
+{
+	<em>Loading file shares...</em>
+}
+else 
+{
+	<div class="parent">
+
+		<div class="child ui vertical pointing menu">
+			@foreach(FileShareWrapper share in AzureFileShares)
+			{
+				<a class="item" @attributes="FileShareAtts[share.Name]" @onclick="@(e => SelectedChanged(e, share.Name))">@share.Name</a>
+			}
+		</div>
+
+		<div class="child" style="padding-left:20px">
+			<Files CurrentFileShare="@SelectedFileShare" Parent="@this" />
+		</div>
+	</div>
+
+}
