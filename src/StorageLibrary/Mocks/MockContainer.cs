@@ -10,7 +10,6 @@ namespace StorageLibrary.Mocks
 {
 	internal class MockContainer : IContainer
 	{
-		static readonly string FAKE_URL = "https://this.is.fake";
 		static Dictionary<string, List<string>> s_containers = new Dictionary<string, List<string>>()
 		{
 			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
@@ -42,7 +41,6 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
-				var rand = new Random();
 				foreach (string val in s_containers[containerName])
 				{
 					int slash = val.LastIndexOf("/");
@@ -72,14 +70,14 @@ namespace StorageLibrary.Mocks
 						}
 
 						if (inCurrentDir)
-							results.Add(new BlobItemWrapper($"{FAKE_URL}/{containerName}/{val}", rand.NextInt64(512, 5* 1024 * 1024)));
+							results.Add(new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{val}", MockUtils.NewRandomSize));
 					}
 					else
 					{
 						if (dirs.Length > 1)
 							continue;
 
-						results.Add(new BlobItemWrapper($"{FAKE_URL}/{containerName}/{val}", rand.NextInt64(512, 5* 1024 * 1024)));
+						results.Add(new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{val}", MockUtils.NewRandomSize));
 					}
 				}
 

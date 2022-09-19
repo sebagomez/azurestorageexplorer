@@ -5,22 +5,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using StorageLibrary;
 using StorageLibrary.Common;
+using StorageLibrary.Mocks;
 
 namespace StorageLibTests
 {
 	[TestClass]
 	public class ContainersTests : BaseTests
 	{
-		const string FAKE_URL = "https://this.is.fake";
 		[TestMethod]
 		public async Task GetContainerBlobs()
 		{
 			string containerName = "one";
 			List<BlobItemWrapper> expected = new List<BlobItemWrapper> 
 			{ 
-				new BlobItemWrapper($"{FAKE_URL}/{containerName}/fromOne:1"), 
-				new BlobItemWrapper($"{FAKE_URL}/{containerName}/fromOne:2"),
-				new BlobItemWrapper($"{FAKE_URL}/{containerName}/fromOne:3")
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:1"), 
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:2"),
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:3")
 			};
 
 			StorageFactory factory = new StorageFactory();
