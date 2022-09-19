@@ -29,6 +29,9 @@ namespace StorageLibrary.Mocks
 				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 				
+				if (!subDir.EndsWith("/"))
+					subDir += "/";
+
 				if (MockUtils.FolderStructure[share].Contains($"{folder}/{subDir}"))
 					throw new InvalidOperationException($"Dir '{subDir}' already exists in Sare '{share}'");
 

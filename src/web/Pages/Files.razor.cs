@@ -18,6 +18,8 @@ namespace web.Pages
 
 		public bool ShowTable { get; set; } = false;
 
+		public string NewFolderName { get; set; }
+
 		public string Plural { get => FileCount == 1 ? "object" : "objects"; }
 
 		public int FileCount { get => AzureFileShareFiles.Count + AzureFileShareDirectories.Count; }
@@ -86,7 +88,7 @@ namespace web.Pages
 		{
 			try
 			{
-				//Delete FileSHare here
+				//await AzureStorage!.Files
 				await Parent!.SelectionDeletedAsync();
 			}
 			catch (Exception ex)
@@ -104,8 +106,6 @@ namespace web.Pages
 			else
 				CurrentPath = CurrentPath.Substring(0, parentSlash + 1);
 
-			//UploadFolder = CurrentPath;
-
 			StateHasChanged();
 			await LoadFiles();
 		}
@@ -117,6 +117,23 @@ namespace web.Pages
 
 			StateHasChanged();
 			await LoadFiles();
+		}
+
+		public async Task AddFolder()
+		{
+			if (string.IsNullOrEmpty(NewFolderName))
+				return;
+
+			try
+			{
+				await AzureStorage!.Files.CreateSubDirectory(CurrentFileShare, CurrentPath, NewFolderName);
+				await LoadFiles();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 		}
 
 		public async Task DownloadFile(EventArgs args, string url)

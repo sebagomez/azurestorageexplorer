@@ -85,7 +85,7 @@ namespace StorageLibrary
 		{
 			ShareFileClient file = GetShareFileClient(share, fileName, folder);
 			file.Create(fileContent.Length);
-			await file.UploadRangeAsync(new HttpRange(0, fileContent.Length),fileContent);
+			await file.UploadAsync(fileContent);
 		}
 
 		private ShareDirectoryClient GetShareDirectoryClient(string share, string folder)
