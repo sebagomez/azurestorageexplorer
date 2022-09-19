@@ -15,11 +15,13 @@ namespace StorageLibTests
 		{
 			List<FileShareWrapper> expected = new List<FileShareWrapper>
 			{
-				new FileShareWrapper(){ Name = "shareOne"},
-				new FileShareWrapper(){ Name = "shareTwo"},
-				new FileShareWrapper(){ Name = "shareThree"},
-				new FileShareWrapper(){ Name = "shareEmpty"},
+				new FileShareWrapper(){ Name = "two"},
+				new FileShareWrapper(){ Name = "three"},
+				new FileShareWrapper(){ Name = "empty"},
 				new FileShareWrapper(){ Name = "with-folder"},
+				new FileShareWrapper(){ Name = "with-many-folders"},
+				new FileShareWrapper(){ Name = "brothers"},
+				new FileShareWrapper(){ Name = "four"},
 			};
 
 			StorageFactory factory = new StorageFactory();

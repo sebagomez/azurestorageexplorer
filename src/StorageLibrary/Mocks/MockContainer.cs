@@ -10,23 +10,12 @@ namespace StorageLibrary.Mocks
 {
 	internal class MockContainer : IContainer
 	{
-		static Dictionary<string, List<string>> s_containers = new Dictionary<string, List<string>>()
-		{
-			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
-			{ "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
-			{ "three", new List<string> {"fromThree:1"}},
-			{ "empty", new List<string> {}},
-			{ "with-folder", new List<string> {"root-file", "folder1/", "folder1/file"}},
-			{ "with-many-folders", new List<string> {"file-at-root", "folder1/", "folder1/file1", "folder1/folder11/", "folder1/folder11/file-at-11", "folder1/folder11/another-file-at-11"}},
-			{ "brothers", new List<string> {"ale/", "seba/", "ale/lauti", "ale/alfo", "ale/ciro", "seba/jose", "seba/juan", "seba/benja" }},
-		};
-
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
 			return await Task.Run(() =>
 			{
 				List<CloudBlobContainerWrapper> retList = new List<CloudBlobContainerWrapper>();
-				foreach (string key in s_containers.Keys)
+				foreach (string key in MockUtils.FolderStructure.Keys)
 					retList.Add(new CloudBlobContainerWrapper { Name = key });
 
 				return retList;
@@ -37,49 +26,12 @@ namespace StorageLibrary.Mocks
 		{
 			return await Task.Run(() =>
 			{
-				if (!s_containers.ContainsKey(containerName))
+				if (!MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
-				foreach (string val in s_containers[containerName])
-				{
-					int slash = val.LastIndexOf("/");
-
-					string[] deep = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
-					string[] dirs = val.Split("/", StringSplitOptions.RemoveEmptyEntries);
-
-					if (!string.IsNullOrEmpty(path))
-					{
-						if (val == path)
-							continue;
-
-						if (dirs.Length > (deep.Length + 1) || dirs.Length <= deep.Length)
-							continue;
-
-						bool inCurrentDir = true;
-						if (dirs.Length >= deep.Length)
-						{
-							for(int i = 0; i < dirs.Length -1; i++)
-							{
-								if (dirs[i] != deep[i])
-								{
-									inCurrentDir &= false;
-									break;
-								}
-							}
-						}
-
-						if (inCurrentDir)
-							results.Add(new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{val}", MockUtils.NewRandomSize));
-					}
-					else
-					{
-						if (dirs.Length > 1)
-							continue;
-
-						results.Add(new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{val}", MockUtils.NewRandomSize));
-					}
-				}
+				foreach(string url in MockUtils.GetItems(containerName, path))
+					results.Add(new BlobItemWrapper(url, MockUtils.NewRandomSize));
 
 				return results;
 			});
@@ -89,10 +41,10 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (s_containers.ContainsKey(containerName))
+				if (MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new InvalidOperationException($"Container '{containerName}' already exists");
 
-				s_containers.Add(containerName, new List<string>());
+				MockUtils.FolderStructure.Add(containerName, new List<string>());
 			});
 		}
 
@@ -100,13 +52,13 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!s_containers.ContainsKey(containerName))
+				if (!MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
-				if (!s_containers[containerName].Contains(blobName))
+				if (!MockUtils.FolderStructure[containerName].Contains(blobName))
 					throw new NullReferenceException($"Blob '{blobName}' does not exist in Container '{containerName}'");
 
-				s_containers[containerName].Remove(containerName);
+				MockUtils.FolderStructure[containerName].Remove(containerName);
 			});
 		}
 
@@ -114,13 +66,13 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!s_containers.ContainsKey(containerName))
+				if (!MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
-				if (s_containers[containerName].Contains(blobName))
+				if (MockUtils.FolderStructure[containerName].Contains(blobName))
 					throw new InvalidOperationException($"Blob '{blobName}' already exists in Container '{containerName}'");
 
-				s_containers[containerName].Add(blobName);
+				MockUtils.FolderStructure[containerName].Add(blobName);
 			});
 		}
 
@@ -128,10 +80,10 @@ namespace StorageLibrary.Mocks
 		{
 			return await Task.Run(() =>
 			{
-				if (!s_containers.ContainsKey(containerName))
+				if (!MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
-				if (!s_containers[containerName].Contains(blobName))
+				if (!MockUtils.FolderStructure[containerName].Contains(blobName))
 					throw new InvalidOperationException($"Blob '{blobName}' does not exist in Container '{containerName}'");
 
 				return blobName;
@@ -142,10 +94,10 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!s_containers.ContainsKey(containerName))
+				if (!MockUtils.FolderStructure.ContainsKey(containerName))
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
-				s_containers.Remove(containerName);
+				MockUtils.FolderStructure.Remove(containerName);
 			});
 		}
 	}
