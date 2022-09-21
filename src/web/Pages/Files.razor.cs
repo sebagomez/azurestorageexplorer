@@ -15,10 +15,13 @@ namespace web.Pages
 		public string CurrentPath { get; set; } = "";
 
 		public IBrowserFile? FileToUpload { get; set; }
+		
+		[Inject]
+		IJSRuntime? JS {get;set;}
 
 		public bool ShowTable { get; set; } = false;
 
-		public string NewFolderName { get; set; }
+		public string? NewFolderName { get; set; }
 
 		public string Plural { get => FileCount == 1 ? "object" : "objects"; }
 
@@ -141,9 +144,14 @@ namespace web.Pages
 			try
 			{
 				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
+				string path = await AzureStorage!.Files.GetFileAsync(CurrentFileShare, file.Name, file.Path);
 
-				await AzureStorage!.Files.DeleteFileAsync(CurrentFileShare, file.Name, file.Path);
-				await LoadFiles();
+				FileStream fileStream = File.OpenRead(path);
+
+				using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+				await JS!.InvokeVoidAsync("downloadFileFromStream", file.Name, streamRef);
+
 			}
 			catch (Exception ex)
 			{
@@ -155,8 +163,18 @@ namespace web.Pages
 
 		public async Task DeleteFile(EventArgs args, string url)
 		{
-			
+			try
+			{
+				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
 
+				await AzureStorage!.Files.DeleteFileAsync(CurrentFileShare, file.Name, file.Path);
+				await LoadFiles();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 		}
 
 	}

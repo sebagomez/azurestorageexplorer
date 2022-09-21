@@ -47,7 +47,7 @@ namespace StorageLibrary
 			return items;
 		}
 
-		public async Task<string> GetFile(string share, string file, string folder = null)
+		public async Task<string> GetFileAsync(string share, string file, string folder = null)
 		{
 			ShareFileClient fileClient = GetShareFileClient(share, file, folder);
 

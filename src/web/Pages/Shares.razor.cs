@@ -13,7 +13,7 @@ namespace web.Pages
 
 		List<FileShareWrapper> AzureFileShares = new List<FileShareWrapper>();
 
-		public string NewFileShareName { get; set; }
+		public string? NewFileShareName { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{	

@@ -52,7 +52,7 @@ namespace StorageLibrary.Mocks
 			});
 		}
 
-		public async Task<string> GetFile(string share, string file, string folder = null)
+		public async Task<string> GetFileAsync(string share, string file, string folder = null)
 		{
 			return await Task.Run(() => {
 				if (!MockUtils.FolderStructure.ContainsKey(share))
