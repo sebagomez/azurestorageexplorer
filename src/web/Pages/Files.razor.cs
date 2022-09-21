@@ -72,7 +72,9 @@ namespace web.Pages
 		{
 			try
 			{
-				await AzureStorage!.Files.CreateFileAsync(CurrentFileShare, FileToUpload!.Name, FileToUpload.OpenReadStream(Util.MAX_UPLOAD_SIZE), CurrentPath );
+				using(Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
+					await AzureStorage!.Files.CreateFileAsync(CurrentFileShare, FileToUpload!.Name, fileStream, CurrentPath );
+				
 				await LoadFiles();
 			}
 			catch (Exception ex)

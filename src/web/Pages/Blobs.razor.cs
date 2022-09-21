@@ -154,7 +154,10 @@ namespace web.Pages
 				if (!string.IsNullOrEmpty(UploadFolder) && !UploadFolder.EndsWith("/"))
 					UploadFolder += "/";
 
-				await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", FileToUpload.OpenReadStream(Util.MAX_UPLOAD_SIZE));
+				using(Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
+					await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", fileStream);
+
+				UploadFolder = string.Empty;
 				await LoadBlobs();
 			}
 			catch (Exception ex)
@@ -164,9 +167,10 @@ namespace web.Pages
 			}
 		}
 
-		public void LoadFile(InputFileChangeEventArgs args)
+		public Task LoadFile(InputFileChangeEventArgs args)
 		{
 			FileToUpload = args.File;
+			return Task.CompletedTask;
 		}
 	}
 }

@@ -19,6 +19,9 @@ namespace StorageLibrary.Mocks
 				if (MockUtils.FolderStructure[share].Contains(fileName))
 					throw new InvalidOperationException($"File '{fileName}' already exists in Sare '{share}'");
 
+				if (!string.IsNullOrEmpty(folder))
+					fileName = $"{folder}{fileName}";
+
 				MockUtils.FolderStructure[share].Add(fileName);
 			});
 		}
