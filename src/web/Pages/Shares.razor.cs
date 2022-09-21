@@ -43,7 +43,7 @@ namespace web.Pages
 
 			try
 			{
-				// New FileShare
+				//AzureStorage!.Files.
 				NewFileShareName = string.Empty;
 				await LoadFileShares();
 
