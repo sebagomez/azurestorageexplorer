@@ -138,7 +138,18 @@ namespace web.Pages
 
 		public async Task DownloadFile(EventArgs args, string url)
 		{
-			
+			try
+			{
+				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
+
+				await AzureStorage!.Files.DeleteFileAsync(CurrentFileShare, file.Name, file.Path);
+				await LoadFiles();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 
 		}
 
