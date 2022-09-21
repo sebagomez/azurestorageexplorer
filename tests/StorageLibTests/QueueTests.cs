@@ -6,12 +6,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using StorageLibrary;
 using StorageLibrary.Common;
+using StorageLibrary.Mocks;
 
 namespace StorageLibTests
 {
 	[TestClass]
 	public class QueueTests : BaseTests
 	{
+		[ClassInitialize]
+		public static void Initialize(TestContext ctx)
+		{
+			MockUtils.Reintialize();
+		}
+
 		[TestMethod]
 		public async Task GetQueues()
 		{

@@ -11,16 +11,26 @@ namespace StorageLibrary.Mocks
 
 		public static long NewRandomSize { get => s_rand.NextInt64(512, 5 * 1024 * 1024); } // between 512 bytes and 5 Megs
 
-		static Dictionary<string, List<string>> s_folderStructure = new Dictionary<string, List<string>>()
+		static Dictionary<string, List<string>> s_folderStructure = new Dictionary<string, List<string>>();
+
+		static MockUtils()
 		{
-			{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
-			{ "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
-			{ "three", new List<string> {"fromThree:1"}},
-			{ "empty", new List<string> {}},
-			{ "with-folder", new List<string> {"root-file", "folder1/", "folder1/file"}},
-			{ "with-many-folders", new List<string> {"file-at-root", "folder1/", "folder1/file1", "folder1/folder11/", "folder1/folder11/file-at-11", "folder1/folder11/another-file-at-11"}},
-			{ "brothers", new List<string> {"ale/", "seba/", "ale/lauti", "ale/alfo", "ale/ciro", "seba/jose", "seba/juan", "seba/benja" }},
-		};
+			Reintialize();
+		}
+
+		public static void Reintialize()
+		{
+			s_folderStructure = new Dictionary<string, List<string>>()
+			{
+				{ "one", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
+				{ "two", new List<string> {"fromTwo:1", "fromTwo:2"}},
+				{ "three", new List<string> {"fromThree:1"}},
+				{ "empty", new List<string> {}},
+				{ "with-folder", new List<string> {"root-file", "folder1/", "folder1/file"}},
+				{ "with-many-folders", new List<string> {"file-at-root", "folder1/", "folder1/file1", "folder1/folder11/", "folder1/folder11/file-at-11", "folder1/folder11/another-file-at-11"}},
+				{ "brothers", new List<string> {"ale/", "seba/", "ale/lauti", "ale/alfo", "ale/ciro", "seba/jose", "seba/juan", "seba/benja" }},
+			};
+		}
 
 		public static Dictionary<string, List<string>> FolderStructure { get => s_folderStructure; }
 

@@ -58,7 +58,7 @@ namespace StorageLibrary.Mocks
 				if (!MockUtils.FolderStructure[containerName].Contains(blobName))
 					throw new NullReferenceException($"Blob '{blobName}' does not exist in Container '{containerName}'");
 
-				MockUtils.FolderStructure[containerName].Remove(containerName);
+				MockUtils.FolderStructure[containerName].Remove(blobName);
 			});
 		}
 

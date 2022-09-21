@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StorageLibrary;
+using StorageLibrary.Mocks;
 
 namespace StorageLibTests
 {
 	[TestClass]
 	public class TableTests : BaseTests
 	{
+		[ClassInitialize]
+		public static void Initialize(TestContext ctx)
+		{
+			MockUtils.Reintialize();
+		}
+
 		[TestMethod]
 		public async Task GetTables()
 		{

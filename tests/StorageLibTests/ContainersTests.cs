@@ -12,6 +12,12 @@ namespace StorageLibTests
 	[TestClass]
 	public class ContainersTests : BaseTests
 	{
+		[ClassInitialize]
+		public static void Initialize(TestContext ctx)
+		{
+			MockUtils.Reintialize();
+		}
+
 		[TestMethod]
 		public async Task GetContainerBlobs()
 		{
