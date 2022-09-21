@@ -1,6 +1,6 @@
 namespace StorageLibrary.Common
 {
-	public class QueueWrapper
+	public class TableWrapper
 	{
 		public string Name { get; set; }
 

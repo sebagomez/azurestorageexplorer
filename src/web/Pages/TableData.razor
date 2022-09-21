@@ -1,0 +1,70 @@
+@inherits web.Pages.BaseComponent
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+<div class="ui action input fullWidth">
+	<textarea @bind="InputQuery" class="queryarea" rows="3" placeholder="Search pattern..."></textarea>
+	<select @bind="QueryMode" style="height: 40px; margin-left: 3px;" class="ui button compact selection" @onselectionchange="ModeChanged">
+		<option class="item" value="q" selected="">Search</option>
+		<option class="item" value="i">Insert</option>
+	</select>
+	<div style="height: 40px; margin-left: 3px; "class="ui button" @onclick="QueryData">Go</div>
+</div>
+
+@if (CurrentTable is null)
+{
+	<em>Select a table to see its data here</em>
+}
+else
+{
+	if (Loading){
+		<em>Fetching data from @CurrentTable...</em>	
+	}
+
+	if (ShowTable) 
+	{
+
+	<table class="ui blue table">
+	<thead>
+		<tr>
+			@* <th>
+				<button *ngIf="!removeTableFlag" class="ui icon button" (click)="removeTable($event)">
+					<i class="trash icon"></i>
+				</button>
+				<div *ngIf="removeTableFlag" class="ui buttons">
+					<button class="ui button" (click)="cancelDeleteTable()">Cancel</button>
+					<div class="or"></div>
+					<button class="ui negative button" (click)="deleteTable()">Delete</button>
+				</div>
+			</th> *@
+
+			@foreach (string header in Headers)
+			{
+				<th>@header</th>
+			}
+			
+			@* <th *ngFor="let h of headers">{{ h }}</th> *@
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var data in AzureTableData)
+		{
+			<tr>
+			@foreach (string header in Headers)
+			{
+				
+				<td>@data[header]</td>
+			}	
+			</tr>
+		}
+
+	</tbody>
+	<tfoot>
+		<tr>
+			<th> rows found</th>
+		</tr>
+	</tfoot>
+</table>
+	}
+}
