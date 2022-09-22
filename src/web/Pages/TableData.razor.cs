@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Prometheus;
 using StorageLibrary.Common;
 
 namespace web.Pages
@@ -15,6 +16,15 @@ namespace web.Pages
 		HashSet<string> Headers = new HashSet<string>();
 		private Dictionary<string, object> ColAtts = new Dictionary<string, object>();
 		public bool HideKeysCols { get; set; } = false;
+
+		private static readonly Counter TablesCounter = Metrics.CreateCounter("tablescontroller_counter_total", "Keep TablesController access count");
+
+		protected override Task OnInitializedAsync()
+		{
+			Increment(TablesCounter);
+			return base.OnInitializedAsync();
+		}
+
 		private async Task LoadData()
 		{
 			if (string.IsNullOrEmpty(CurrentTable))

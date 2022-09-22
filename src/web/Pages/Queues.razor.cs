@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Prometheus;
 using StorageLibrary.Common;
 
 namespace web.Pages
@@ -13,8 +14,11 @@ namespace web.Pages
 		private Dictionary<string, Dictionary<string, object>> QueuesAtts = new Dictionary<string, Dictionary<string, object>>();
 		List<QueueWrapper> AzureQueues = new List<QueueWrapper>();
 
+		private static readonly Counter QueueCounter = Metrics.CreateCounter("queuescontroller_counter_total", "Keep QueuesController access count");
+
 		protected override async Task OnInitializedAsync()
 		{	
+			Increment(QueueCounter);
 			await base.OnInitializedAsync();
 		}
 

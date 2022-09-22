@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Prometheus;
 using StorageLibrary.Common;
 
 namespace web.Pages
@@ -15,8 +16,11 @@ namespace web.Pages
 
 		public string? NewFileShareName { get; set; }
 
+		private static readonly Counter FilesCounter = Metrics.CreateCounter("filescontroller_counter_total", "Keep FilesController access count");
+
 		protected override async Task OnInitializedAsync()
 		{	
+			Increment(FilesCounter);
 			await base.OnInitializedAsync();
 		}
 

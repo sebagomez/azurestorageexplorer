@@ -27,4 +27,8 @@
     <ProjectReference Include="..\StorageLibrary\StorageLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
+using Prometheus;
 using StorageLibrary;
 using web.Utils;
 
@@ -28,6 +29,11 @@ namespace web.Pages
 		[Parameter]
 		public BaseComponent? Parent { get; set; }
 
+		public void Increment(Counter counter)
+		{
+			counter.Inc();
+		}
+		
 		public virtual Task SelectionDeletedAsync()
 		{
 			StateHasChanged();

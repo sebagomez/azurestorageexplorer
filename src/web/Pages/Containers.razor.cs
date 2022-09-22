@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Prometheus;
 using StorageLibrary.Common;
 
 namespace web.Pages
@@ -17,8 +18,11 @@ namespace web.Pages
 
 		List<CloudBlobContainerWrapper> AzureContainers = new List<CloudBlobContainerWrapper>();
 
+		private static readonly Counter ContainerCounter = Metrics.CreateCounter("containerscontroller_counter_total", "Keep ContainersController access count");
+
 		protected override async Task OnInitializedAsync()
-		{	
+		{
+			Increment(ContainerCounter);	
 			await base.OnInitializedAsync();
 		}
 
