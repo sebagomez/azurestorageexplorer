@@ -10,7 +10,7 @@ namespace web.Pages
 		public bool ShowTable { get; set; }
 		public string? InputQuery { get; set; }
 		public string QueryMode { get; set; } = "q";
-		public long HeadersCount { get => Headers.LongCount() + 2; }
+		public long HeadersCount { get => Headers.LongCount() + (HideKeysCols ? 1 : 3); }
 		List<TableEntityWrapper> AzureTableData = new List<TableEntityWrapper>();
 		HashSet<string> Headers = new HashSet<string>();
 		private Dictionary<string, object> ColAtts = new Dictionary<string, object>();
@@ -47,6 +47,7 @@ namespace web.Pages
 			try
 			{
 				await AzureStorage!.Tables.InsertAsync(CurrentTable, InputQuery);
+				InputQuery = string.Empty;
 			}
 			catch (Exception ex)
 			{
@@ -73,6 +74,34 @@ namespace web.Pages
 				ColAtts.Remove("style");
 
 			StateHasChanged();
+		}
+
+		public async Task DeleteTable()
+		{
+			try
+			{
+				await AzureStorage!.Tables.Delete(CurrentTable);
+				await Parent!.SelectionDeletedAsync();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
+		}
+
+		public async Task DeleteRow(string partitionKey, string rowKey)
+		{
+			try
+			{
+				await AzureStorage!.Tables.DeleteEntityAsync(CurrentTable, partitionKey, rowKey);
+				await LoadData();
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage= ex.Message;
+			}
 		}
 	}
 }

@@ -34,6 +34,16 @@ namespace web.Pages
 
 		public async Task NewTable()
 		{
+			try
+			{
+				await AzureStorage!.Tables.Create(NewTableName);
+				await LoadTables();
+			}
+			catch(Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
 
 		}
 
