@@ -20,9 +20,10 @@ else
 		<div style="height: 40px; margin-left: 3px; "class="ui button" @onclick="QueryData">Go</div>
 	</div>
 
-	@* 
-	<input type="checkbox" checked="@isChecked" @oninput="CheckboxChanged">
-	 *@
+	
+	<input id="showKeys" type="checkbox" @onchange="ShowKeysChanged">
+	<label for="showKeys">Hide Partition and Row keys</label>
+	
 
 	if (Loading){
 		<em>Fetching data from @CurrentTable...</em>	
@@ -45,8 +46,8 @@ else
 				</div>
 			</th> *@
 
-				<th>PartitionKey</th>
-				<th>RowKey</th>
+				<th @attributes="@ColAtts">PartitionKey</th>
+				<th @attributes="@ColAtts">RowKey</th>
 			@foreach (string header in Headers)
 			{
 				<th>@header</th>
@@ -58,8 +59,8 @@ else
 		@foreach (var data in AzureTableData)
 		{
 			<tr>
-				<td>@data.PartitionKey</td>
-				<td>@data.RowKey</td>
+				<td @attributes="@ColAtts">@data.PartitionKey</td>
+				<td @attributes="@ColAtts">@data.RowKey</td>
 			@foreach (string header in Headers)
 			{
 				<td>@data[header]</td>

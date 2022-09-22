@@ -7,18 +7,14 @@ namespace web.Pages
 	{
 		[Parameter]
 		public string? CurrentTable { get; set; }
-
 		public bool ShowTable { get; set; }
-
 		public string? InputQuery { get; set; }
 		public string QueryMode { get; set; } = "q";
-
 		public long HeadersCount { get => Headers.LongCount() + 2; }
-
 		List<TableEntityWrapper> AzureTableData = new List<TableEntityWrapper>();
 		HashSet<string> Headers = new HashSet<string>();
-
-		List<Dictionary<string, object>> Values = new List<Dictionary<string, object>>();
+		private Dictionary<string, object> ColAtts = new Dictionary<string, object>();
+		public bool HideKeysCols { get; set; } = false;
 		private async Task LoadData()
 		{
 			if (string.IsNullOrEmpty(CurrentTable))
@@ -65,6 +61,18 @@ namespace web.Pages
 				await LoadData();
 			else
 				await InsertData();
+		}
+
+		public void ShowKeysChanged(ChangeEventArgs arg)
+		{
+			HideKeysCols = (bool)arg!.Value!;
+
+			if (HideKeysCols)
+				ColAtts["style"] = "display: none;";
+			else
+				ColAtts.Remove("style");
+
+			StateHasChanged();
 		}
 	}
 }
