@@ -11,7 +11,9 @@ namespace web.Pages
 		public bool ShowTable { get; set; }
 
 		public string? InputQuery { get; set; }
-		public string? QueryMode { get; set; }
+		public string QueryMode { get; set; } = "q";
+
+		public long HeadersCount { get => Headers.LongCount() + 2; }
 
 		List<TableEntityWrapper> AzureTableData = new List<TableEntityWrapper>();
 		HashSet<string> Headers = new HashSet<string>();
@@ -44,12 +46,25 @@ namespace web.Pages
 			}
 		}
 
-		public void ModeChanged()
-		{}
+		private async Task InsertData()
+		{
+			try
+			{
+				await AzureStorage!.Tables.InsertAsync(CurrentTable, InputQuery);
+			}
+			catch (Exception ex)
+			{
+				HasError = true;
+				ErrorMessage = ex.Message;
+			}
+		}
 
 		public async Task QueryData()
 		{
-			await LoadData();
+			if (QueryMode == "q")
+				await LoadData();
+			else
+				await InsertData();
 		}
 	}
 }
