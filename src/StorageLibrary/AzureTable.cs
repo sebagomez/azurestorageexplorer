@@ -13,12 +13,12 @@ namespace StorageLibrary
 		public AzureTable(string account, string key, string endpoint)
 		: base(account, key, endpoint) { }
 
-		public async Task<List<string>> ListTablesAsync()
+		public async Task<List<TableWrapper>> ListTablesAsync()
 		{
 			TableServiceClient client = new TableServiceClient(ConnectionString);
-			List<string> results = new List<string>();
+			List<TableWrapper> results = new List<TableWrapper>();
 			await foreach (var table in client.QueryAsync())
-				results.Add(table.Name);
+				results.Add(new TableWrapper { Name = table.Name});
 
 			return results;
 		}

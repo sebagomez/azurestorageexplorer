@@ -5,21 +5,28 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using StorageLibrary;
 using StorageLibrary.Common;
+using StorageLibrary.Mocks;
 
 namespace StorageLibTests
 {
 	[TestClass]
 	public class ContainersTests : BaseTests
 	{
+		[ClassInitialize]
+		public static void Initialize(TestContext ctx)
+		{
+			MockUtils.Reintialize();
+		}
+
 		[TestMethod]
 		public async Task GetContainerBlobs()
 		{
 			string containerName = "one";
 			List<BlobItemWrapper> expected = new List<BlobItemWrapper> 
 			{ 
-				new BlobItemWrapper { Name = "fromOne:1", Url = "fromOne:1" }, 
-				new BlobItemWrapper { Name = "fromOne:2", Url = "fromOne:2"},
-				new BlobItemWrapper { Name =  "fromOne:3", Url = "fromOne:3"}
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:1"), 
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:2"),
+				new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/fromOne:3")
 			};
 
 			StorageFactory factory = new StorageFactory();
@@ -37,7 +44,11 @@ namespace StorageLibTests
 			{ 
 				new CloudBlobContainerWrapper { Name = "one"},
 				new CloudBlobContainerWrapper { Name =  "two"},
-				new CloudBlobContainerWrapper { Name =  "three"}
+				new CloudBlobContainerWrapper { Name =  "three"},
+				new CloudBlobContainerWrapper { Name =  "empty"},
+				new CloudBlobContainerWrapper { Name =  "with-folder"},
+				new CloudBlobContainerWrapper { Name =  "with-many-folders"},
+				new CloudBlobContainerWrapper { Name =  "brothers"}
 			};
 
 			StorageFactory factory = new StorageFactory();
@@ -57,6 +68,10 @@ namespace StorageLibTests
 				new CloudBlobContainerWrapper { Name = "one"},
 				new CloudBlobContainerWrapper { Name =  "two"},
 				new CloudBlobContainerWrapper { Name =  "three"},
+				new CloudBlobContainerWrapper { Name =  "empty"},
+				new CloudBlobContainerWrapper { Name =  "with-folder"},
+				new CloudBlobContainerWrapper { Name =  "with-many-folders"},
+				new CloudBlobContainerWrapper { Name =  "brothers"},
 				new CloudBlobContainerWrapper { Name =  container}
 			};
 
@@ -75,9 +90,14 @@ namespace StorageLibTests
 		{
 			string container = "one";
 			List<CloudBlobContainerWrapper> expected = new List<CloudBlobContainerWrapper> 
-			{ 
+			{
 				new CloudBlobContainerWrapper { Name =  "two"},
-				new CloudBlobContainerWrapper { Name =  "three"}
+				new CloudBlobContainerWrapper { Name =  "three"},
+				new CloudBlobContainerWrapper { Name =  "empty"},
+				new CloudBlobContainerWrapper { Name =  "with-folder"},
+				new CloudBlobContainerWrapper { Name =  "with-many-folders"},
+				new CloudBlobContainerWrapper { Name =  "brothers"},
+				new CloudBlobContainerWrapper { Name =  "four"},
 			};
 
 			StorageFactory factory = new StorageFactory();

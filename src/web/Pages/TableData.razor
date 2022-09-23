@@ -1,0 +1,91 @@
+@inherits web.Pages.BaseComponent
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+<p></p>
+
+@if (CurrentTable is null)
+{
+	<em>Select a table to query or insert data</em>
+}
+else
+{
+
+	<div class="ui action input fullWidth">
+		<textarea @bind="InputQuery" class="queryarea" rows="3" placeholder="Search pattern..."></textarea>
+		<select @bind="QueryMode" style="height: 40px; margin-left: 3px;" class="ui button compact selection">
+			<option class="item" value="q" selected="">Search</option>
+			<option class="item" value="i">Insert</option>
+		</select>
+		<div style="height: 40px; margin-left: 3px; "class="ui button" @onclick="QueryData">Go</div>
+		<div class="ui compact menu contextMenu">
+			<div class="ui simple dropdown item">
+				<i class="ellipsis vertical icon"></i>
+				<div class="menu">
+					<div class="red item" style="color: firebrick !important;" @onclick="DeleteTable"><i class="trash icon"></i>Delete Table</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div>
+		<input id="showKeys" type="checkbox" @onchange="ShowKeysChanged">
+		<label for="showKeys">Hide Partition and Row keys</label>
+	</div>
+
+	if (Loading){
+		<em>Fetching data from @CurrentTable...</em>	
+	}
+
+	if (ShowTable) 
+	{
+
+	<table class="ui blue table">
+	<thead>
+		<tr>
+				<th @attributes="@ColAtts">PartitionKey</th>
+				<th @attributes="@ColAtts">RowKey</th>
+			@foreach (string header in Headers)
+			{
+				<th>@header</th>
+			}
+
+				<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var data in AzureTableData)
+		{
+			<tr>
+				<td @attributes="@ColAtts">@data.PartitionKey</td>
+				<td @attributes="@ColAtts">@data.RowKey</td>
+			@foreach (string header in Headers)
+			{
+				<td>@data[header]</td>
+			}	
+				<td>
+					<div class="ui compact menu contextMenu">
+						<div class="ui simple dropdown item">
+							<i class="ellipsis vertical icon"></i>
+							<div class="menu">
+								<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteRow(data.PartitionKey, data.RowKey))">
+									<i class="trash icon"></i>Delete
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+	<tfoot>
+		<tr>
+			<th colspan="@HeadersCount">@AzureTableData.Count rows found</th>
+		</tr>
+	</tfoot>
+</table>
+	}
+}

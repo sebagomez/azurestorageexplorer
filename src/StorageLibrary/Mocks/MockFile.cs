@@ -10,59 +10,79 @@ namespace StorageLibrary.Mocks
 {
 	internal class MockFile : IFile
 	{
-		Dictionary<string, List<string>> files = new Dictionary<string, List<string>>()
-		{
-			{ "shareOne", new List<string> {"fromOne:1", "fromOne:2", "fromOne:3"}},
-			{ "shareTwo", new List<string> {"fromTwo:1", "fromTwo:2"}},
-			{ "shareThree", new List<string> {"fromThree:1"}}
-		};
-
 		public async Task CreateFileAsync(string share, string fileName, Stream fileContent, string folder = null)
 		{
 			await Task.Run(() => {
-				if (!files.ContainsKey(share))
+				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 				
-				if (files[share].Contains(fileName))
+				if (MockUtils.FolderStructure[share].Contains(fileName))
 					throw new InvalidOperationException($"File '{fileName}' already exists in Sare '{share}'");
 
-				files[share].Add(fileName);
+				if (!string.IsNullOrEmpty(folder))
+					fileName = $"{folder}{fileName}";
+
+				MockUtils.FolderStructure[share].Add(fileName);
+			});
+		}
+
+		public async Task CreateFileShareAsync(string share, string accessTier)
+		{
+			await Task.Run(() => {
+
+				if (MockUtils.FolderStructure.ContainsKey(share))
+					throw new NullReferenceException($"Share '{share}' already exists");
+
+				MockUtils.FolderStructure[share] = new List<string>();
 			});
 		}
 
 		public async Task CreateSubDirectory(string share, string folder, string subDir)
 		{
 			await Task.Run(() => {
-				if (!files.ContainsKey(share))
+				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 				
-				if (files[share].Contains($"{folder}/{subDir}"))
+				if (!subDir.EndsWith("/"))
+					subDir += "/";
+
+				if (MockUtils.FolderStructure[share].Contains($"{folder}/{subDir}"))
 					throw new InvalidOperationException($"Dir '{subDir}' already exists in Sare '{share}'");
 
-				files[share].Add($"{folder}/{subDir}");
+				MockUtils.FolderStructure[share].Add($"{folder}/{subDir}");
 			});
 		}
 
 		public async Task DeleteFileAsync(string share, string file, string folder = null)
 		{
 			await Task.Run(() => {
-				if (!files.ContainsKey(share))
+				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 				
-				if (!files[share].Contains(file))
+				if (!MockUtils.FolderStructure[share].Contains(file))
 					throw new InvalidOperationException($"File '{file}' does not exist in share '{share}'");
 
-				files[share].Remove(file);
+				MockUtils.FolderStructure[share].Remove(file);
 			});
 		}
 
-		public async Task<string> GetFile(string share, string file, string folder = null)
+		public async Task DeleteFileShareAsync(string share)
+		{
+			await Task.Run(() => {
+				if (!MockUtils.FolderStructure.ContainsKey(share))
+					throw new NullReferenceException($"Share '{share}' does not exist");
+
+				MockUtils.FolderStructure.Remove(share);
+			});
+		}
+
+		public async Task<string> GetFileAsync(string share, string file, string folder = null)
 		{
 			return await Task.Run(() => {
-				if (!files.ContainsKey(share))
+				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 				
-				if (!files[share].Contains(file))
+				if (!MockUtils.FolderStructure[share].Contains(file))
 					throw new NullReferenceException($"File '{file}' does not exist in Share '{share}'");
 
 				return file;
@@ -72,12 +92,12 @@ namespace StorageLibrary.Mocks
 		public async Task<List<FileShareItemWrapper>> ListFilesAndDirsAsync(string share, string folder = null)
 		{
 			return await Task.Run(() => {
-				if (!files.ContainsKey(share))
+				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
 
 				List<FileShareItemWrapper> results = new List<FileShareItemWrapper>();
-				foreach(string val in files[share])
-					results.Add(new FileShareItemWrapper { Name = val });
+				foreach(string url in MockUtils.GetItems(share, folder))
+					results.Add(new FileShareItemWrapper(url, !url.EndsWith("/"), MockUtils.NewRandomSize));
 
 				return results;
 			});
@@ -87,7 +107,7 @@ namespace StorageLibrary.Mocks
 		{
 			return await Task.Run(() => {
 				List<FileShareWrapper> retList = new List<FileShareWrapper>();
-				foreach(string key in files.Keys)
+				foreach(string key in MockUtils.FolderStructure.Keys)
 					retList.Add(new FileShareWrapper { Name = key });
 				
 				return retList;

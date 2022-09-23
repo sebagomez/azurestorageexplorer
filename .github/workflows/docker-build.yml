@@ -11,7 +11,6 @@ on:
 
 env:
   config: Release
-  solution: ./AzureWebExplorer.sln
 
 jobs:
 

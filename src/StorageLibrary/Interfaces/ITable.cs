@@ -7,7 +7,7 @@ namespace StorageLibrary.Interfaces
 {
 	public interface ITable 
 	{
-		Task<List<string>> ListTablesAsync();
+		Task<List<TableWrapper>> ListTablesAsync();
 		Task Create(string tableName);
 		Task Delete(string tableName);
 		Task InsertAsync(string tableName, string data);

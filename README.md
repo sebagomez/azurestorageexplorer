@@ -12,7 +12,8 @@ Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/
 
 # Azure Storage Explorer
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0~~ 6.0 and Angular.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0~~ 6.0 and ~~Angular~~. *Edit:* Sick and tired of all del npm module and dependency hell I moved this project toa Blazor Server app.
+
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
 
@@ -43,44 +44,29 @@ To query action movies use the following:
 
 If you don't write a query the system will retrieve every Entity on the Table
 
-## Docker
+## Build
 
-This web app is not integrated with Azure Pipelines, and after the build process it'll create a Docker image (via multi-stage build) and publishes it to [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/).
+To build this repo make sure you install .NET 6.0 sdk.
 
-```Dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal as builder
-
-ENV SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true SKIP_NODE_SASS_TESTS=true
-
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt update && \
-    apt-get install -y nodejs && \
-    apt-get install -y build-essential && \
-    apt-get install -y python2.7 && \
-    npm config set python /usr/bin/python2.7 && \
-    npm install -g @angular/cli 
-
-
-WORKDIR /src
-COPY ./ /src
-
-RUN dotnet publish --configuration Release -o ./bin ./AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
-
-LABEL maintainer="seba gomez <@sebagomez>"
-
-ARG BUILD
-ENV APPVERSION=$BUILD
-
-WORKDIR /app
-
-COPY --from=builder /src/bin ./
-
-ENTRYPOINT ["dotnet", "AzureWebStorageExplorer.dll"]
+At the root of the project just execute the ./build.sh script
+```sh
+./build.sh
 ```
 
-To fire a container with the latest version just run the following command
+## Run locally
+
+Just execute the [./publish.sh](./publish.sh) script on the root folder on the repo. Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
+
+![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
+
+
+### Docker 
+
+## Docker
+
+There's a docker image at [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) that you can use to run this app on the environment of your choice. Keep reading for Kubernetes.
+
+To spin up a container with the latest version just run the following command
 
 ```sh
 docker run --rm -it -p 5555:80 sebagomez/azurestorageexplorer
@@ -120,42 +106,3 @@ kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 ```
 
 Thanks to [this repo](https://github.com/int128/helm-github-pages) for the info and detailed steps on how to create your own Helm repo with GitHub pages.
-
-## Run locally
-
-If you want to run this site on your own environment, don't want to clone it, and don't want to get into Docker (seriously, go learn some Docker), you can now do the following: 
-* Go to the Release tab and select the newest (first one from the top)
-* Download the zip file names in the form YYYYMMDD.X.
-* Extract that zip in a folder in your local computer
-* CMD into that folder and cd into the `root`  folder 
-* Run `dotnet AzureWebStorageExplorer.dll`
-
-Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
-
-![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
-
-## Build
-
-To build this repo make sure you install .NET 6.0 sdk and Node.js v14.15.4. Take a look at [Node distributions](https://github.com/nodesource/distributions/blob/master/README.md) on how to install it.
-
-Go to ClientApp and install the Angular CLI  
-```sh
-cd .\src\AzureWebStorageExplorer\ClientApp\
-npm install -g @angular/cli
-```
-
-Update the packages  
-```sh
-npm update
-```
-
-Build the project
-```sh
-dotnet build .\src\AzureWebStorageExplorer\AzureWebStorageExplorer.csproj
-```
-
-### Docker 
-
-There's a docker image at [sebagomez/buildazurestorage](https://hub.docker.com/r/sebagomez/buildazurestorage) that you can use to build the solution. Just run the `./build.sh` script and the output will be copied to the `./bin` folder.
-
-Then just got to the folder and run `dotnet AzureWebStorageExplorer.dll`.

@@ -1,0 +1,76 @@
+@inherits web.Pages.BaseComponent
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+
+@if (CurrentQueue is null)
+{
+	<em>Select a queue to see the messages here</em>
+}
+else
+{
+	if (Loading){
+		<em>Fetching data from @CurrentQueue...</em>	
+	}
+
+	if (ShowTable) 
+	{
+
+	<table class="ui blue table">
+	<thead>
+		<tr>
+			<th style="min-width: 100px"></th>
+			<th>
+				<div style="display:flex;justify-content: space-around;">
+					<input @bind-value="NewMessage" placeholder="New message..." />
+					<button class="ui button" type="button" @onclick="AddMessage">Add</button>
+				</div>
+			</th>
+			<th>
+				<div class="ui compact menu">
+					<div class="ui simple dropdown item">
+						<i class="ellipsis vertical icon"></i>
+						<div class="menu">
+							<div class="red item" style="color: firebrick !important;" @onclick="DeleteQueue"><i class="trash icon"></i>Delete</div>
+						</div>
+					</div>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	@for (int i = 0; i < AzureQueueMessages.Count; i++)
+	{
+		var msg = AzureQueueMessages[i];
+		var colSpan = i == 0 ? 2 : 3;
+		<tr>
+			<td colspan="@colSpan"  class="table-text">@msg.Message</td>
+			@if (i == 0)
+			{
+			<td>
+				<div class="ui compact menu contextMenu">
+					<div class="ui simple dropdown item">
+						<i class="ellipsis vertical icon"></i>
+						<div class="menu">
+							<div class="red item" style="color: firebrick !important;" @onclick="DeleteMessage">
+								<i class="trash icon"></i>Dequeue
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+			}
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th colspan="3">@AzureQueueMessages.Count messages found</th>
+		</tr>
+	</tfoot>
+</table>
+
+	}
+
+}

@@ -14,7 +14,6 @@ on:
 
 env:
   config: Release
-  solution: ./AzureWebExplorer.sln
 
 jobs:
   
@@ -27,6 +26,6 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - name: Local Build
-      run: dotnet build --configuration Release ./AzureWebExplorer.sln
+      run: dotnet build --configuration $config ./src/web/web.csproj
     - name: Run Tests
       run: dotnet test ./tests/StorageLibTests/StorageLibTests.csproj

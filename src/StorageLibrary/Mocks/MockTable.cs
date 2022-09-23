@@ -18,13 +18,13 @@ namespace StorageLibrary.Mocks
 			{ "tableThree", new List<string> {"fromTableThree:1"}}
 		};
 
-		public async Task<List<string>> ListTablesAsync()
+		public async Task<List<TableWrapper>> ListTablesAsync()
 		{
 			return await Task.Run(() =>
 			{
-				List<string> retList = new List<string>();
+				List<TableWrapper> retList = new List<TableWrapper>();
 				foreach (string key in tables.Keys)
-					retList.Add(key);
+					retList.Add(new TableWrapper { Name = key });
 
 				return retList;
 			});
@@ -75,7 +75,7 @@ namespace StorageLibrary.Mocks
 
 				foreach (string val in tables[tableName])
 				{
-					if (val.Contains(query))
+					if (query is null || val.Contains(query))
 					{
 						TableEntity entity = TableEntityWrapper.Get($"Name={val}");
 						results.Add(new TableEntityWrapper(entity));

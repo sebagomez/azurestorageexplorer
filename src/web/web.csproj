@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+  	<PackageId>AzureStorageWebExplorer</PackageId>
+    <AssemblyVersion>$(AzureStorageWebExplorerVersion)</AssemblyVersion>
+    <FileVersion>$(AzureStorageWebExplorerVersion)</FileVersion>
+    <Authors>Sebastián Gómez</Authors>
+    <Product>Azure Storage web explorer</Product>
+    <Copyright>(C) 2022 @sebagomez. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>favicon.ico</PackageIcon>
+    <PackageIconUrl />
+    <PackageTags>azure,azure-storage,azure-blobs,azure-queues,azure-tables,azure-files</PackageTags>
+    <Version>$(AzureStorageWebExplorerVersion)</Version>
+    <PackageProjectUrl>https://azurestorage.azurewebsites.net</PackageProjectUrl>
+    <Description>Manage your Azure Storage blobs, tables, queues and file shares from this simple and intuitive web application</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StorageLibrary\StorageLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>

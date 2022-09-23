@@ -3,35 +3,54 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StorageLibrary;
+using StorageLibrary.Common;
+using StorageLibrary.Mocks;
 
 namespace StorageLibTests
 {
 	[TestClass]
 	public class TableTests : BaseTests
 	{
+		[ClassInitialize]
+		public static void Initialize(TestContext ctx)
+		{
+			MockUtils.Reintialize();
+		}
+
 		[TestMethod]
 		public async Task GetTables()
 		{
-			List<string> expected = new List<string>() { "tableOne", "tableTwo", "tableThree" };
+			List<TableWrapper> expected = new List<TableWrapper>() 
+			{
+				new TableWrapper{ Name = "tableOne"}, 
+				new TableWrapper{ Name = "tableTwo"},
+				new TableWrapper{ Name = "tableThree"} 
+			};
 
 			StorageFactory factory = new StorageFactory();
-			List<string> tables = await factory.Tables.ListTablesAsync();
+			List<TableWrapper> tables = await factory.Tables.ListTablesAsync();
 
-			CollectionAssert.AreEqual(expected, tables);
+			CompareTables(expected, tables);
 		}
 
 		[TestMethod]
 		public async Task CreateTable()
 		{
 			string table = "four";
-			List<string> expected = new List<string>() { "tableOne", "tableTwo", "tableThree", table };
+			List<TableWrapper> expected = new List<TableWrapper>() 
+			{ 
+				new TableWrapper{ Name = "tableOne"},
+				new TableWrapper{ Name =  "tableTwo"}, 
+				new TableWrapper{ Name = "tableThree"}, 
+				new TableWrapper{ Name = table }
+			};
 
 			StorageFactory factory = new StorageFactory();
 			await factory.Tables.Create(table);
 
-			List<string> queues = await factory.Tables.ListTablesAsync();
+			List<TableWrapper> tables = await factory.Tables.ListTablesAsync();
 
-			CollectionAssert.AreEqual(expected, queues);
+			CompareTables(expected, tables);
 		}
 
 		[TestMethod]
@@ -58,14 +77,18 @@ namespace StorageLibTests
 		public async Task DeleteTable()
 		{
 			string table = "tableTwo";
-			List<string> expected = new List<string>() { "tableOne", "tableThree" };
+			List<TableWrapper> expected = new List<TableWrapper>() 
+			{ 
+				new TableWrapper{ Name = "tableOne"}, 
+				new TableWrapper{ Name = "tableThree" }
+			};
 
 			StorageFactory factory = new StorageFactory();
 			await factory.Tables.Delete(table);
 
-			List<string> queues = await factory.Tables.ListTablesAsync();
+			List<TableWrapper> tables = await factory.Tables.ListTablesAsync();
 
-			CollectionAssert.AreEqual(expected, queues);
+			CompareTables(expected, tables);
 		}
 
 		[TestMethod]
@@ -85,6 +108,13 @@ namespace StorageLibTests
 			}
 
 			Assert.Fail("An NullReferenceException should have been thrown.");
+		}
+
+		private void CompareTables(List<TableWrapper> expected, List<TableWrapper> returned)
+		{
+			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			for	(int i = 0; i < expected.Count; i++)
+				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}
 	}
 }

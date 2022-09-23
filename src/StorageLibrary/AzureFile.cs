@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -41,17 +42,13 @@ namespace StorageLibrary
 			var files = dir.GetFilesAndDirectoriesAsync();
 			await foreach(var file in files)
 			{
-				items.Add(new FileShareItemWrapper { Name = file.Name,
-													IsDirectory = file.IsDirectory,
-													Parent = dir.Name,
-													ParentUrl = dir.Uri.AbsoluteUri,
-													Url = $"{dir.Uri.AbsoluteUri}/{file.Name}" });
+				items.Add(new FileShareItemWrapper($"{dir.Uri.AbsoluteUri}/{file.Name}", !file.IsDirectory, file.FileSize));
 			}
 
 			return items;
 		}
 
-		public async Task<string> GetFile(string share, string file, string folder = null)
+		public async Task<string> GetFileAsync(string share, string file, string folder = null)
 		{
 			ShareFileClient fileClient = GetShareFileClient(share, file, folder);
 
@@ -89,7 +86,36 @@ namespace StorageLibrary
 		{
 			ShareFileClient file = GetShareFileClient(share, fileName, folder);
 			file.Create(fileContent.Length);
-			await file.UploadRangeAsync(new HttpRange(0, fileContent.Length),fileContent);
+			await file.UploadAsync(fileContent);
+		}
+
+		public async Task CreateFileShareAsync(string share, string accessTier = "optimized")
+		{
+			ShareCreateOptions options = new ShareCreateOptions();
+			switch (accessTier.ToLower())
+			{
+				case "cool":
+					options.AccessTier = ShareAccessTier.Cool;
+					break;
+				case "hot":
+					options.AccessTier = ShareAccessTier.Hot;
+					break;
+				case "optimized":
+					options.AccessTier = ShareAccessTier.TransactionOptimized;
+					break;
+				default:
+					throw new Exception($"{accessTier} is not a valid access tier");
+
+			}
+
+			ShareServiceClient client = new ShareServiceClient(ConnectionString);
+			await client.CreateShareAsync(share, options);
+		}
+
+		public async Task DeleteFileShareAsync(string share)
+		{
+			ShareServiceClient client = new ShareServiceClient(ConnectionString);
+			await client.DeleteShareAsync(share);
 		}
 
 		private ShareDirectoryClient GetShareDirectoryClient(string share, string folder)

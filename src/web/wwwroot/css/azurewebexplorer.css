@@ -1,0 +1,116 @@
+.parent {
+  display: flex;
+  justify-content: center;
+}
+
+.child {
+  width: 100%;
+}
+
+.azure {
+  color: #00abec !important;
+  font-family: Segoe UI,SegoeUI,Segoe WP,Tahoma,Arial,sans-serif;
+}
+
+.errorMessage {
+  position: fixed !important;
+  width: 60%;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.version {
+  font-size: small;
+  color: rgb(157,157,157);
+}
+
+.footer {
+  font-size: x-small;
+  position: absolute;
+  bottom: 0;
+  color: rgb(157,157,157);
+  margin-left: 10px;
+  margin-left: 5px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.elipsed {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .footer {
+    visibility: hidden;
+  }
+}
+
+.table-text {
+  vertical-align: middle !important;
+}
+
+.queryarea {
+  resize: none;
+  width: 80%;
+  white-space: pre-wrap;
+}
+
+.logo{
+	width: 35px;
+	height: 35;
+
+	border: 35px;
+}
+::placeholder {
+  color: gray;
+  font-style: italic;
+}
+
+.page{
+	padding-left: .75rem;
+	padding-right: .75rem;
+}
+
+.selectedMenu {
+	font-weight: bold;
+	color: #00abec;
+}
+
+.contextMenu{
+	border-width: 0 !important;
+    box-shadow: none !important;
+}
+
+.web-error-ui {
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem !important;
+    position: fixed !important; 
+    width: 100%;
+    z-index: 1000;
+	margin: 10px !important;
+}
+
+    .web-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.link{
+	color: #4183c4;
+	cursor: pointer;
+}
