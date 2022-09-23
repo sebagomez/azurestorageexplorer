@@ -33,9 +33,7 @@ namespace StorageLibTests
 			StorageFactory factory = new StorageFactory();
 			List<FileShareWrapper> shares = await factory.Files.ListFileSharesAsync();
 
-			Assert.IsTrue(expected.Count == shares.Count, $"Different amount returned. {string.Join(",", shares)}");
-			for (int i = 0; i < expected.Count; i++)
-				Assert.AreEqual(shares[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{shares[i].Name}'");
+			CompareFileShares(expected, shares);
 		}
 
 		[TestMethod]
@@ -57,31 +55,29 @@ namespace StorageLibTests
 				Assert.AreEqual(files[i].Url, expected[i].Url, $"Different objecte returned. Expected '{expected[i].Url}' got '{files[i].Url}'");
 		}
 
-		// [TestMethod]
-		// public async Task CreateFileShare()
-		// {
-		// 	string fileShare = "four";
-		// 	List<FileShareWrapper> expected = new List<FileShareWrapper> 
-		// 	{ 
-		// 		new FileShareWrapper { Name = "one"},
-		// 		new FileShareWrapper { Name =  "two"},
-		// 		new FileShareWrapper { Name =  "three"},
-		// 		new FileShareWrapper { Name =  "empty"},
-		// 		new FileShareWrapper { Name =  "with-folder"},
-		// 		new FileShareWrapper { Name =  "with-many-folders"},
-		// 		new FileShareWrapper { Name =  "brothers"},
-		// 		new FileShareWrapper { Name =  fileShare}
-		// 	};
+		[TestMethod]
+		public async Task CreateFileShare()
+		{
+			string fileShare = "four";
+			List<FileShareWrapper> expected = new List<FileShareWrapper> 
+			{ 
+				new FileShareWrapper { Name = "one"},
+				new FileShareWrapper { Name =  "two"},
+				new FileShareWrapper { Name =  "three"},
+				new FileShareWrapper { Name =  "empty"},
+				new FileShareWrapper { Name =  "with-folder"},
+				new FileShareWrapper { Name =  "with-many-folders"},
+				new FileShareWrapper { Name =  "brothers"},
+				new FileShareWrapper { Name =  fileShare}
+			};
 
-		// 	StorageFactory factory = new StorageFactory();
-		// 	await factory.Containers.CreateAsync(container, true);
+			StorageFactory factory = new StorageFactory();
+			await factory.Files.CreateFileShareAsync(fileShare, "optimized");
 
-		// 	List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
+			List<FileShareWrapper> shares = await factory.Files.ListFileSharesAsync();
 
-		// 	Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
-		// 	for	(int i = 0; i < expected.Count; i++)
-		// 		Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
-		// }
+			CompareFileShares(expected, shares);
+		}
 
 		// [TestMethod]
 		// public async Task DeleteFileShare()
@@ -107,5 +103,12 @@ namespace StorageLibTests
 		// 	for	(int i = 0; i < expected.Count; i++)
 		// 		Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
 		// }
+
+		private void CompareFileShares(List<FileShareWrapper> expected, List<FileShareWrapper> returned)
+		{
+			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			for	(int i = 0; i < expected.Count; i++)
+				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
+		}
 	}
 }

@@ -29,7 +29,11 @@ namespace StorageLibrary.Mocks
 		public async Task CreateFileShareAsync(string share, string accessTier)
 		{
 			await Task.Run(() => {
-				return null;
+
+				if (MockUtils.FolderStructure.ContainsKey(share))
+					throw new NullReferenceException($"Share '{share}' already exists");
+
+				MockUtils.FolderStructure[share] = new List<string>();
 			});
 		}
 
