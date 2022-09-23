@@ -18,6 +18,8 @@ namespace web.Pages
 
 		private static readonly Counter FilesCounter = Metrics.CreateCounter("filescontroller_counter_total", "Keep FilesController access count");
 
+		public string? AccessTier { get; set; } = "optimized";
+
 		protected override async Task OnInitializedAsync()
 		{	
 			Increment(FilesCounter);
@@ -47,7 +49,8 @@ namespace web.Pages
 
 			try
 			{
-				//AzureStorage!.Files.
+				await AzureStorage!.Files.CreateFileShareAsync(NewFileShareName, AccessTier);
+				AccessTier = "optimized";
 				NewFileShareName = string.Empty;
 				await LoadFileShares();
 

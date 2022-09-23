@@ -26,6 +26,13 @@ namespace StorageLibrary.Mocks
 			});
 		}
 
+		public async Task CreateFileShareAsync(string share, string accessTier)
+		{
+			await Task.Run(() => {
+				return null;
+			});
+		}
+
 		public async Task CreateSubDirectory(string share, string folder, string subDir)
 		{
 			await Task.Run(() => {

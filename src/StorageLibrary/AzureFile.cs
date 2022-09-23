@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -86,6 +87,29 @@ namespace StorageLibrary
 			ShareFileClient file = GetShareFileClient(share, fileName, folder);
 			file.Create(fileContent.Length);
 			await file.UploadAsync(fileContent);
+		}
+
+		public async Task CreateFileShareAsync(string share, string accessTier = "optimized")
+		{
+			ShareCreateOptions options = new ShareCreateOptions();
+			switch (accessTier.ToLower())
+			{
+				case "cool":
+					options.AccessTier = ShareAccessTier.Cool;
+					break;
+				case "hot":
+					options.AccessTier = ShareAccessTier.Hot;
+					break;
+				case "optimized":
+					options.AccessTier = ShareAccessTier.TransactionOptimized;
+					break;
+				default:
+					throw new Exception($"{accessTier} is not a valid access tier");
+
+			}
+
+			ShareServiceClient client = new ShareServiceClient(ConnectionString);
+			await client.CreateShareAsync(share, options);
 		}
 
 		private ShareDirectoryClient GetShareDirectoryClient(string share, string folder)

@@ -7,14 +7,19 @@
 
 <Error HasError=@HasError ErrorMessage=@ErrorMessage />
 
-@* <p></p>
+<p></p>
 
-<div class="ui action input">
-	<input @bind="NewFileShareName" type="text" placeholder="New file share...">
+<div class="ui input">
+	<input @bind="NewFileShareName" style="margin-right: 3px" type="text" placeholder="New file share...">
+	<select @bind="AccessTier" style="height: 40px; margin-left: 3px; margin-right: 3px;" class="ui button compact selection">
+		<option class="item" value="optimized" selected="">Transaction Optimized</option>
+		<option class="item" value="hot">Hot</option>
+		<option class="item" value="cool">Cool</option>
+	</select>
 	<button class="ui icon button" @onclick="NewFileShare">
 		<i class="add icon"></i>
 	</button>
-</div> *@
+</div>
 
 <p></p>
 

@@ -14,5 +14,6 @@ namespace StorageLibrary.Interfaces
 		Task DeleteFileAsync(string share, string file, string folder = null);
 		Task CreateSubDirectory(string share, string folder, string subDir);
 		Task CreateFileAsync(string share, string fileName, Stream fileContent, string folder = null);
+		Task CreateFileShareAsync(string share, string accessTier);
 	}
 }
