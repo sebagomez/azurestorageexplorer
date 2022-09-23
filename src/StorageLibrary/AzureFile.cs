@@ -112,6 +112,12 @@ namespace StorageLibrary
 			await client.CreateShareAsync(share, options);
 		}
 
+		public async Task DeleteFileShareAsync(string share)
+		{
+			ShareServiceClient client = new ShareServiceClient(ConnectionString);
+			await client.DeleteShareAsync(share);
+		}
+
 		private ShareDirectoryClient GetShareDirectoryClient(string share, string folder)
 		{
 			ShareClient client = new ShareClient(ConnectionString, share);

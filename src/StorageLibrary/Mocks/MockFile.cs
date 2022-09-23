@@ -66,6 +66,16 @@ namespace StorageLibrary.Mocks
 			});
 		}
 
+		public async Task DeleteFileShareAsync(string share)
+		{
+			await Task.Run(() => {
+				if (!MockUtils.FolderStructure.ContainsKey(share))
+					throw new NullReferenceException($"Share '{share}' does not exist");
+
+				MockUtils.FolderStructure.Remove(share);
+			});
+		}
+
 		public async Task<string> GetFileAsync(string share, string file, string folder = null)
 		{
 			return await Task.Run(() => {

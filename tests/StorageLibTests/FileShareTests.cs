@@ -79,30 +79,28 @@ namespace StorageLibTests
 			CompareFileShares(expected, shares);
 		}
 
-		// [TestMethod]
-		// public async Task DeleteFileShare()
-		// {
-		// 	string container = "one";
-		// 	List<CloudBlobContainerWrapper> expected = new List<CloudBlobContainerWrapper> 
-		// 	{
-		// 		new CloudBlobContainerWrapper { Name =  "two"},
-		// 		new CloudBlobContainerWrapper { Name =  "three"},
-		// 		new CloudBlobContainerWrapper { Name =  "empty"},
-		// 		new CloudBlobContainerWrapper { Name =  "with-folder"},
-		// 		new CloudBlobContainerWrapper { Name =  "with-many-folders"},
-		// 		new CloudBlobContainerWrapper { Name =  "brothers"},
-		// 		new CloudBlobContainerWrapper { Name =  "four"},
-		// 	};
+		[TestMethod]
+		public async Task DeleteFileShare()
+		{
+			string fileShare = "one";
+			List<FileShareWrapper> expected = new List<FileShareWrapper> 
+			{ 
+				new FileShareWrapper { Name =  "two"},
+				new FileShareWrapper { Name =  "three"},
+				new FileShareWrapper { Name =  "empty"},
+				new FileShareWrapper { Name =  "with-folder"},
+				new FileShareWrapper { Name =  "with-many-folders"},
+				new FileShareWrapper { Name =  "brothers"},
+				new FileShareWrapper { Name =  "four"}
+			};
 
-		// 	StorageFactory factory = new StorageFactory();
-		// 	await factory.Containers.DeleteAsync(container);
+			StorageFactory factory = new StorageFactory();
+			await factory.Files.DeleteFileShareAsync(fileShare);
 
-		// 	List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
+			List<FileShareWrapper> shares = await factory.Files.ListFileSharesAsync();
 
-		// 	Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
-		// 	for	(int i = 0; i < expected.Count; i++)
-		// 		Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
-		// }
+			CompareFileShares(expected, shares);
+		}
 
 		private void CompareFileShares(List<FileShareWrapper> expected, List<FileShareWrapper> returned)
 		{

@@ -79,5 +79,13 @@ namespace web.Pages
 
 			StateHasChanged();
 		}
+
+		public override async Task SelectionDeletedAsync()
+		{
+			SelectedFileShare = null;
+			await LoadFileShares();
+
+			await base.SelectionDeletedAsync();
+		}
 	}
 }

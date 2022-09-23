@@ -93,7 +93,7 @@ namespace web.Pages
 		{
 			try
 			{
-				//await AzureStorage!.Files
+				await AzureStorage!.Files.DeleteFileShareAsync(CurrentFileShare);
 				await Parent!.SelectionDeletedAsync();
 			}
 			catch (Exception ex)
