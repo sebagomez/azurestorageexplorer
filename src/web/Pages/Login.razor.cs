@@ -11,8 +11,8 @@ namespace web.Pages
 		public bool Loading { get; set; }
 		public bool ShowError { get; set; }
 		public string? ErrorMessage { get; set; }
-		public string? AzureAccount { get; set; } = "sebgomez";
-		public string? AzureKey { get; set; } = "LOT6kY6ik0pqDqzPXacwZLLG0psx2aCvpDAkdxSYEQyb2emB0XvxuW1VnZbYPhl+M5dziMlEQRpn+AStUoma/g==";
+		public string? AzureAccount { get; set; } = "";
+		public string? AzureKey { get; set; } = "";
 		public string AzureUrl { get; set; } = "core.windows.net";
 
 		[Inject]
