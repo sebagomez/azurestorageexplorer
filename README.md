@@ -3,7 +3,9 @@
 [![Helm release](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml/badge.svg?branch=master)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
- 
+
+[Just for fun](https://justforfunnoreally.dev/)
+
 Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) (created with GitHub Actions)
