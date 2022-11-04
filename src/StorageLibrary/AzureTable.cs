@@ -43,7 +43,6 @@ namespace StorageLibrary
 			await table.AddEntityAsync<TableEntity>(entity);
 		}
 
-
 		public async Task<IEnumerable<TableEntityWrapper>> QueryAsync(string tableName, string query)
 		{
 			TableClient table = new TableClient(ConnectionString, tableName);

@@ -21,7 +21,7 @@ namespace StorageLibrary.Common
 		public DateTimeOffset? Timestamp { get; set; }
 		public ETag ETag { get; set; }
 
-		Dictionary<string, string> m_properties = new Dictionary<string, string>();
+		Dictionary<string, object> m_properties = new Dictionary<string, object>();
 
 		public TableEntityWrapper()
 		{ }
@@ -42,7 +42,7 @@ namespace StorageLibrary.Common
 			}
 		}
 
-		public string this[string key]
+		public object this[string key]
 		{
 			get
 			{
@@ -57,7 +57,7 @@ namespace StorageLibrary.Common
 			}
 		}
 
-		public Dictionary<string, string> GetProperties()
+		public Dictionary<string, object> GetProperties()
 		{
 			return m_properties;
 		}
@@ -97,20 +97,63 @@ namespace StorageLibrary.Common
 			if (lines.Count() < 1)
 				throw new ApplicationException($"'{data}' is not a valid input");
 
+			Dictionary<string, Type> types = new Dictionary<string, Type>();
+			Dictionary<string, object> values = new Dictionary<string, object>();
 			foreach (string line in lines)
 			{
-				string[] values = line.Split(new string[] { PROP_VAL_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
-				Debug.Assert(values.Length == 2);
+				string[] tokens = line.Split(new string[] { PROP_VAL_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
+				if (tokens.Length != 2)
+					throw new ApplicationException($"'{line}' is an invalid field");
 
-				if (values.Count() != 2)
-					continue;
-
-				if (values[0] == "PartitionKey")
-					entity.PartitionKey = values[1];
-				else if (values[0] == "RowKey")
-					entity.RowKey = values[1];
+				int odata = tokens[0].IndexOf("@odata.type");
+				if (odata > 0)
+				{
+					string field = tokens[0].Substring(0,odata);
+					switch (tokens[1].ToLower())
+					{
+						case "edm.int64":
+							types[field] = typeof(long);
+							break;
+						case "edm.int32":
+							types[field] = typeof(int);
+							break;
+						case "edm.boolean":
+							types[field] = typeof(bool);
+							break;
+						case "edm.datetime":
+							types[field] = typeof(DateTime);
+							break;
+						case "edm.double":
+							types[field] = typeof(float);
+							break;
+						case "edm.guid":
+							types[field] = typeof(Guid);
+							break;
+						default:
+						break;
+					}
+				}
 				else
-					entity[values[0]] = values[1];
+				{
+					values[tokens[0]] = tokens[1];
+				}
+			}
+
+			foreach (string field in values.Keys)
+			{
+				if (field == "PartitionKey")
+					entity.PartitionKey = values[field].ToString();
+				else if (field == "RowKey")
+					entity.RowKey = values[field].ToString();
+				else
+				{
+					if (types.ContainsKey(field) && types[field] == typeof(Guid))
+						entity[field] = Guid.Parse(values[field].ToString());
+					else if (types.ContainsKey(field) && types[field] == typeof(DateTime))
+						entity[field] = DateTime.SpecifyKind(DateTime.Parse(values[field].ToString()), DateTimeKind.Utc);
+					else
+						entity[field] = types.ContainsKey(field) ? Convert.ChangeType(values[field], types[field]) : values[field];	
+				}
 			}
 
 			if (string.IsNullOrEmpty(entity.PartitionKey))
