@@ -37,9 +37,11 @@ RowKey=1
 Title=Die Hard  
 
 You can also set the desired data type for a specific property setting the desired EEdm datatype as follows:
-`<PropertyName>@odata.type=Edm.Int64`
+> Year=1978   
+Year@odata.type=Edm.Int32
 
-That will create the `PropertyName` as a 64 bit integer in the table.
+This will create the `Year` as a 32 bit integer in the table.
+
 Allowed datatypes are the following:
 ```
 Edm.Int64
