@@ -6,7 +6,7 @@ on:
       - master
     paths:
     - helm/**/*
-    - src/AzureWebStorageExplorer/Directory.Build.props
+    - src/web/Directory.Build.props
     - .github/workflows/helm-release.yml
 
 env:
