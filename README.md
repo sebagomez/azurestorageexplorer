@@ -36,6 +36,21 @@ For example to create a new movie:
 RowKey=1  
 Title=Die Hard  
 
+You can also set the desired data type for a specific property setting the desired EEdm datatype as follows:
+`<PropertyName>@odata.type=Edm.Int64`
+
+That will create the `PropertyName` as a 64 bit integer in the table.
+Allowed datatypes are the following:
+```
+Edm.Int64
+Edm.Int32
+Edm.Boolean
+Edm.DateTime
+Edm.Double
+Edm.Guid
+```
+Anything else would be treated as a string.
+
 To query the entities from a table use the following syntax: `<PropertyName> [operator] <ProepertyValue>`
 Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).   
 Take a look at the [supported comparaison operators](https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators)  
