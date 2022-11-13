@@ -11,11 +11,12 @@ namespace StorageLibrary.Mocks
 {
 	internal class MockTable : ITable
 	{
-		Dictionary<string, List<string>> tables = new Dictionary<string, List<string>>()
+
+		Dictionary<string, List<TableEntityWrapper>> tables = new Dictionary<string, List<TableEntityWrapper>>()
 		{
-			{ "tableOne", new List<string> {"fromTableOne:1", "fromTableOne:2", "fromTableOne:3"}},
-			{ "tableTwo", new List<string> {"fromTableTwo:1", "fromTableTwo:2"}},
-			{ "tableThree", new List<string> {"fromTableThree:1"}}
+			{ "tableOne", new List<TableEntityWrapper> { new TableEntityWrapper() { ["Number"]=1, ["Bool"]=true,["String"]="foo" }, new TableEntityWrapper() { ["Number"]=2, ["Bool"]=true,["String"]="bar" }}},
+			{ "tableTwo", new List<TableEntityWrapper> { new TableEntityWrapper() { ["Number"]=2, ["Bool"]=true,["String"]="bar" }}},
+			{ "tableThree", new List<TableEntityWrapper> { new TableEntityWrapper() { ["Number"]=3, ["Bool"]=false,["String"]="choo" }}}
 		};
 
 		public async Task<List<TableWrapper>> ListTablesAsync()
@@ -37,7 +38,7 @@ namespace StorageLibrary.Mocks
 				if (tables.ContainsKey(tableName))
 					throw new InvalidOperationException($"Table '{tableName}' already exists");
 
-				tables.Add(tableName, new List<string>());
+				tables.Add(tableName, new List<TableEntityWrapper>());
 			});
 		}
 
@@ -59,7 +60,7 @@ namespace StorageLibrary.Mocks
 				if (!tables.ContainsKey(tableName))
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 
-				tables[tableName].Add(data);
+				tables[tableName].Add(new TableEntityWrapper(TableEntityWrapper.Get(data)));
 			});
 		}
 
@@ -72,14 +73,35 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 
 				List<TableEntityWrapper> results = new List<TableEntityWrapper>();
+				if (query is null)
+					return tables[tableName];
 
-				foreach (string val in tables[tableName])
+				string[] tokens = query.Split("eq");
+				if (tokens.Length != 2)
+					throw new Exception($"{query} is not a valid 'field = value' query.");
+
+				string field = tokens[0].Trim();
+				object value;
+				switch (field)
 				{
-					if (query is null || val.Contains(query))
-					{
-						TableEntity entity = TableEntityWrapper.Get($"Name={val}");
-						results.Add(new TableEntityWrapper(entity));
-					}
+					case "Number":
+						value = int.Parse(tokens[1].Trim());
+						break;
+					case "Bool":
+						value = bool.Parse(tokens[1].Trim());
+						break;
+					case "String":
+						value = tokens[1].Trim();
+						break;
+					default:
+						throw new Exception($"Only Number, Bool and String are testable querable fields");
+				};
+
+
+				foreach (TableEntityWrapper data in tables[tableName])
+				{
+					if (data[field].ToString()  == value.ToString())
+						results.Add(data);
 				}
 
 				return results;

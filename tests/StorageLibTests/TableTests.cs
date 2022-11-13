@@ -20,11 +20,11 @@ namespace StorageLibTests
 		[TestMethod]
 		public async Task GetTables()
 		{
-			List<TableWrapper> expected = new List<TableWrapper>() 
+			List<TableWrapper> expected = new List<TableWrapper>()
 			{
-				new TableWrapper{ Name = "tableOne"}, 
+				new TableWrapper{ Name = "tableOne"},
 				new TableWrapper{ Name = "tableTwo"},
-				new TableWrapper{ Name = "tableThree"} 
+				new TableWrapper{ Name = "tableThree"}
 			};
 
 			StorageFactory factory = new StorageFactory();
@@ -37,11 +37,11 @@ namespace StorageLibTests
 		public async Task CreateTable()
 		{
 			string table = "four";
-			List<TableWrapper> expected = new List<TableWrapper>() 
-			{ 
+			List<TableWrapper> expected = new List<TableWrapper>()
+			{
 				new TableWrapper{ Name = "tableOne"},
-				new TableWrapper{ Name =  "tableTwo"}, 
-				new TableWrapper{ Name = "tableThree"}, 
+				new TableWrapper{ Name =  "tableTwo"},
+				new TableWrapper{ Name = "tableThree"},
 				new TableWrapper{ Name = table }
 			};
 
@@ -70,16 +70,16 @@ namespace StorageLibTests
 			}
 
 			Assert.Fail("An InvalidOperationException should have been thrown.");
-			
+
 		}
 
 		[TestMethod]
 		public async Task DeleteTable()
 		{
 			string table = "tableTwo";
-			List<TableWrapper> expected = new List<TableWrapper>() 
-			{ 
-				new TableWrapper{ Name = "tableOne"}, 
+			List<TableWrapper> expected = new List<TableWrapper>()
+			{
+				new TableWrapper{ Name = "tableOne"},
 				new TableWrapper{ Name = "tableThree" }
 			};
 
@@ -101,7 +101,7 @@ namespace StorageLibTests
 			{
 				await factory.Tables.Delete(table);
 			}
-			catch(NullReferenceException nre)
+			catch (NullReferenceException nre)
 			{
 				Assert.IsTrue(nre.Message == $"Table '{table}' does not exist", nre.Message);
 				return;
@@ -110,11 +110,88 @@ namespace StorageLibTests
 			Assert.Fail("An NullReferenceException should have been thrown.");
 		}
 
+		[TestMethod]
+		public async Task QueryDataByInt()
+		{
+			string table = "tableOne";
+
+			List<TableEntityWrapper> expected = new List<TableEntityWrapper>()
+			{
+				{ new TableEntityWrapper()
+					{
+						["Number"]=1, 
+						["Bool"]=true,
+						["String"]="foo"
+					}
+				}
+			};
+			StorageFactory factory = new StorageFactory();
+			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "Number eq 1"));
+
+			CompareData(expected, result);
+		}
+
+		[TestMethod]
+		public async Task QueryDataByBool()
+		{
+			string table = "tableTwo";
+
+			List<TableEntityWrapper> expected = new List<TableEntityWrapper>()
+			{
+				{ new TableEntityWrapper()
+					{
+						["Number"]=2, 
+						["Bool"]=true,
+						["String"]="bar"
+					}
+				}
+			};
+			StorageFactory factory = new StorageFactory();
+			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "Bool eq true"));
+
+			CompareData(expected, result);
+		}
+
+		[TestMethod]
+		public async Task QueryDataByString()
+		{
+			string table = "tableOne";
+
+			List<TableEntityWrapper> expected = new List<TableEntityWrapper>()
+			{
+				{ new TableEntityWrapper()
+					{
+						["Number"]=1, 
+						["Bool"]=true,
+						["String"]="foo"
+					}
+				}
+			};
+			StorageFactory factory = new StorageFactory();
+			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "String eq foo"));
+
+			CompareData(expected, result);
+		}
+
 		private void CompareTables(List<TableWrapper> expected, List<TableWrapper> returned)
 		{
 			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
-			for	(int i = 0; i < expected.Count; i++)
-				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
+			for (int i = 0; i < expected.Count; i++)
+				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different object returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
+		}
+
+		private void CompareData(List<TableEntityWrapper> expected, List<TableEntityWrapper> returned)
+		{
+			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			for (int i = 0; i < expected.Count; i++)
+			{
+				TableEntityWrapper expectedData = expected[i];
+				TableEntityWrapper returnedData = returned[i];
+				foreach(string key in expectedData.GetKeys())
+				{
+					Assert.AreEqual(returnedData[key], expectedData[key], $"Different data returned. Expected {key} to be '{expectedData[key]}' got '{returnedData[key]}'");
+				}
+			}
 		}
 	}
 }
