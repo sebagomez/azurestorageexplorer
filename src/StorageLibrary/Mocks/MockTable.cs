@@ -100,7 +100,7 @@ namespace StorageLibrary.Mocks
 
 				foreach (TableEntityWrapper data in tables[tableName])
 				{
-					if (data[field].ToString()  == value.ToString())
+					if (object.Equals(data[field],value))
 						results.Add(data);
 				}
 
