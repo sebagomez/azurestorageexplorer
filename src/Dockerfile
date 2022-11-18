@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal as builder
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as builder
 
 WORKDIR /src
 COPY ./ /src
 
 RUN dotnet publish --configuration Release -o ./bin ./web/web.csproj
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 LABEL maintainer="seba gomez <@sebagomez>"
 
