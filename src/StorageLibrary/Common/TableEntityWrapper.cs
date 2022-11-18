@@ -38,7 +38,7 @@ namespace StorageLibrary.Common
 				if (KEYWORDS.Contains(key))
 					continue;
 
-				this[key] = entity[key].ToString();
+				this[key] = entity[key];
 			}
 		}
 

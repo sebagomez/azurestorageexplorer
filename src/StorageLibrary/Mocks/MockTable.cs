@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Azure.Data.Tables;
-
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
 
@@ -12,7 +10,7 @@ namespace StorageLibrary.Mocks
 	internal class MockTable : ITable
 	{
 
-		Dictionary<string, List<TableEntityWrapper>> tables = new Dictionary<string, List<TableEntityWrapper>>()
+		static Dictionary<string, List<TableEntityWrapper>> s_tables = new Dictionary<string, List<TableEntityWrapper>>()
 		{
 			{ "tableOne", new List<TableEntityWrapper> { new TableEntityWrapper() { ["Number"]=1, ["Bool"]=true,["String"]="foo" }, new TableEntityWrapper() { ["Number"]=2, ["Bool"]=true,["String"]="bar" }}},
 			{ "tableTwo", new List<TableEntityWrapper> { new TableEntityWrapper() { ["Number"]=2, ["Bool"]=true,["String"]="bar" }}},
@@ -24,7 +22,7 @@ namespace StorageLibrary.Mocks
 			return await Task.Run(() =>
 			{
 				List<TableWrapper> retList = new List<TableWrapper>();
-				foreach (string key in tables.Keys)
+				foreach (string key in s_tables.Keys)
 					retList.Add(new TableWrapper { Name = key });
 
 				return retList;
@@ -35,10 +33,10 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (tables.ContainsKey(tableName))
+				if (s_tables.ContainsKey(tableName))
 					throw new InvalidOperationException($"Table '{tableName}' already exists");
 
-				tables.Add(tableName, new List<TableEntityWrapper>());
+				s_tables.Add(tableName, new List<TableEntityWrapper>());
 			});
 		}
 
@@ -46,10 +44,10 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!tables.ContainsKey(tableName))
+				if (!s_tables.ContainsKey(tableName))
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 
-				tables.Remove(tableName);
+				s_tables.Remove(tableName);
 			});
 		}
 
@@ -57,24 +55,23 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!tables.ContainsKey(tableName))
+				if (!s_tables.ContainsKey(tableName))
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 
-				tables[tableName].Add(new TableEntityWrapper(TableEntityWrapper.Get(data)));
+				s_tables[tableName].Add(new TableEntityWrapper(TableEntityWrapper.Get(data)));
 			});
 		}
-
 
 		public async Task<IEnumerable<TableEntityWrapper>> QueryAsync(string tableName, string query)
 		{
 			return await Task.Run(() =>
 			{
-				if (!tables.ContainsKey(tableName))
+				if (!s_tables.ContainsKey(tableName))
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 
 				List<TableEntityWrapper> results = new List<TableEntityWrapper>();
 				if (query is null)
-					return tables[tableName];
+					return s_tables[tableName];
 
 				string[] tokens = query.Split("eq");
 				if (tokens.Length != 2)
@@ -98,7 +95,7 @@ namespace StorageLibrary.Mocks
 				};
 
 
-				foreach (TableEntityWrapper data in tables[tableName])
+				foreach (TableEntityWrapper data in s_tables[tableName])
 				{
 					if (object.Equals(data[field],value))
 						results.Add(data);
@@ -112,7 +109,7 @@ namespace StorageLibrary.Mocks
 		{
 			await Task.Run(() =>
 			{
-				if (!tables.ContainsKey(tableName))
+				if (!s_tables.ContainsKey(tableName))
 					throw new NullReferenceException($"Table '{tableName}' does not exist");
 			});
 		}

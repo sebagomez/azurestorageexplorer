@@ -80,7 +80,8 @@ namespace StorageLibTests
 			List<TableWrapper> expected = new List<TableWrapper>()
 			{
 				new TableWrapper{ Name = "tableOne"},
-				new TableWrapper{ Name = "tableThree" }
+				new TableWrapper{ Name = "tableThree" },
+				new TableWrapper{ Name = "four" }
 			};
 
 			StorageFactory factory = new StorageFactory();
@@ -134,20 +135,20 @@ namespace StorageLibTests
 		[TestMethod]
 		public async Task QueryDataByBool()
 		{
-			string table = "tableTwo";
+			string table = "tableThree";
 
 			List<TableEntityWrapper> expected = new List<TableEntityWrapper>()
 			{
 				{ new TableEntityWrapper()
 					{
-						["Number"]=2, 
-						["Bool"]=true,
-						["String"]="bar"
+						["Number"]=3, 
+						["Bool"]=false,
+						["String"]="choo"
 					}
 				}
 			};
 			StorageFactory factory = new StorageFactory();
-			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "Bool eq true"));
+			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "Bool eq false"));
 
 			CompareData(expected, result);
 		}
@@ -173,16 +174,46 @@ namespace StorageLibTests
 			CompareData(expected, result);
 		}
 
+		[TestMethod]
+		public async Task InsertIntOk()
+		{
+			string table = "tableOne";
+
+			List<TableEntityWrapper> expected = new List<TableEntityWrapper>()
+			{
+				{ new TableEntityWrapper()
+					{
+						["Number"]=1, 
+						["Bool"]=true,
+						["String"]="foo"
+					}
+				},
+				{ new TableEntityWrapper()
+					{
+						["Number"]=1
+					}
+				}
+			};
+
+			string data = $"Number=1{System.Environment.NewLine}Number@odata.type=Edm.Int32";
+
+			StorageFactory factory = new StorageFactory();
+			await factory.Tables.InsertAsync(table, data);
+			List<TableEntityWrapper> result = new List<TableEntityWrapper>(await factory.Tables.QueryAsync(table, "Number eq 1"));
+
+			CompareData(expected, result);
+		}
+
 		private void CompareTables(List<TableWrapper> expected, List<TableWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			Assert.IsTrue(expected.Count == returned.Count, $"Different record count returned. {string.Join(",", returned)}");
 			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different object returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}
 
 		private void CompareData(List<TableEntityWrapper> expected, List<TableEntityWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			Assert.IsTrue(expected.Count == returned.Count, $"Different table count returned. {string.Join(",", returned)}");
 			for (int i = 0; i < expected.Count; i++)
 			{
 				TableEntityWrapper expectedData = expected[i];
