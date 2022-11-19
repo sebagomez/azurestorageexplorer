@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.5.0
       with:
         fetch-depth: 0
 
@@ -29,7 +29,9 @@ jobs:
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
     - name: Install XMLLint
-      run: sudo apt-get install libxml2-utils
+      run: |
+        sudo apt-get update
+        sudo apt-get install libxml2-utils
 
     - name: Install Helm
       uses: azure/setup-helm@v1

@@ -18,9 +18,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.5.0
     - name: Install XMLLint
-      run: sudo apt-get install libxml2-utils
+      run: | 
+        sudo apt-get update
+        sudo apt-get install libxml2-utils
     - name: Get tagname
       run: echo "build_number=$(./version.sh)" >> $GITHUB_ENV
     - name: Build and push Docker images
