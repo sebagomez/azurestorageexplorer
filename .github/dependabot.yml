@@ -1,12 +1,12 @@
 version: 2
 updates:
 
-  - package-ecosystem: "web-nuget"
+  - package-ecosystem: "nuget"
     directory: "/src/web"
     schedule:
       interval: "weekly"
 
-  - package-ecosystem: "web-nuget"
+  - package-ecosystem: "nuget"
     directory: "/src/StorageLibrary"
     schedule:
       interval: "weekly"
