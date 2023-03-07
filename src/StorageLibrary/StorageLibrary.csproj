@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Services.Client" Version="5.8.5" />
-    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.12.1" />
+    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.13.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.14.1" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.13.0" />
     <PackageReference Include="Azure.Data.Tables" Version="12.8.0" />
