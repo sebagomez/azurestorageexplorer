@@ -25,13 +25,18 @@ jobs:
         sudo apt-get install libxml2-utils
     - name: Get tagname
       run: echo "build_number=$(./version.sh)" >> $GITHUB_ENV
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v4.1.1
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
       with:
         username: sebagomez
         password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v4
+      with:
         tags: latest,${{ env.build_number }}
-        build_args: BUILD=${{ env.build_number }}
-        add_git_labels: false
-        path: ./src
+        build-args: BUILD=${{ env.build_number }}
+        context: ./src
         push: true 
