@@ -42,7 +42,10 @@ namespace StorageLibrary
 			var files = dir.GetFilesAndDirectoriesAsync();
 			await foreach(var file in files)
 			{
-				items.Add(new FileShareItemWrapper($"{dir.Uri.AbsoluteUri}/{file.Name}", !file.IsDirectory, file.FileSize));
+				var uriBuilder = new UriBuilder(dir.Uri);
+				uriBuilder.Path += $"/{file.Name}";
+				var uri = uriBuilder.Uri;
+				items.Add(new FileShareItemWrapper(uri.AbsoluteUri, !file.IsDirectory, file.FileSize));
 			}
 
 			return items;
