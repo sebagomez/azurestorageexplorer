@@ -49,7 +49,7 @@ namespace web.Pages
 
 				await cred.SaveAsync(SessionStorage!);
 
-				NavManager!.NavigateTo("/home");
+				NavManager!.NavigateTo("home");
 			}
 			catch (Exception ex)
 			{

@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Version>2.3.1</Version>
     <Authors>Sebastián Gómez</Authors>
-    <Copyright>(C) 2018-2022 @sebagomez. All rights reserved.</Copyright>
+    <Copyright>(C) 2018-2023 @sebagomez. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>

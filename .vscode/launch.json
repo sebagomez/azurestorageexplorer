@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/AzureWebStorageExplorer/bin/Debug/net6.0/AzureWebStorageExplorer.dll",
+            "program": "${workspaceFolder}/src/AzureWebStorageExplorer/bin/Debug/net7.0/AzureWebStorageExplorer.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/AzureWebStorageExplorer",
             "stopAtEntry": false,
@@ -30,7 +30,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/src/wasm/bin/Debug/net6.0/wasm.dll",
+			"program": "${workspaceFolder}/src/wasm/bin/Debug/net7.0/wasm.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}/src/wasm",
 			"stopAtEntry": false,
@@ -50,7 +50,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/src/web/bin/Debug/net6.0/web.dll",
+			"program": "${workspaceFolder}/src/web/bin/Debug/net7.0/web.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}/src/web",
 			"stopAtEntry": false,
@@ -70,7 +70,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/src/web/bin/Debug/net6.0/web.dll",
+			"program": "${workspaceFolder}/src/web/bin/Debug/net7.0/web.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}/src/web",
 			"stopAtEntry": false,
@@ -81,7 +81,8 @@
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
 				"MOCK": "true",
-				"APPVERSION": "MOCK"
+				"APPVERSION": "MOCK",
+				"BASEPATH": "app"
 			},
 			"sourceFileMap": {
 				"/Views": "${workspaceFolder}/Views"
