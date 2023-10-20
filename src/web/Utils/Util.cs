@@ -10,7 +10,7 @@ namespace web.Utils
 		public static StorageFactory GetStorageFactory(Credentials cred)
 		{
 			string? mock = Environment.GetEnvironmentVariable("MOCK");
-			if (!(mock is null) && mock.ToLower() == bool.TrueString.ToLower())
+			if (mock is not null && mock.ToLower() == bool.TrueString.ToLower())
 				return new StorageFactory();
 
 			return new StorageFactory(cred.Account, cred.Key, cred.Endpoint);
