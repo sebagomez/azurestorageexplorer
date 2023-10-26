@@ -81,11 +81,15 @@ namespace StorageLibrary.Mocks
 			return await Task.Run(() => {
 				if (!MockUtils.FolderStructure.ContainsKey(share))
 					throw new NullReferenceException($"Share '{share}' does not exist");
-				
-				if (!MockUtils.FolderStructure[share].Contains(file))
-					throw new NullReferenceException($"File '{file}' does not exist in Share '{share}'");
 
-				return file;
+				string fullPath = file;
+				if (folder is not null)
+					fullPath = $"{folder}{file}";
+				
+				if (!MockUtils.FolderStructure[share].Contains(fullPath))
+					throw new NullReferenceException($"File '{fullPath}' does not exist in Share '{share}'");
+
+				return fullPath;
 			});
 		}
 

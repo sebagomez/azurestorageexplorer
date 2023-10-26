@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StorageLibrary;
@@ -40,9 +41,9 @@ namespace StorageLibTests
 		public async Task GetShareFiles()
 		{
 			string fileShareName = "one";
-			List<FileShareItemWrapper> expected = new List<FileShareItemWrapper> 
-			{ 
-				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:1", true, MockUtils.NewRandomSize), 
+			List<FileShareItemWrapper> expected = new List<FileShareItemWrapper>
+			{
+				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:1", true, MockUtils.NewRandomSize),
 				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:2", true, MockUtils.NewRandomSize),
 				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:3", true, MockUtils.NewRandomSize)
 			};
@@ -51,16 +52,42 @@ namespace StorageLibTests
 			List<FileShareItemWrapper> files = await factory.Files.ListFilesAndDirsAsync(fileShareName, string.Empty);
 
 			Assert.IsTrue(expected.Count == files.Count, $"Different amount returned. {string.Join(",", files)}");
-			for	(int i = 0; i < expected.Count; i++)
+			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(files[i].Url, expected[i].Url, $"Different objecte returned. Expected '{expected[i].Url}' got '{files[i].Url}'");
+		}
+
+		[TestMethod]
+		public async Task GetOneFiles()
+		{
+			string expected = "seba/juan";
+
+			StorageFactory factory = new StorageFactory();
+			string filePath = await factory.Files.GetFileAsync("brothers", "juan", "seba/");
+
+			Assert.IsTrue(expected == filePath, $"Different path returned. Expected '{expected}' got '{filePath}'");
+		}
+
+		[TestMethod]
+		public async Task GetWrongPath()
+		{
+			StorageFactory factory = new StorageFactory();
+			try
+			{
+				string filePath = await factory.Files.GetFileAsync("brothers", "alfo", "seba/");
+				Assert.IsTrue(false, $"Returned file path not expected: {filePath}");
+			}
+			catch (Exception ex)
+			{
+				Assert.IsTrue(ex.Message == "File 'seba/alfo' does not exist in Share 'brothers'", ex.Message);
+			}
 		}
 
 		[TestMethod]
 		public async Task CreateFileShare()
 		{
 			string fileShare = "four";
-			List<FileShareWrapper> expected = new List<FileShareWrapper> 
-			{ 
+			List<FileShareWrapper> expected = new List<FileShareWrapper>
+			{
 				new FileShareWrapper { Name = "one"},
 				new FileShareWrapper { Name =  "two"},
 				new FileShareWrapper { Name =  "three"},
@@ -83,8 +110,8 @@ namespace StorageLibTests
 		public async Task DeleteFileShare()
 		{
 			string fileShare = "one";
-			List<FileShareWrapper> expected = new List<FileShareWrapper> 
-			{ 
+			List<FileShareWrapper> expected = new List<FileShareWrapper>
+			{
 				new FileShareWrapper { Name =  "two"},
 				new FileShareWrapper { Name =  "three"},
 				new FileShareWrapper { Name =  "empty"},
@@ -105,7 +132,7 @@ namespace StorageLibTests
 		private void CompareFileShares(List<FileShareWrapper> expected, List<FileShareWrapper> returned)
 		{
 			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
-			for	(int i = 0; i < expected.Count; i++)
+			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}
 	}
