@@ -55,7 +55,7 @@ namespace StorageLibrary
 		{
 			ShareFileClient fileClient = GetShareFileClient(share, file, folder);
 
-			string tmpPath = Path.GetTempFileName();
+			string tmpPath = Util.File.GetTempFileName();
 			ShareFileDownloadInfo download = await fileClient.DownloadAsync();
 			using (FileStream stream = System.IO.File.OpenWrite(tmpPath))
 			{

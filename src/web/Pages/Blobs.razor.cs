@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -30,7 +31,7 @@ namespace web.Pages
 		List<BlobItemWrapper> AzureContainerFolders = new List<BlobItemWrapper>();
 
 		[Inject]
-		IJSRuntime? JS {get;set;}
+		IJSRuntime? JS { get; set; }
 
 		protected override async Task OnParametersSetAsync()
 		{
@@ -111,12 +112,13 @@ namespace web.Pages
 			await LoadBlobs();
 		}
 
-		public  async Task DownloadBlob(EventArgs args, string blobUrl)
+		public async Task DownloadBlob(EventArgs args, string blobUrl)
 		{
+			string path = "";
 			try
 			{
 				BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
-				string path = await AzureStorage!.Containers.GetBlobAsync(CurrentContainer, blob.FullName);
+				path = await AzureStorage!.Containers.GetBlobAsync(CurrentContainer, blob.FullName);
 
 				FileStream fileStream = File.OpenRead(path);
 
@@ -129,6 +131,11 @@ namespace web.Pages
 			{
 				HasError = true;
 				ErrorMessage = ex.Message;
+			}
+			finally
+			{
+				if (File.Exists(path))
+					File.Delete(path);
 			}
 		}
 
@@ -154,7 +161,7 @@ namespace web.Pages
 				if (!string.IsNullOrEmpty(UploadFolder) && !UploadFolder.EndsWith("/"))
 					UploadFolder += "/";
 
-				using(Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
+				using (Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
 					await AzureStorage!.Containers.CreateBlobAsync(CurrentContainer, $"{UploadFolder}{FileToUpload!.Name}", fileStream);
 
 				UploadFolder = string.Empty;

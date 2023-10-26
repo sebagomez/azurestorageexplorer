@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -15,9 +16,9 @@ namespace web.Pages
 		public string CurrentPath { get; set; } = "";
 
 		public IBrowserFile? FileToUpload { get; set; }
-		
+
 		[Inject]
-		IJSRuntime? JS {get;set;}
+		IJSRuntime? JS { get; set; }
 
 		public bool ShowTable { get; set; } = false;
 
@@ -72,9 +73,9 @@ namespace web.Pages
 		{
 			try
 			{
-				using(Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
-					await AzureStorage!.Files.CreateFileAsync(CurrentFileShare, FileToUpload!.Name, fileStream, CurrentPath );
-				
+				using (Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
+					await AzureStorage!.Files.CreateFileAsync(CurrentFileShare, FileToUpload!.Name, fileStream, CurrentPath);
+
 				await LoadFiles();
 			}
 			catch (Exception ex)
@@ -143,10 +144,11 @@ namespace web.Pages
 
 		public async Task DownloadFile(EventArgs args, string url)
 		{
+			string path = "";
 			try
 			{
 				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
-				string path = await AzureStorage!.Files.GetFileAsync(CurrentFileShare, file.Name, file.Path);
+				path = await AzureStorage!.Files.GetFileAsync(CurrentFileShare, file.Name, file.Path);
 
 				FileStream fileStream = File.OpenRead(path);
 
@@ -159,6 +161,11 @@ namespace web.Pages
 			{
 				HasError = true;
 				ErrorMessage = ex.Message;
+			}
+			finally
+			{
+				if (File.Exists(path))
+					File.Delete(path);
 			}
 
 		}

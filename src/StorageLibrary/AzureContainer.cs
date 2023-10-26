@@ -107,7 +107,7 @@ namespace StorageLibrary
 
 			BlobClient blob = container.GetBlobClient(blobName);
 
-			string tmpPath = Path.GetTempFileName();
+			string tmpPath = Util.File.GetTempFileName();
 			await blob.DownloadToAsync(tmpPath);
 
 			return tmpPath;
