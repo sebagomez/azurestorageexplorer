@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -12,7 +12,7 @@
     <FileVersion>$(AzureStorageWebExplorerVersion)</FileVersion>
     <Authors>Sebastián Gómez</Authors>
     <Product>Azure Storage web explorer</Product>
-    <Copyright>(C) 2022 @sebagomez. All rights reserved.</Copyright>
+    <Copyright>(C) 2023 @sebagomez. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>favicon.ico</PackageIcon>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.1.0" />
   </ItemGroup>
 
 </Project>
