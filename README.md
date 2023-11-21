@@ -79,8 +79,6 @@ Just execute the [./publish.sh](./publish.sh) script on the root folder on the r
 ![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
 
 
-### Docker 
-
 ## Docker
 
 There's a docker image at [hub.docker.com](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) that you can use to run this app on the environment of your choice. Keep reading for Kubernetes.
