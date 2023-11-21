@@ -14,7 +14,7 @@ Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/
 
 # Azure Storage Explorer
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0~~ 6.0 and ~~Angular~~. *Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 8 and ~~Angular~~.  *Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
 
 
 To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
@@ -65,7 +65,7 @@ If you don't write a query the system will retrieve every Entity on the Table
 
 ## Build
 
-To build this repo make sure you install .NET 6.0 sdk.
+To build this repo make sure you install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download).
 
 At the root of the project just execute the ./build.sh script
 ```sh
@@ -88,10 +88,10 @@ There's a docker image at [hub.docker.com](https://hub.docker.com/r/sebagomez/az
 To spin up a container with the latest version just run the following command
 
 ```sh
-docker run --rm -it -p 5555:80 sebagomez/azurestorageexplorer
+docker run --rm -it -p 8000:8080 sebagomez/azurestorageexplorer
 ```
 
-Then open your browser and navigate to http://localhost:5555, and voilá!
+Then open your browser and navigate to http://localhost:8000, and voilá!
 
 ## Kubernetes
 
@@ -121,6 +121,7 @@ or, you can follow helm instructions the get the application URL:
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=azurestorageexplorer,app.kubernetes.io/instance=azurestorageexplorer" -o jsonpath="{.items[0].metadata.name}")
 export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
 echo "Visit http://127.0.0.1:8080 to use your application"
+
 kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 ```
 
