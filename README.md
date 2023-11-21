@@ -10,7 +10,7 @@ Try it live at https://azurestorage.azurewebsites.net
 
 Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/r/sebagomez/azurestorageexplorer/) (created with GitHub Actions)
 
-<img src="./res/AzureExplorerLogo-White.png" alt="drawing" width="50"/>
+<img src="./res/AzureExplorerLogo.png" alt="drawing" width="50"/>
 
 # Azure Storage Explorer
 

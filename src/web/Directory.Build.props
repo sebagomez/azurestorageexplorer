@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <AzureStorageWebExplorerVersion>2.15.1</AzureStorageWebExplorerVersion>
+    <AzureStorageWebExplorerVersion>2.15.2</AzureStorageWebExplorerVersion>
   </PropertyGroup>
 </Project>
