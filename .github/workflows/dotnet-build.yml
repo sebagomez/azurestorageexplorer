@@ -4,15 +4,16 @@ on:
   push:
     paths:
     - src/**
+    - tests/**
     - .github/workflows/dotnet-build.yml
   pull_request:
     paths:
     - src/**
+    - tests/**
     - .github/workflows/dotnet-build.yml
 
 env:
   config: Release
-  solution: ./AzureWebExplorer.sln
 
 jobs:
   
@@ -20,6 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
     - name: Local Build
-      run: dotnet build --configuration Release ./src/AzureWebStorageExplorer/AzureWebStorageExplorer.csproj
+      run: dotnet build --configuration $config ./src/web/web.csproj
+    - name: Run Tests
+      run: dotnet test ./tests/StorageLibTests/StorageLibTests.csproj

@@ -1,13 +1,7 @@
 bin/
 obj/
-.svn/
 .vs/
-.vscode/
 
-PublishProfiles/
-Docker/root/
-packages/
-**/node_modules/
 **/wwwroot/dist/
 !**/**/wwwroot/dist/azurewebexplorer.css
 **/Properties/launchSettings.json
@@ -17,6 +11,4 @@ packages/
 private*.data
 
 .DS_Store
-publish.bat
-
-npm-shrinkwrap.json
+azurestorageexplorer.sln

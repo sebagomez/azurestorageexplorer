@@ -1,0 +1,21 @@
+@page "/home"
+@inherits web.Pages.BaseComponent
+
+<BaseComponent Selected="Home"/>
+<ForkMe/>
+<p></p>
+<p></p>
+<p>Welcome to the revamped version of Azure Storage web explorer</p>
+<p>This is a side project that I work on whenever I find the time and will. Want to contribute in any way? head over to the repo at <a href="https://github.com/sebagomez/azurestorageexplorer">https://github.com/sebagomez/azurestorageexplorer</a></p>
+<p>With this site you can manage</p>
+<ul>
+	<li><strong>Blobs</strong>: Create public or private Containers and Blobs (only BlockBlobs for now). Upload, download and delete blobs.</li>
+	<li><strong>Queues</strong>: Create Queues and messages.</li>
+	<li><strong>Tables</strong>: Create table and Entities. To create an Entity you'll have to add one property per line in the form of <code>&lt;PropertyName&gt;=&lt;PropertyValue&gt;</code>. You can also set the data type for a specific property adding the odata.type value. To retrieve data, you must provide a query (or leave blank) in the form of <code>&lt;PropertyName&gt; &lt;operator&gt; '&lt;PropertyValue&gt;'</code>(mind the quotes <code>'</code>), being <code>&lt;operator&gt;</code> one of the <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators">supported comparison operators</a></li>
+	<li><strong>Files Shares</strong>: Navigate thrugh your file shares and directories. Upload, download and delete files.</li>
+</ul>
+<p>
+More info in the project's <a href="https://github.com/sebagomez/azurestorageexplorer#readme">README</a> file.
+</p>
+@* 
+<Version Class="footer"/> *@

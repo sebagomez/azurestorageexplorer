@@ -1,0 +1,42 @@
+@page "/tables"
+
+@using StorageLibrary.Common;
+@inherits web.Pages.BaseComponent
+
+<BaseComponent Selected="Tables" />
+
+<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+
+<p></p>
+
+<div class="ui action input">
+	<input @bind="NewTableName" type="text" placeholder="New table...">
+	<button class="ui icon button" @onclick="NewTable">
+		<i class="add icon"></i>
+	</button>
+</div>
+
+<p></p>
+
+@if (Loading)
+{
+	<em>Loading tables...</em>
+}
+else 
+{
+
+	<div class="parent">
+
+		<div class="child ui vertical pointing menu">
+			@foreach(TableWrapper table in AzureTables)
+			{
+				<a class="item" @attributes="TablesAtts[table.Name]" @onclick="@(e => SelectedChanged(e, table.Name))">@table.Name</a>
+			}
+		</div>
+
+		<div class="child" style="padding-left:20px">
+			<TableData CurrentTable="@SelectedTable" Parent="this" />
+		</div>
+	</div>
+
+}

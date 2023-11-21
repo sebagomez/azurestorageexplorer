@@ -6,7 +6,7 @@ on:
       - master
     paths:
     - helm/**/*
-    - src/AzureWebStorageExplorer/Directory.Build.props
+    - src/web/Directory.Build.props
     - .github/workflows/helm-release.yml
 
 env:
@@ -19,25 +19,37 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
     - name: Install XMLLint
-      run: sudo apt-get install libxml2-utils
+      run: |
+        sudo apt-get update
+        sudo apt-get install libxml2-utils
 
     - name: Install Helm
-      uses: azure/setup-helm@v1
+      uses: azure/setup-helm@v3
       with:
-        version: v3.4.0
+        version: v3.10.0
 
     - name: Get tagname
       run: |
         build_number=$(./version.sh)
         echo $build_number
-        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azureexplorer/Chart.yaml
-        sed -i -E "s/  tag:.*/  tag: \"$build_number\"/" ./helm/azureexplorer/values.yaml
+        app_number=$(sed 's/\.//g' <<< $build_number)
+        echo $app_number
+        sed -i -E "s/appVersion:.*/appVersion: \"$build_number\"/" ./helm/azurestorageexplorer/Chart.yaml
+        sed -i -E "s/REPLACE_APP_VERSION/$app_number/" ./helm/azurestorageexplorer/Chart.yaml 
+        sed -i -E "s/  tag:.*/  tag: \"$build_number\"/" ./helm/azurestorageexplorer/values.yaml
 
     - name: Run chart-releaser
-      uses: helm/chart-releaser-action@v1.2.1
+      uses: helm/chart-releaser-action@v1.5.0
       with:
         charts_dir: helm
       env:
