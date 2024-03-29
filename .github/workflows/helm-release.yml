@@ -34,7 +34,7 @@ jobs:
         sudo apt-get install libxml2-utils
 
     - name: Install Helm
-      uses: azure/setup-helm@v3
+      uses: azure/setup-helm@v4
       with:
         version: v3.10.0
 
