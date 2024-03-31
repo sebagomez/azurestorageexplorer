@@ -13,8 +13,8 @@ namespace StorageLibrary
 {
 	internal class AzureContainer : StorageObject, IContainer
 	{
-		public AzureContainer(string account, string key, string endpoint)
-		: base(account, key, endpoint) { }
+		public AzureContainer(string account, string key, string endpoint, string connectionString)
+		: base(account, key, endpoint, connectionString) { }
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
@@ -54,7 +54,7 @@ namespace StorageLibrary
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}",0);
+					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}", 0);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))
