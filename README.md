@@ -14,6 +14,8 @@ Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/
 
 # Azure Storage Explorer
 
+Original blog post from 2009! https://sgomez.blogspot.com/2009/11/mi-first-useful-azure-application.html
+
 Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 8 and ~~Angular~~.  *Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
 
 

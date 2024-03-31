@@ -14,8 +14,8 @@ namespace StorageLibrary
 {
 	internal class AzureFile : StorageObject, IFile
 	{
-		public AzureFile(string account, string key, string endpoint)
-		: base(account, key, endpoint) { }
+		public AzureFile(string account, string key, string endpoint, string connectionString)
+		: base(account, key, endpoint, connectionString) { }
 
 		public async Task<List<FileShareWrapper>> ListFileSharesAsync()
 		{
@@ -40,7 +40,7 @@ namespace StorageLibrary
 			List<FileShareItemWrapper> items = new List<FileShareItemWrapper>();
 
 			var files = dir.GetFilesAndDirectoriesAsync();
-			await foreach(var file in files)
+			await foreach (var file in files)
 			{
 				var uriBuilder = new UriBuilder(dir.Uri);
 				uriBuilder.Path += $"/{file.Name}";

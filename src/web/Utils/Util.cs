@@ -13,7 +13,7 @@ namespace web.Utils
 			if (mock is not null && mock.ToLower() == bool.TrueString.ToLower())
 				return new StorageFactory();
 
-			return new StorageFactory(cred.Account, cred.Key, cred.Endpoint);
+			return new StorageFactory(cred.Account, cred.Key, cred.Endpoint, cred.ConnectionString);
 		}
 	}
 }

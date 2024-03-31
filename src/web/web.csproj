@@ -12,7 +12,7 @@
     <FileVersion>$(AzureStorageWebExplorerVersion)</FileVersion>
     <Authors>Sebastián Gómez</Authors>
     <Product>Azure Storage web explorer</Product>
-    <Copyright>(C) 2023 @sebagomez. All rights reserved.</Copyright>
+    <Copyright>2009-2024 @sebagomez</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>favicon.ico</PackageIcon>

@@ -6,7 +6,7 @@ using web.Utils;
 
 namespace web.Pages
 {
-	public partial class Login 
+	public partial class Login
 	{
 		public bool Loading { get; set; }
 		public bool ShowError { get; set; }
@@ -14,13 +14,14 @@ namespace web.Pages
 		public string? AzureAccount { get; set; } = "";
 		public string? AzureKey { get; set; } = "";
 		public string AzureUrl { get; set; } = "core.windows.net";
+		public string? ConnectionString { get; set; }
 
 		[Inject]
-		NavigationManager? NavManager { get; set;}
+		NavigationManager? NavManager { get; set; }
 
 		[Inject]
-		ProtectedSessionStorage? SessionStorage {get; set;}
-	
+		ProtectedSessionStorage? SessionStorage { get; set; }
+
 		private void NavigateOnEnter(KeyboardEventArgs args)
 		{
 			if (args.Code == "Enter")
@@ -34,18 +35,22 @@ namespace web.Pages
 			ShowError = false;
 			try
 			{
-				if (string.IsNullOrWhiteSpace(AzureAccount) || string.IsNullOrWhiteSpace(AzureKey) || string.IsNullOrWhiteSpace(AzureUrl))
+				if (string.IsNullOrWhiteSpace(ConnectionString) &&
+					(string.IsNullOrWhiteSpace(AzureAccount) ||
+					string.IsNullOrWhiteSpace(AzureKey) ||
+					string.IsNullOrWhiteSpace(AzureUrl)))
 					return;
 
 				Credentials cred = new Credentials
 				{
 					Account = AzureAccount,
 					Key = AzureKey,
-					Endpoint = AzureUrl
+					Endpoint = AzureUrl,
+					ConnectionString = ConnectionString
 				};
 
 				StorageFactory factory = Util.GetStorageFactory(cred);
-				var containers = await factory.Containers.ListContainersAsync();
+				var containers = await factory.Containers.ListContainersAsync(); //This authentication method is dangerous with SaS and ConnectionStrings
 
 				await cred.SaveAsync(SessionStorage!);
 

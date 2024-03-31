@@ -10,15 +10,15 @@ namespace StorageLibrary
 {
 	internal class AzureTable : StorageObject, ITable
 	{
-		public AzureTable(string account, string key, string endpoint)
-		: base(account, key, endpoint) { }
+		public AzureTable(string account, string key, string endpoint, string connectionString)
+		: base(account, key, endpoint, connectionString) { }
 
 		public async Task<List<TableWrapper>> ListTablesAsync()
 		{
 			TableServiceClient client = new TableServiceClient(ConnectionString);
 			List<TableWrapper> results = new List<TableWrapper>();
 			await foreach (var table in client.QueryAsync())
-				results.Add(new TableWrapper { Name = table.Name});
+				results.Add(new TableWrapper { Name = table.Name });
 
 			return results;
 		}
