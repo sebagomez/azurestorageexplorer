@@ -16,13 +16,26 @@ Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/
 
 Original blog post from 2009! https://sgomez.blogspot.com/2009/11/mi-first-useful-azure-application.html
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 8 and ~~Angular~~.  *Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 8 and ~~Angular~~.  
+
+*Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
 
 
-To login just enter your account name and key or SAS ([Shared Access Signature](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account#manage-your-storage-account))
+## Login 
 
-![Blobs](res/containers.png)
+To login just enter your account name and key or [Shared Access Signature](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview), or, a full [Connection String](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).  
 
+The Connection String can also allow you to connect to a local Azurite or potentionally (I have not been able to test it) to Azure Government.
+
+![Login](res/ASE_Login.png)
+
+### Environment Varibales
+
+You can also set up these fields in environment variables and Azure Storage Explorer will go straight to the home page if it could successfully authenticate.
+
+These variables are `AZURE_STORAGE_CONNECTIONSTRING`, `AZURE_STORAGE_ACCOUNT`, `AZURE_STORAGE_KEY`, and `AZURE_STORAGE_ENDPOINT`. The connection string takes precedence over the others, meaning if you set it, no more variables will be read. On the other hand, if the connection string variable is not set, all the rest variables will be read and they all have to be present.
+
+## Exploring
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
 
@@ -78,7 +91,7 @@ At the root of the project just execute the ./build.sh script
 
 Just execute the [./publish.sh](./publish.sh) script on the root folder on the repo. Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
-![CMD](https://github.com/sebagomez/azurestorageexplorer/blob/master/res/local_run.png?raw=true)
+![CMD](res/local_run.png)
 
 
 ## Docker
@@ -92,6 +105,15 @@ docker run --rm -it -p 8000:8080 sebagomez/azurestorageexplorer
 ```
 
 Then open your browser and navigate to http://localhost:8000, and voilá!
+
+## Docker Compose
+
+There's now a Docker Compose manifest in this repo that allows you to spin [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage) and Azure Storage web Explorer. In the manifest you can see that the `AZURE_STORAGE_CONNECTIONSTRING` environment variable is already set up to connect to Azurite; so fter spinning up the containers you can navigate to http://localhost:8080 and you should be already logged in to Azurite.
+
+
+```sh
+ docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
+```
 
 ## Kubernetes
 

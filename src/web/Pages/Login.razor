@@ -25,9 +25,11 @@
 					<input @bind="AzureUrl" type="url" placeholder="Endpoint Url" @onkeyup="NavigateOnEnter">
 					<i class="linkify icon"></i>
 				</div>
-				<p></p>
-				-- Or --
-				<p></p>
+				@* <p></p> *@
+				    @* <hr> *@
+					<p style="font-weight: bold;">Or</p>
+					
+				@* <p></p> *@
 				<div class="meta">Sign in with a full Connection String</div>
 				<div class="ui left icon input">
 					<input @bind="ConnectionString" type="text" placeholder="Connection String"
