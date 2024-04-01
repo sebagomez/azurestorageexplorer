@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using StorageLibrary;
 
 namespace web.Utils
 {
@@ -44,7 +45,7 @@ namespace web.Utils
 
 		private string GetAccountName()
 		{
-			var connStringArray = ConnectionString!.Split(';');
+			var connStringArray = ConnectionString!.Split(';', StringSplitOptions.RemoveEmptyEntries);
 			var dictionary = new Dictionary<string, string>();
 			foreach (var item in connStringArray)
 			{
@@ -88,6 +89,16 @@ namespace web.Utils
 			await sessionStorage.DeleteAsync(KEY);
 			await sessionStorage.DeleteAsync(ENDPOINT);
 			await sessionStorage.DeleteAsync(CONNECTION_STRING);
+		}
+
+		public async Task<bool> IsAuthenticated(ProtectedBrowserStorage sessionStorage)
+		{
+			StorageFactory factory = Util.GetStorageFactory(this);
+			var containers = await factory.Containers.ListContainersAsync(); //This authentication method is dangerous with SaS and ConnectionStrings
+
+			await SaveAsync(sessionStorage!);
+
+			return true;
 		}
 	}
 }

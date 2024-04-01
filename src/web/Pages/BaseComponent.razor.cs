@@ -21,7 +21,7 @@ namespace web.Pages
 		NavigationManager? NavManager { get; set; }
 
 		[Inject]
-		ProtectedSessionStorage? SessionStorage {get; set;}
+		ProtectedSessionStorage? SessionStorage { get; set; }
 
 		[Parameter]
 		public string? Selected { get; set; }
@@ -33,7 +33,7 @@ namespace web.Pages
 		{
 			counter.Inc();
 		}
-		
+
 		public virtual Task SelectionDeletedAsync()
 		{
 			StateHasChanged();
