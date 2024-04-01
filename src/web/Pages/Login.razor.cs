@@ -30,6 +30,35 @@ namespace web.Pages
 			}
 		}
 
+		protected override async Task OnInitializedAsync()
+		{
+			string? connString = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_CONNECTIONSTRING);
+			if (!string.IsNullOrEmpty(connString))
+			{
+				Credentials cred = new Credentials { ConnectionString = connString };
+				if (await cred.IsAuthenticated(SessionStorage!))
+					NavManager!.NavigateTo("home");
+			}
+			else
+			{
+				string? account = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_ACCOUNT);
+				if (!string.IsNullOrEmpty(account))
+				{
+					string? key = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_KEY);
+					if (!string.IsNullOrEmpty(key))
+					{
+						string? endpoint = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_ENDPOINT);
+						if (!string.IsNullOrEmpty(endpoint))
+						{
+							Credentials cred = new Credentials { Account = account, Key = key, Endpoint = endpoint };
+							if (await cred.IsAuthenticated(SessionStorage!))
+								NavManager!.NavigateTo("home");
+						}
+					}
+				}
+			}
+		}
+
 		private async Task SignIn()
 		{
 			ShowError = false;
@@ -49,12 +78,8 @@ namespace web.Pages
 					ConnectionString = ConnectionString
 				};
 
-				StorageFactory factory = Util.GetStorageFactory(cred);
-				var containers = await factory.Containers.ListContainersAsync(); //This authentication method is dangerous with SaS and ConnectionStrings
-
-				await cred.SaveAsync(SessionStorage!);
-
-				NavManager!.NavigateTo("home");
+				if (await cred.IsAuthenticated(SessionStorage!))
+					NavManager!.NavigateTo("home");
 			}
 			catch (Exception ex)
 			{
