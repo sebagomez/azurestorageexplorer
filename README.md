@@ -1,6 +1,6 @@
 [![.NET build](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/dotnet-build.yml)
-[![Docker build](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/docker-build.yml/badge.svg?branch=master)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/docker-build.yml)
-[![Helm release](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml/badge.svg?branch=master)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml)
+[![Docker build](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/docker-build.yml/badge.svg?branch=main)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/docker-build.yml)
+[![Helm release](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml/badge.svg?branch=main)](https://github.com/sebagomez/azurestorageexplorer/actions/workflows/helm-release.yml)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
 
