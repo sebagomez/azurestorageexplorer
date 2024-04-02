@@ -117,6 +117,20 @@ There's now a Docker Compose manifest in this repo that allows you to spin [Azur
 
 ## Kubernetes
 
+A [deployment]() and a [service]() are available in the [k8s](./k8s/) folder. If you have `kubectl` locally configured with a cluster just apply them and you'll have an instance of Azure Storage Explorer running in your cluster.
+
+```sh
+ kubectl apply -f ./k8s
+```
+Port-forward to a local host to easyly test your set up
+
+```sh
+kubectl port-forward svc/azurestorageexplorer 8080:8080
+```
+and access http://localhost:8080
+
+### Helm 
+
 As of version 2.7.1 there's a new Helm chart with this project ready to be deployed in your favorite K8s cluster.  
 If you want this app to run in your cluster, make sure you have [helm](https://helm.sh/docs/intro/install/) installed on your system.
 
@@ -134,7 +148,7 @@ helm install azurestorageexplorer sebagomez/azurestorageexplorer
 
 The helm chart provides a deployment and a service, you can enable port-forwarding to that service with the following command: 
 ```sh
-kubectl port-forward service/azurestorageexplorer 8080:80
+kubectl port-forward service/azurestorageexplorer 8080:8080
 ```
 
 or, you can follow helm instructions the get the application URL:
