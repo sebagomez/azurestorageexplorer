@@ -3,7 +3,7 @@ name: Helm release
 on:
   push:
     branches:
-      - master
+      - main
     paths:
     - helm/**/*
     - src/web/Directory.Build.props
