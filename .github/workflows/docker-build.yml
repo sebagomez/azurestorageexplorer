@@ -3,7 +3,7 @@ name: Docker build
 on:
   push:
     branches:
-      - master
+      - main
     paths:
     - build-image/*
     - src/**
