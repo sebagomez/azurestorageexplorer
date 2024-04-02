@@ -1,7 +1,7 @@
 ﻿@page "/"
 @page "/login"
 
-<ForkMe/>
+<ForkMe />
 
 <h1 class="azure parent">Azure Storage web explorer</h1>
 <p></p>
@@ -25,10 +25,21 @@
 					<input @bind="AzureUrl" type="url" placeholder="Endpoint Url" @onkeyup="NavigateOnEnter">
 					<i class="linkify icon"></i>
 				</div>
+				@* <p></p> *@
+				    @* <hr> *@
+					<p style="font-weight: bold;">Or</p>
+					
+				@* <p></p> *@
+				<div class="meta">Sign in with a full Connection String</div>
+				<div class="ui left icon input">
+					<input @bind="ConnectionString" type="text" placeholder="Connection String"
+						@onkeyup="NavigateOnEnter">
+					<i class="linkify icon"></i>
+				</div>
 				<p></p>
 				<button class="ui active button" @onclick="SignIn">
 					<i class="sign-in icon"></i>
-					Login
+					Sign In
 				</button>
 
 				@if (ShowError)
@@ -39,10 +50,10 @@
 		</div>
 	</div>
 </div>
-<Version/>
+<Version />
 
 @if (Loading)
 {
-		<div class="ui active text centered inline loader">
-		</div>
+	<div class="ui active text centered inline loader">
+	</div>
 }

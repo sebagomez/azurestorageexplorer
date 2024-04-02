@@ -11,14 +11,14 @@ namespace StorageLibrary
 {
 	internal class AzureQueue : StorageObject, IQueue
 	{
-		public AzureQueue(string account, string key, string endpoint)
-		: base(account, key, endpoint) { }
+		public AzureQueue(string account, string key, string endpoint, string connectionString)
+		: base(account, key, endpoint, connectionString) { }
 		public async Task<List<QueueWrapper>> ListQueuesAsync()
 		{
 			QueueServiceClient client = new QueueServiceClient(ConnectionString);
 			List<QueueWrapper> results = new List<QueueWrapper>();
 			await foreach (var q in client.GetQueuesAsync())
-				results.Add(new QueueWrapper { Name = q.Name } );
+				results.Add(new QueueWrapper { Name = q.Name });
 
 			return results;
 		}

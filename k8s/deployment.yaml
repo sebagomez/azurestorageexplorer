@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: azurestorageexplorer
+  name: azurestorageexplorer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azurestorageexplorer
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: azurestorageexplorer
+    spec:
+      containers:
+      - image: sebagomez/azurestorageexplorer
+        imagePullPolicy: Always
+        name: azurestorageexplorer
+        ports:
+        - containerPort: 8080
+          protocol: TCP
