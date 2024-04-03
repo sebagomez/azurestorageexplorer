@@ -4,7 +4,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/sebagomez/azurestorageexplorer.svg)](https://hub.docker.com/r/sebagomez/azurestorageexplorer)
 
-[Just for fun](https://justforfunnoreally.dev/)
+[![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
 Try it live at https://azurestorage.azurewebsites.net
 
