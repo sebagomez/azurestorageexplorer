@@ -39,7 +39,7 @@ jobs:
     
     
     - name: Build and push Docker images
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         tags: ${{ env.docker_user }}/${{ env.repository }}:latest,${{ env.docker_user }}/${{ env.repository }}:${{ env.build_number }}
         build-args: BUILD=${{ env.build_number }}
