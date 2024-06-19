@@ -104,15 +104,15 @@ To spin up a container with the latest version just run the following command
 docker run --rm -it -p 8000:8080 sebagomez/azurestorageexplorer
 ```
 
-Then open your browser and navigate to http://localhost:8000, and voilá!
+Then open your browser and navigate to http://localhost:8000, et voila!
 
 ## Docker Compose
 
-There's now a Docker Compose manifest in this repo that allows you to spin [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage) and Azure Storage web Explorer. In the manifest you can see that the `AZURE_STORAGE_CONNECTIONSTRING` environment variable is already set up to connect to Azurite; so fter spinning up the containers you can navigate to http://localhost:8080 and you should be already logged in to Azurite.
+There's now a Docker Compose manifest in this repo that allows you to spin [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage) and Azure Storage web Explorer. In the manifest you can see that the `AZURE_STORAGE_CONNECTIONSTRING` environment variable is already set up to connect to Azurite; so after spinning up the containers you can navigate to http://localhost:8080 and you should be already logged in to Azurite.
 
 
 ```sh
- docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
+docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
 ```
 
 ## Kubernetes

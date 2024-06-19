@@ -38,11 +38,6 @@ namespace StorageLibrary
 			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
 
 			List<BlobItemWrapper> results = new List<BlobItemWrapper>();
-
-			string localPath = "/";
-			if (!string.IsNullOrEmpty(path))
-				localPath = path;
-
 			await foreach (BlobHierarchyItem blobItem in container.GetBlobsByHierarchyAsync(BlobTraits.None, BlobStates.None, "/", path, CancellationToken.None))
 			{
 				BlobItemWrapper wrapper = null;
@@ -54,7 +49,7 @@ namespace StorageLibrary
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}{localPath}{blobItem.Prefix}", 0);
+					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))
