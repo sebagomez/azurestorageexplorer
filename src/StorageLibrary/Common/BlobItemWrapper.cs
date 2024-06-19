@@ -7,8 +7,17 @@ namespace StorageLibrary.Common
 	{
 		Uri m_internalUri;
 		public string Name { get => HttpUtility.UrlDecode(m_internalUri.Segments[m_internalUri.Segments.Length - 1]); }
-		public string Path { get => m_internalUri.LocalPath.Substring(Container.Length + 1, m_internalUri.LocalPath.Length - Container.Length - Name.Length - 1); }
-		public string Container { get => m_internalUri.Segments[1]; }
+		public string Path
+		{
+			get
+			{
+				int containerPos = m_internalUri.LocalPath.IndexOf(Container) + Container.Length;
+
+				return m_internalUri.LocalPath.Substring(containerPos, (m_internalUri.LocalPath.Length) - (containerPos) - Name.Length);
+			}
+		}
+
+		public string Container { get => IsAzurite ? m_internalUri.Segments[2] : m_internalUri.Segments[1]; }
 		public string FullName { get => $"{Path}{Name}"; }
 		public bool IsFile { get => !m_internalUri.Segments[m_internalUri.Segments.Length - 1].EndsWith("/"); }
 		public string Url
@@ -16,6 +25,8 @@ namespace StorageLibrary.Common
 			get { return m_internalUri.OriginalString; }
 			private set { m_internalUri = new Uri(value); }
 		}
+
+		public bool IsAzurite { get => m_internalUri.IsLoopback; }
 
 		public long Size { get; private set; }
 
