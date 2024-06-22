@@ -8,6 +8,8 @@ obj/
 
 *.user
 *.suo
+
+__azurite*.json
 private*.data
 
 .DS_Store
