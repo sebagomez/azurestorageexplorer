@@ -4,14 +4,17 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "nuget"
     directory: "/src/web"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "nuget"
     directory: "/src/StorageLibrary"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "docker"
     directory: "/src"
     schedule:
