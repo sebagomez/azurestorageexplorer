@@ -11,8 +11,8 @@
 			<div class="header">Sign in</div>
 			<div class="meta">Sign in with your Azure Key or Shared Access Signature</div>
 			<div class="description">
-				<div class="ui left icon input">
-					<input @bind="AzureAccount" type="text" placeholder="Azure account" @onkeyup="NavigateOnEnter">
+				<div class="ui left icon input @AccountClass">
+					<input @bind="AzureAccount" type="text" placeholder="Azure account" @onkeyup="NavigateOnEnter" @onblur="ValidateAccount">
 					<i class="user icon"></i>
 				</div>
 				<p></p>
@@ -26,7 +26,7 @@
 					<i class="linkify icon"></i>
 				</div>
 				@* <p></p> *@
-				    @* <hr> *@
+				@* <hr> *@
 					<p style="font-weight: bold;">Or</p>
 					
 				@* <p></p> *@
@@ -44,7 +44,7 @@
 
 				@if (ShowError)
 				{
-					<div class="ui left pointing red basic label">Invalid account or key</div>
+					<div class="ui left pointing red basic label">@AccountErrorMessage</div>
 				}
 			</div>
 		</div>

@@ -1,7 +1,7 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
-using StorageLibrary;
 using web.Utils;
 
 namespace web.Pages
@@ -12,6 +12,8 @@ namespace web.Pages
 		public bool ShowError { get; set; }
 		public string? ErrorMessage { get; set; }
 		public string? AzureAccount { get; set; } = "";
+		public string? AccountErrorMessage { get; set; } = "";
+		public string? AccountClass { get; set; } = "";
 		public string? AzureKey { get; set; } = "";
 		public string AzureUrl { get; set; } = "core.windows.net";
 		public string? ConnectionString { get; set; }
@@ -27,6 +29,23 @@ namespace web.Pages
 			if (args.Code == "Enter")
 			{
 				Task.Run(() => SignIn());
+			}
+		}
+
+		private void ValidateAccount(FocusEventArgs args)
+		{
+			string validpattern = "^[a-z0-9]{3,24}$";
+			if (!Regex.IsMatch(AzureAccount!, validpattern))
+			{
+				ShowError = true;
+				AccountErrorMessage = $"Account is not a valid name";
+				AccountClass = "error";
+			}
+			else
+			{
+				ShowError = false;
+				AccountErrorMessage = string.Empty;
+				AccountClass = "";
 			}
 		}
 
@@ -84,6 +103,7 @@ namespace web.Pages
 			catch (Exception ex)
 			{
 				ShowError = true;
+				AccountErrorMessage = "Invalid account or account key";
 				ErrorMessage = ex.Message;
 			}
 		}
