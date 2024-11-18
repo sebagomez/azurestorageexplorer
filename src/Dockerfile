@@ -5,7 +5,7 @@ COPY ./ /src
 
 RUN dotnet publish --configuration Release -o ./bin ./web/web.csproj
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
 LABEL maintainer="seba gomez <@sebagomez>"
 
