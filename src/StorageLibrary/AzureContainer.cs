@@ -13,8 +13,8 @@ namespace StorageLibrary
 {
 	internal class AzureContainer : StorageObject, IContainer
 	{
-		public AzureContainer(string account, string key, string endpoint, string connectionString)
-		: base(account, key, endpoint, connectionString) { }
+		public AzureContainer(StorageFactoryConfig config)
+		: base(config) { }
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
@@ -45,11 +45,11 @@ namespace StorageLibrary
 				{
 					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength);
+					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength.HasValue ? blobItem.Blob.Properties.ContentLength.Value : 0, IsAzurite);
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0);
+					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0, IsAzurite);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))

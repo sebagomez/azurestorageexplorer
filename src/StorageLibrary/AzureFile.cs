@@ -14,8 +14,8 @@ namespace StorageLibrary
 {
 	internal class AzureFile : StorageObject, IFile
 	{
-		public AzureFile(string account, string key, string endpoint, string connectionString)
-		: base(account, key, endpoint, connectionString) { }
+		public AzureFile(StorageFactoryConfig config)
+		: base(config) { }
 
 		public async Task<List<FileShareWrapper>> ListFileSharesAsync()
 		{

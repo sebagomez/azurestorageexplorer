@@ -10,8 +10,8 @@ namespace StorageLibrary
 {
 	internal class AzureTable : StorageObject, ITable
 	{
-		public AzureTable(string account, string key, string endpoint, string connectionString)
-		: base(account, key, endpoint, connectionString) { }
+		public AzureTable(StorageFactoryConfig config)
+		: base(config) { }
 
 		public async Task<List<TableWrapper>> ListTablesAsync()
 		{

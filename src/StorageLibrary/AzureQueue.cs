@@ -11,8 +11,9 @@ namespace StorageLibrary
 {
 	internal class AzureQueue : StorageObject, IQueue
 	{
-		public AzureQueue(string account, string key, string endpoint, string connectionString)
-		: base(account, key, endpoint, connectionString) { }
+		public AzureQueue(StorageFactoryConfig config)
+		: base(config) { }
+
 		public async Task<List<QueueWrapper>> ListQueuesAsync()
 		{
 			QueueServiceClient client = new QueueServiceClient(ConnectionString);
