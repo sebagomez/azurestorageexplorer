@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>2.4.0</Version>
+    <Version>2.4.1</Version>
     <Authors>Sebastián Gómez</Authors>
     <Copyright>(C) 2018-2024 @sebagomez</Copyright>
     <RepositoryUrl>https://github.com/sebagomez/azurestorageexplorer</RepositoryUrl>
@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Services.Client" Version="5.8.5" />
-    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.20.1" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.22.2" />
-    <PackageReference Include="Azure.Storage.Queues" Version="12.20.1" />
+    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.21.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.23.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.21.0" />
     <PackageReference Include="Azure.Data.Tables" Version="12.9.1" />
   </ItemGroup>
 
