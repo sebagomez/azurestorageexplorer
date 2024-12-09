@@ -35,6 +35,8 @@ You can also set up these fields in environment variables and Azure Storage Expl
 
 These variables are `AZURE_STORAGE_CONNECTIONSTRING`, `AZURE_STORAGE_ACCOUNT`, `AZURE_STORAGE_KEY`, and `AZURE_STORAGE_ENDPOINT`. The connection string takes precedence over the others, meaning if you set it, no more variables will be read. On the other hand, if the connection string variable is not set, all the rest variables will be read and they all have to be present.
 
+If you want to test it against [Azurite](https://github.com/Azure/Azurite) (either locally, via Docker, Docker Compose, or Kubernetes) you'll have to add the `AZURITE` variable set to `true`.
+
 ## Exploring
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
@@ -80,16 +82,16 @@ If you don't write a query the system will retrieve every Entity on the Table
 
 ## Build
 
-To build this repo make sure you install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download).
+To build this repo make sure you install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download). I'm also using [just](https://github.com/casey/just) and this [justfile](./justfile) to make my life easier.
 
-At the root of the project just execute the ./build.sh script
+At the root of the project, just build ;)
 ```sh
-./build.sh
+just build
 ```
 
 ## Run locally
 
-Just execute the [./publish.sh](./publish.sh) script on the root folder on the repo. Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
+`just publish` will publish the app to a bin folder in the root of the repo. Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
 ![CMD](res/local_run.png)
 
@@ -112,7 +114,7 @@ There's now a Docker Compose manifest in this repo that allows you to spin [Azur
 
 
 ```sh
-docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
+just compose
 ```
 
 ## Kubernetes
