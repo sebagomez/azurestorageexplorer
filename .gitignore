@@ -1,7 +1,7 @@
 bin/
 obj/
 .vs/
-
+.DS_Store
 **/wwwroot/dist/
 !**/**/wwwroot/dist/azurewebexplorer.css
 **/Properties/launchSettings.json
@@ -12,5 +12,4 @@ obj/
 __azurite*.json
 private*.data
 
-.DS_Store
 azurestorageexplorer.sln

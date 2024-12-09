@@ -19,7 +19,28 @@
 			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development"
-				//"AZURE_STORAGE_CONNECTIONSTRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;QueueEndpoint=http://localhost:10001/devstoreaccount1;TableEndpoint=http://localhost:10002/devstoreaccount1;"
+			},
+			"sourceFileMap": {
+				"/Views": "${workspaceFolder}/Views"
+			}
+		},
+		{
+			"name": "Blazor WEB (Azurite)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-and-azurite",
+			"program": "${workspaceFolder}/src/web/bin/Debug/net8.0/web.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/src/web",
+			"stopAtEntry": false,
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"AZURE_STORAGE_CONNECTIONSTRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;QueueEndpoint=http://localhost:10001/devstoreaccount1;TableEndpoint=http://localhost:10002/devstoreaccount1;",
+				"AZURITE": "true"
 			},
 			"sourceFileMap": {
 				"/Views": "${workspaceFolder}/Views"

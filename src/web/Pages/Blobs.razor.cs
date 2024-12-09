@@ -2,6 +2,7 @@ using System.IO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using StorageLibrary;
 using StorageLibrary.Common;
 using web.Utils;
 
@@ -101,7 +102,7 @@ namespace web.Pages
 
 		public async Task EnterFolder(EventArgs args, string blobUrl)
 		{
-			BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+			BlobItemWrapper blob = StorageFactory.GetBlobItemWrapper(blobUrl);
 			if (blob.IsFile)
 				return;
 
@@ -117,7 +118,7 @@ namespace web.Pages
 			string path = "";
 			try
 			{
-				BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+				BlobItemWrapper blob = StorageFactory.GetBlobItemWrapper(blobUrl);
 				path = await AzureStorage!.Containers.GetBlobAsync(CurrentContainer, blob.FullName);
 
 				FileStream fileStream = File.OpenRead(path);
@@ -143,7 +144,7 @@ namespace web.Pages
 		{
 			try
 			{
-				BlobItemWrapper blob = new BlobItemWrapper(blobUrl, 0);
+				BlobItemWrapper blob = StorageFactory.GetBlobItemWrapper(blobUrl);
 				await AzureStorage!.Containers.DeleteBlobAsync(CurrentContainer, blob.FullName);
 				await LoadBlobs();
 			}

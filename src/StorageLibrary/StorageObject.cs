@@ -10,9 +10,16 @@ namespace StorageLibrary
 		public string Endpoint { get; private set; } = "core.windows.net";
 		public string ConnectionString { get; private set; }
 
+		public bool IsAzurite { get; private set; }
+
 		const string CONNSTRING_TEMPLATE = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}";
-		public StorageObject(string account, string key, string endpoint, string connectionString)
+
+		public StorageObject(StorageFactoryConfig config)
+		: this(config.Account, config.Key, config.Endpoint, config.ConnectionString, config.IsAzurite){ }
+
+		public StorageObject(string account, string key, string endpoint, string connectionString, bool azurite)
 		{
+			IsAzurite = azurite;
 			if (!string.IsNullOrEmpty(connectionString))
 			{
 				ConnectionString = connectionString;

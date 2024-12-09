@@ -14,6 +14,15 @@
 			"problemMatcher": "$msCompile"
 		},
 		{
+			"label": "azurite",
+			"command": "./azurite.sh"
+		},
+		{
+            "label": "build-and-azurite",
+            "dependsOrder": "sequence",
+            "dependsOn": ["build", "azurite"]
+        },
+		{
 			"label": "publish",
 			"command": "dotnet",
 			"type": "process",
