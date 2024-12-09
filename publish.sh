@@ -1,4 +1,4 @@
-cd "${0%/*}" || exit 1
+#!/bin/bash
 
 dotnet publish --configuration Release -o ./bin ./src/web/web.csproj
 

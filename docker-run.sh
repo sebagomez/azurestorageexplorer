@@ -1,4 +1,4 @@
-cd "${0%/*}" || exit 1
+#!/bin/bash
 
 echo App will run on http://localhost:8080
 

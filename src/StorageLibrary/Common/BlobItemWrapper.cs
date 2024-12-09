@@ -6,27 +6,17 @@ namespace StorageLibrary.Common
 	public class BlobItemWrapper : IEquatable<BlobItemWrapper>, IComparable<BlobItemWrapper>
 	{
 		Uri m_internalUri;
-		public string Name { get => HttpUtility.UrlDecode(m_internalUri.Segments[m_internalUri.Segments.Length - 1]); }
-		public string Path
-		{
-			get
-			{
-				int containerPos = m_internalUri.LocalPath.IndexOf(Container) + Container.Length;
-
-				return m_internalUri.LocalPath.Substring(containerPos, (m_internalUri.LocalPath.Length) - (containerPos) - Name.Length);
-			}
-		}
-
-		public string Container { get => IsAzurite ? m_internalUri.Segments[2] : m_internalUri.Segments[1]; }
+		bool m_isAzurite = false;
+		public string Name { get; private set; }
+		public string Path { get; private set; }
+		public string Container { get; private set; }
 		public string FullName { get => $"{Path}{Name}"; }
-		public bool IsFile { get => !m_internalUri.Segments[m_internalUri.Segments.Length - 1].EndsWith("/"); }
+		public bool IsFile { get; private set; }
 		public string Url
 		{
 			get { return m_internalUri.OriginalString; }
 			private set { m_internalUri = new Uri(value); }
 		}
-
-		public bool IsAzurite { get => m_internalUri.IsLoopback; }
 
 		public long Size { get; private set; }
 
@@ -36,10 +26,16 @@ namespace StorageLibrary.Common
 
 		public BlobItemWrapper(string url) : this(url, 0) { }
 
-		public BlobItemWrapper(string url, long? size)
+		public BlobItemWrapper(string url, long size, bool fromAzurite = false)
 		{
 			Url = url;
-			Size = size.HasValue ? size.Value : 0;
+			Size = size;
+			m_isAzurite = fromAzurite;
+			IsFile = !m_internalUri.Segments[m_internalUri.Segments.Length - 1].EndsWith(System.IO.Path.AltDirectorySeparatorChar);
+			Container = m_isAzurite ? m_internalUri.Segments[2] : m_internalUri.Segments[1];
+			Name = HttpUtility.UrlDecode(m_internalUri.Segments[m_internalUri.Segments.Length - 1]);
+			int containerPos = m_internalUri.LocalPath.IndexOf(Container) + Container.Length;
+			Path = m_internalUri.LocalPath.Substring(containerPos, (m_internalUri.LocalPath.Length) - (containerPos) - Name.Length);
 		}
 
 		public int CompareTo(BlobItemWrapper other)

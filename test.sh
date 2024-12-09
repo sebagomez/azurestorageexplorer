@@ -1,2 +1,3 @@
-cd "${0%/*}" || exit 1
+#!/bin/bash
+
 dotnet test ./tests/StorageLibTests/StorageLibTests.csproj 
