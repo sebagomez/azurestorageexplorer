@@ -40,7 +40,7 @@ jobs:
 
     - name: Get tagname
       run: |
-        build_number=$(./version.sh)
+        build_number=$(./utils/version.sh)
         echo $build_number
         app_number=$(sed 's/\.//g' <<< $build_number)
         echo $app_number

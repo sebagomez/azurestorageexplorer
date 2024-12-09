@@ -1,3 +1,4 @@
+# This help
 default:
   @just --list 
 
@@ -23,17 +24,19 @@ test:
   dotnet test ./tests/StorageLibTests/StorageLibTests.csproj 
 
 # Build Docker image as azurestorageexplorer:local
-db:
+dbuild:
   docker build --tag azurestorageexplorer:local ./src
 
-# Launches the local docker image at http://localhost:8080
-dr:
+# Launches the local docker image (azurestorageexplorer:local) at http://localhost:8080
+drun:
   echo App will run on http://localhost:8080
   docker run --rm -p 8080:8080 --name azurestorageexplorer azurestorageexplorer:local
 
+# Launches a docker compose with azurestorageexplorer:local and azurite
 compose:
   docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
 
+# Stops de docker compose
 uncompose:
   docker-compose -f ./docker-compose/azurestorageexplorer.yaml down 
 

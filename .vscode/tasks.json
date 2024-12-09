@@ -15,7 +15,7 @@
 		},
 		{
 			"label": "azurite",
-			"command": "./azurite.sh"
+			"command": "./utils/azurite.sh"
 		},
 		{
             "label": "build-and-azurite",
