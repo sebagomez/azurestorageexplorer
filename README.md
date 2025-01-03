@@ -37,6 +37,16 @@ These variables are `AZURE_STORAGE_CONNECTIONSTRING`, `AZURE_STORAGE_ACCOUNT`, `
 
 If you want to test it against [Azurite](https://github.com/Azure/Azurite) (either locally, via Docker, Docker Compose, or Kubernetes) you'll have to add the `AZURITE` variable set to `true`.
 
+#### AWS & GCP
+
+You can now also manager your AWS and GCP buckets. Just make sure you set the environment variable `CLOUD_PROVIDER` to either `AWS` or `GCP` and you also need to set up a few other environments depending the cloud provider.  
+If you want to connect to your AWS S3 account, you need to provider three environment variables `AWS_ACCESS_KEY`, `AWS_SECRET_KEY`, and `AWS_REGION`.  
+If in the other hand you want to connect to GCP, you need to donload the credentials file for your service account and set the `GCP_CREDENTIALS_FILE` environment variable to the full path to that file. 
+
+![](./res/AWSExplorer.png)
+
+**This feature is in beta so feel free to provide feedback**
+
 ## Exploring
 
 **Blobs**: Create public or private Containers and Blobs (only BlockBlobs for now). Download or delete your blobs.
