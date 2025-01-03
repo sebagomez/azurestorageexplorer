@@ -9,7 +9,7 @@ using Azure.Storage.Blobs.Models;
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
 
-namespace StorageLibrary
+namespace StorageLibrary.Azure
 {
 	internal class AzureContainer : StorageObject, IContainer
 	{
@@ -45,11 +45,11 @@ namespace StorageLibrary
 				{
 					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength.HasValue ? blobItem.Blob.Properties.ContentLength.Value : 0, IsAzurite);
+					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength.HasValue ? blobItem.Blob.Properties.ContentLength.Value : 0, CloudProvider.Azure, IsAzurite);
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0, IsAzurite);
+					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0, CloudProvider.Azure, IsAzurite);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))

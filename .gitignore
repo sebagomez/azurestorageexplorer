@@ -13,3 +13,6 @@ __azurite*.json
 private*.data
 
 azurestorageexplorer.sln
+credentials.json
+.vscode/
+

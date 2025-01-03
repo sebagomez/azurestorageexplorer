@@ -15,25 +15,25 @@ namespace StorageLibrary
 		const string CONNSTRING_TEMPLATE = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}";
 
 		public StorageObject(StorageFactoryConfig config)
-		: this(config.Account, config.Key, config.Endpoint, config.ConnectionString, config.IsAzurite){ }
-
-		public StorageObject(string account, string key, string endpoint, string connectionString, bool azurite)
 		{
-			IsAzurite = azurite;
-			if (!string.IsNullOrEmpty(connectionString))
+			if (config.Provider != CloudProvider.Azure)
+				return;
+
+			IsAzurite = config.IsAzurite;
+			if (!string.IsNullOrEmpty(config.AzureConnectionString))
 			{
-				ConnectionString = connectionString;
+				ConnectionString = config.AzureConnectionString;
 			}
-			else if (key.Contains("SharedAccessSignature="))
+			else if (config.AzureKey.Contains("SharedAccessSignature="))
 			{
-				ConnectionString = key;
+				ConnectionString = config.AzureKey;
 			}
 			else
 			{
-				Account = account;
-				Key = key;
-				if (!string.IsNullOrEmpty(endpoint))
-					Endpoint = endpoint;
+				Account = config.AzureAccount;
+				Key = config.AzureKey;
+				if (!string.IsNullOrEmpty(config.AzureEndpoint))
+					Endpoint = config.AzureEndpoint;
 
 				ConnectionString = string.Format(CONNSTRING_TEMPLATE, Account, Key, Endpoint);
 			}

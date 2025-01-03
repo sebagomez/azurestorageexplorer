@@ -6,7 +6,7 @@ using Azure.Data.Tables;
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
 
-namespace StorageLibrary
+namespace StorageLibrary.Azure
 {
 	internal class AzureTable : StorageObject, ITable
 	{
