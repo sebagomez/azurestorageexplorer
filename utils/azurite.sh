@@ -3,7 +3,7 @@
 CONTAINER_NAME="azurite"
 IMAGE_NAME="mcr.microsoft.com/azure-storage/azurite"
 
-Check if the container is already running
+# Check if the container is already running
 if [ "$(docker ps -q -f name=${CONTAINER_NAME})" ]; then
     echo "Container ${CONTAINER_NAME} is already running."
 else

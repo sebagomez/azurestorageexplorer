@@ -10,7 +10,7 @@ using Azure.Storage.Files.Shares.Models;
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
 
-namespace StorageLibrary
+namespace StorageLibrary.Azure
 {
 	internal class AzureFile : StorageObject, IFile
 	{

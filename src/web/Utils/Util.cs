@@ -13,15 +13,33 @@ namespace web.Utils
 		public const string MOCK = "MOCK";
 		public const string AZURITE = "AZURITE";
 
+		public static string Provider { get; set; } = "Azure";
+		public static bool Azurite { get; set; } = false;
+
 		public static StorageFactory GetStorageFactory(Credentials cred)
 		{
+			Provider = cred.Provider!;
+
 			string? mock = Environment.GetEnvironmentVariable(MOCK);
 			bool mockEnabled = mock is not null && mock.ToLower() == bool.TrueString.ToLower();
 
 			string? azurite = Environment.GetEnvironmentVariable(AZURITE);
-			bool azuriteEnabled = azurite is not null && azurite.ToLower() == bool.TrueString.ToLower();
+			Azurite = azurite is not null && azurite.ToLower() == bool.TrueString.ToLower();
 
-			return new StorageFactory(new StorageFactoryConfig { Account = cred.Account, Key = cred.Key, Endpoint = cred.Endpoint, ConnectionString = cred.ConnectionString, IsAzurite = azuriteEnabled, Mock = mockEnabled });
+			return new StorageFactory(new StorageFactoryConfig 
+			{ 
+				Provider = Enum.Parse<CloudProvider>(cred.Provider!),
+				AzureAccount = cred.Account, 
+				AzureKey = cred.Key, 
+				AzureEndpoint = cred.Endpoint, 
+				AzureConnectionString = cred.ConnectionString, 
+				AwsKey = cred.AwsKey,
+				AwsSecret = cred.AwsSecret,
+				AwsRegion = cred.AwsRegion,
+				GcpCredentialsFile = cred.GcpCredFile,
+				IsAzurite = Azurite, 
+				Mock = mockEnabled 
+			});
 		}
 	}
 }
