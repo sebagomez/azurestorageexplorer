@@ -31,7 +31,7 @@ namespace StorageLibrary.Mocks
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
 				foreach(string url in MockUtils.GetItems(containerName, path))
-					results.Add(new BlobItemWrapper(url, MockUtils.NewRandomSize));
+					results.Add(new BlobItemWrapper(url, MockUtils.NewRandomSize, CloudProvider.Azure));
 
 				return results;
 			});

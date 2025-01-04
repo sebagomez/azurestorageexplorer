@@ -75,6 +75,42 @@ namespace web.Pages
 						}
 					}
 				}
+				else //check if it's AWS or GCP
+				{
+					string? cloudProvider = Environment.GetEnvironmentVariable("CLOUD_PROVIDER");
+					if (!string.IsNullOrEmpty(cloudProvider))
+					{
+						if (cloudProvider.Equals("AWS", StringComparison.OrdinalIgnoreCase))
+						{
+							string? awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+							string? awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
+							string? awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+							if (!string.IsNullOrEmpty(awsAccessKey) && !string.IsNullOrEmpty(awsSecretKey) && !string.IsNullOrEmpty(awsRegion))
+							{
+								Credentials awsCredentials = new Credentials
+								{
+									Provider = "AWS",
+									AwsKey = awsAccessKey,
+									AwsSecret = awsSecretKey,
+									AwsRegion = awsRegion
+								};
+								if (await awsCredentials.IsAuthenticated(SessionStorage!))
+									NavManager!.NavigateTo("home");
+							}
+						}
+						else if (cloudProvider.Equals("GCP", StringComparison.OrdinalIgnoreCase))
+						{
+							string? gcpCredentials = Environment.GetEnvironmentVariable("GCP_CREDENTIALS_FILE");
+							if (!string.IsNullOrEmpty(gcpCredentials))
+							{
+								Credentials gcpCred = new Credentials { Provider = "GCP", GcpCredFile = gcpCredentials };
+								if (await gcpCred.IsAuthenticated(SessionStorage!))
+									NavManager!.NavigateTo("home");
+							}
+						}
+					}
+
+				}
 			}
 		}
 

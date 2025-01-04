@@ -4,29 +4,53 @@
 
 <div class="ui pointing menu">
 	<a class="item" href="./">
-		<img src="res/AzureExplorerLogo.png" class="logo" alt="Azure Web Storage Explorer Logo">
+		<img src="res/@(Provider)ExplorerLogo.png" class="logo" alt="@(Provider) Storage Explorer Logo">
 	</a>
 	<a class="item" href="home">
+@switch (Provider)
+{
+	case "Azure":
 		<h4 class="azure">Azure Storage web explorer</h4>
+		break;
+	case "AWS":
+		<h4 class="aws">AWS S3 web explorer</h4>
+		break;
+	case "GCP":
+		<h4 class="gcp">GCP Storage web explorer</h4>
+		break;
+}
 	</a>
 	<a class="item" href="containers">
-		<div @attributes="this.BlobAtts">Blobs</div>
+		<div @attributes="this.BlobAtts">@(Provider == "Azure" ? "Blobs" : "Buckets")</div>
 	</a>
+@if (Provider == "Azure")
+{
 	<a class="item" href="queues">
 		<div @attributes="this.QueueAtts">Queues</div>
 	</a>
 	<a class="item" href="tables">
 		<div @attributes="this.TableAtts">Tables</div>
 	</a>
-	<a class="item" href="fileshares">
-		<div @attributes="this.FileAtts">File Shares</div>
-	</a>
+	@if (!IsAzurite)
+	{
+		<a class="item" href="fileshares">
+			<div @attributes="this.FileAtts">File Shares</div>
+		</a>
+	}
+}
 	<div class="menu">
 		<a class="item" @onclick="LogOut">Logout @Account</a>
 	</div>
 </div>
 
 @code {
+
+	[Parameter]
+	public string? Provider { get; set; }
+
+	[Parameter]
+	public bool IsAzurite { get; set; } = false;
+
 	[Parameter]
 	public string? Account { get; set; }
 
@@ -49,7 +73,7 @@
 	private Dictionary<string, object> QueueAtts = new Dictionary<string, object>();
 	private Dictionary<string, object> TableAtts = new Dictionary<string, object>();
 	private Dictionary<string, object> FileAtts = new Dictionary<string, object>();
-
+	
 	protected override void OnInitialized()
 	{
 		if (BlobAtts.ContainsKey("class"))
@@ -64,16 +88,16 @@
 		switch (Selected)
 		{
 			case "Containers":
-				BlobAtts.Add("class", "selectedMenu");
+				BlobAtts.Add("class", "selectedMenu " + Provider!.ToLower());
 				break;
 			case "Tables":
-				TableAtts.Add("class", "selectedMenu");
+				TableAtts.Add("class", "selectedMenu " + Provider!.ToLower());
 				break;
 			case "Queues":
-				QueueAtts.Add("class", "selectedMenu");
+				QueueAtts.Add("class", "selectedMenu " + Provider!.ToLower());
 				break;
 			case "FileShares":
-				FileAtts.Add("class", "selectedMenu");
+				FileAtts.Add("class", "selectedMenu " + Provider!.ToLower());
 				break;
 		}
 
