@@ -40,6 +40,15 @@ service:
   type: LoadBalancer
   port: 80
 
+# Environment variables passed to the container.
+# Each item must have:
+#   name:  ENV VAR NAME
+#   value: STRING VALUE
+# Example:
+# - name: DOTNET_GCHeapCount
+#   value: "c"
+env: []
+
 serviceMetrics:
   enabled: true
   annotations: 
