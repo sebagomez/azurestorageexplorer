@@ -9,7 +9,7 @@ Azure Storage Explorer is a web-based application for managing Azure Storage res
 
 ### Technology Stack
 
-- **Framework:** .NET 8.0 with Blazor Server
+- **Framework:** .NET 10.0 with Blazor Server
 - **Previous Versions:** Originally built with ASP.NET WebForms, migrated through .NET Core 2.1, 2.2, 3.1, 5.0, 6, 7, 8, and Angular (later moved to Blazor to avoid npm dependency issues)
 - **Build Tool:** [just](https://github.com/casey/just) with justfile for build automation
 - **Container:** Docker images available and automatically built via GitHub Actions
@@ -50,7 +50,7 @@ azurestorageexplorer/
 ├── k8s/                     # Kubernetes manifests
 │   ├── deployment.yaml
 │   └── service.yaml
-└── src/                     # .NET 8.0 Blazor Server application
+└── src/                     # .NET 10.0 Blazor Server application
 ```
 
 ## Authentication & Configuration
@@ -87,7 +87,7 @@ The application supports multiple authentication methods:
 ## Building and Running
 
 ### Prerequisites
-- .NET 8.0 SDK: https://dotnet.microsoft.com/en-us/download
+- .NET 10.0 SDK: https://dotnet.microsoft.com/en-us/download
 - just (optional): https://github.com/casey/just
 
 ### Local Development
@@ -210,7 +210,7 @@ PartitionKey eq 'Action'
 - **2009:** Original implementation in C# with ASP.NET WebForms 2.0
 - **2017-2021:** Migrated through multiple .NET Core versions (2.1, 2.2, 3.1) and .NET 5.0, 6, 7
 - **Angular Era:** Temporary migration to Angular for modern frontend
-- **Current:** .NET 8.0 with Blazor Server (moved away from Angular due to npm dependency management issues)
+- **Current:** .NET 10.0 with Blazor Server (moved away from Angular due to npm dependency management issues)
 - **2024+:** Added multi-cloud support (AWS, GCP), Helm charts, and enhanced container orchestration
 
 **Original Blog Post:** https://sgomez.blogspot.com/2009/11/mi-first-useful-azure-application.html
@@ -240,7 +240,7 @@ if (storage.Resource.IsEmulator) {
 
 When contributing to this project:
 
-1. Maintain compatibility with .NET 8.0
+1. Maintain compatibility with .NET 10.0
 2. Follow Blazor Server best practices
 3. Test against both Azure Storage and Azurite
 4. Update justfile if adding new build tasks
@@ -318,7 +318,7 @@ helm install azurestorageexplorer sebagomez/azurestorageexplorer
 
 ## Version Information
 
-- **Current .NET Version:** 8.0
+- **Current .NET Version:** 10.0
 - **Helm Chart Version:** 2.7.1+
 - **Container Registry:** Docker Hub (sebagomez/azurestorageexplorer)
 - **CI/CD:** GitHub Actions for automated builds
