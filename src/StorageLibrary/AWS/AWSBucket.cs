@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -13,7 +14,7 @@ using StorageLibrary.Interfaces;
 
 namespace StorageLibrary.AWS
 {
-	internal class AWSBucket : StorageObject, IContainer
+	internal class AWSBucket : StorageObject, IContainer, IDisposable
 	{
 		protected AmazonS3Client _s3Client;
 		public AWSBucket(StorageFactoryConfig config): base(config)
@@ -160,5 +161,10 @@ namespace StorageLibrary.AWS
 
 			return buckets;
 		}
+	
+		public void Dispose()
+    	{
+        	_s3Client?.Dispose();
+    	}
 	}
 }

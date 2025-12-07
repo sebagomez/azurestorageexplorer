@@ -92,7 +92,7 @@ If you don't write a query the system will retrieve every Entity on the Table
 
 ## Build
 
-To build this repo make sure you install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download). I'm also using [just](https://github.com/casey/just) and this [justfile](./justfile) to make my life easier.
+To build this repo make sure you install [.NET 10.0 SDK](https://dotnet.microsoft.com/en-us/download). I'm also using [just](https://github.com/casey/just) and this [justfile](./justfile) to make my life easier.
 
 At the root of the project, just build ;)
 ```sh
