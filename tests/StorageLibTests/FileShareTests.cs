@@ -51,7 +51,7 @@ namespace StorageLibTests
 			StorageFactory factory = new StorageFactory();
 			List<FileShareItemWrapper> files = await factory.Files.ListFilesAndDirsAsync(fileShareName, string.Empty);
 
-			Assert.IsTrue(expected.Count == files.Count, $"Different amount returned. {string.Join(",", files)}");
+			Assert.HasCount(expected.Count, files, $"Different amount returned. {string.Join(",", files)}");
 			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(files[i].Url, expected[i].Url, $"Different objecte returned. Expected '{expected[i].Url}' got '{files[i].Url}'");
 		}
@@ -64,7 +64,7 @@ namespace StorageLibTests
 			StorageFactory factory = new StorageFactory();
 			string filePath = await factory.Files.GetFileAsync("brothers", "juan", "seba/");
 
-			Assert.IsTrue(expected == filePath, $"Different path returned. Expected '{expected}' got '{filePath}'");
+			Assert.AreEqual(expected, filePath, $"Different path returned. Expected '{expected}' got '{filePath}'");
 		}
 
 		[TestMethod]
@@ -74,11 +74,11 @@ namespace StorageLibTests
 			try
 			{
 				string filePath = await factory.Files.GetFileAsync("brothers", "alfo", "seba/");
-				Assert.IsTrue(false, $"Returned file path not expected: {filePath}");
+				Assert.Fail($"Returned file path not expected: {filePath}");
 			}
 			catch (Exception ex)
 			{
-				Assert.IsTrue(ex.Message == "File 'seba/alfo' does not exist in Share 'brothers'", ex.Message);
+				Assert.AreEqual("File 'seba/alfo' does not exist in Share 'brothers'", ex.Message, ex.Message);
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace StorageLibTests
 
 		private void CompareFileShares(List<FileShareWrapper> expected, List<FileShareWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			Assert.HasCount(expected.Count, returned, $"Different amount returned. {string.Join(",", returned)}");
 			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}

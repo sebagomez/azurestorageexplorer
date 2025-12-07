@@ -32,7 +32,7 @@ namespace StorageLibTests
 			StorageFactory factory = new StorageFactory();
 			List<BlobItemWrapper> blobs = await factory.Containers.ListBlobsAsync(containerName, string.Empty);
 
-			Assert.IsTrue(expected.Count == blobs.Count, $"Different amount returned. {string.Join(",", blobs)}");
+			Assert.HasCount(expected.Count, blobs, $"Different amount returned. {string.Join(",", blobs)}");
 			for	(int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(blobs[i].Url, expected[i].Url, $"Different objecte returned. Expected '{expected[i].Url}' got '{blobs[i].Url}'");
 		}
@@ -54,7 +54,7 @@ namespace StorageLibTests
 			StorageFactory factory = new StorageFactory();
 			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
-			Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
+			Assert.HasCount(expected.Count, containers, $"Different amount returned. {string.Join(",", containers)}");
 			for	(int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
 		}
@@ -80,7 +80,7 @@ namespace StorageLibTests
 
 			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
-			Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
+			Assert.HasCount(expected.Count, containers, $"Different amount returned. {string.Join(",", containers)}");
 			for	(int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
 		}
@@ -105,7 +105,7 @@ namespace StorageLibTests
 
 			List<CloudBlobContainerWrapper> containers = await factory.Containers.ListContainersAsync();
 
-			Assert.IsTrue(expected.Count == containers.Count, $"Different amount returned. {string.Join(",", containers)}");
+			Assert.HasCount(expected.Count, containers, $"Different amount returned. {string.Join(",", containers)}");
 			for	(int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(containers[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{containers[i].Name}'");
 		}
