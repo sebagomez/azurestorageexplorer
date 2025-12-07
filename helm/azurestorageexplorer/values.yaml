@@ -45,9 +45,20 @@ service:
 #   name:  ENV VAR NAME
 #   value: STRING VALUE
 # Example:
-# - name: DOTNET_GCHeapCount
-#   value: "c"
+# - name: AZURITE
+#   value: "true"
 env: []
+
+# Secret-based environment variables passed to the container.
+# Each item must have:
+#   name:        ENV VAR NAME
+#   secretName:  K8S SECRET NAME
+#   secretKey:   K8S SECRET KEY
+# Example:
+# - name: AZURE_STORAGE_CONNECTIONSTRING
+#   secretName: azurite-connection-string
+#   secretKey: connection-string
+secretEnv: []
 
 serviceMetrics:
   enabled: true

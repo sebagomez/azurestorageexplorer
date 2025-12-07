@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using StorageLibrary.Interfaces;
 
 namespace StorageLibrary.Google
 {
-	internal class GCPBucket : StorageObject, IContainer
+	internal class GCPBucket : StorageObject, IContainer, IDisposable
 	{
 		const string AppName = "Sebagomez Cloud Storage Explorer";
 		protected StorageService _storageService;
@@ -149,6 +150,11 @@ namespace StorageLibrary.Google
 			}
 
 			return containers;
+		}
+
+		public void Dispose()
+		{
+			_storageService?.Dispose();
 		}
 	}
 }
