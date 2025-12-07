@@ -46,11 +46,11 @@ namespace StorageLibTests
 
 			foreach (PeekedMessageWrapper msg in messages)
 			{
-				Assert.IsTrue(expected.Contains(msg.Message), $"An unexpected message arrived: {msg.Message}");
+				Assert.Contains(msg.Message, expected, $"An unexpected message arrived: {msg.Message}");
 				expected.Remove(msg.Message);
 			}
 
-			Assert.IsTrue(expected.Count == 0, $"More messages were expected: {string.Join(",", expected)}");
+			Assert.IsEmpty(expected, $"More messages were expected: {string.Join(",", expected)}");
 		}
 
 		[TestMethod]
@@ -65,11 +65,11 @@ namespace StorageLibTests
 
 			foreach (PeekedMessageWrapper msg in messages)
 			{
-				Assert.IsTrue(expected.Contains(msg.Message), $"An unexpected message arrived: {msg.Message}");
+				Assert.Contains(msg.Message, expected, $"An unexpected message arrived: {msg.Message}");
 				expected.Remove(msg.Message);
 			}
 
-			Assert.IsTrue(expected.Count == 0, $"More messages were expected: {string.Join(",", expected)}");
+			Assert.IsEmpty(expected, $"More messages were expected: {string.Join(",", expected)}");
 		}
 
 		[TestMethod]
@@ -103,7 +103,7 @@ namespace StorageLibTests
 			}
 			catch (InvalidOperationException ioe)
 			{
-				Assert.IsTrue(ioe.Message == $"Queue '{queue}' already exists", ioe.Message);
+				Assert.AreEqual(ioe.Message, $"Queue '{queue}' already exists", ioe.Message);
 				return;
 			}
 
@@ -140,7 +140,7 @@ namespace StorageLibTests
 			}
 			catch (NullReferenceException nre)
 			{
-				Assert.IsTrue(nre.Message == $"Queue '{queue}' does not exist", nre.Message);
+				Assert.AreEqual(nre.Message, $"Queue '{queue}' does not exist", nre.Message);
 				return;
 			}
 
@@ -160,16 +160,16 @@ namespace StorageLibTests
 
 			foreach (PeekedMessageWrapper msg in messages)
 			{
-				Assert.IsTrue(expected.Contains(msg.Message), $"An unexpected message arrived: {msg.Message}");
+				Assert.Contains(msg.Message, expected, $"An unexpected message arrived: {msg.Message}");
 				expected.Remove(msg.Message);
 			}
 
-			Assert.IsTrue(expected.Count == 0, $"More messages were expected: {string.Join(",", expected)}");
+			Assert.IsEmpty(expected, $"More messages were expected: {string.Join(",", expected)}");
 		}
 
 		private void CompareQueues(List<QueueWrapper> expected, List<QueueWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different amount returned. {string.Join(",", returned)}");
+			Assert.HasCount(expected.Count, returned, $"Different amount returned. {string.Join(",", returned)}");
 			for	(int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different objecte returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}

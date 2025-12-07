@@ -65,7 +65,7 @@ namespace StorageLibTests
 			}
 			catch (InvalidOperationException ioe)
 			{
-				Assert.IsTrue(ioe.Message == $"Table '{table}' already exists", ioe.Message);
+				Assert.AreEqual(ioe.Message, $"Table '{table}' already exists", ioe.Message);
 				return;
 			}
 
@@ -104,7 +104,7 @@ namespace StorageLibTests
 			}
 			catch (NullReferenceException nre)
 			{
-				Assert.IsTrue(nre.Message == $"Table '{table}' does not exist", nre.Message);
+				Assert.AreEqual(nre.Message, $"Table '{table}' does not exist", nre.Message);
 				return;
 			}
 
@@ -206,14 +206,14 @@ namespace StorageLibTests
 
 		private void CompareTables(List<TableWrapper> expected, List<TableWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different record count returned. {string.Join(",", returned)}");
+			Assert.HasCount(expected.Count, returned, $"Different record count returned. {string.Join(",", returned)}");
 			for (int i = 0; i < expected.Count; i++)
 				Assert.AreEqual(returned[i].Name, expected[i].Name, $"Different object returned. Expected '{expected[i].Name}' got '{returned[i].Name}'");
 		}
 
 		private void CompareData(List<TableEntityWrapper> expected, List<TableEntityWrapper> returned)
 		{
-			Assert.IsTrue(expected.Count == returned.Count, $"Different table count returned. {string.Join(",", returned)}");
+			Assert.HasCount(expected.Count, returned, $"Different table count returned. {string.Join(",", returned)}");
 			for (int i = 0; i < expected.Count; i++)
 			{
 				TableEntityWrapper expectedData = expected[i];
