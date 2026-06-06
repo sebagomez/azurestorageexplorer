@@ -23,11 +23,7 @@ namespace StorageLibrary.Google
 		public GCPBucket(StorageFactoryConfig config) : base(config)
 		{
 			string serviceAccountPath = config.GcpCredentialsFile;
-			GoogleCredential credential;
-			using (var stream = new FileStream(serviceAccountPath, FileMode.Open, FileAccess.Read))
-			{
-				credential = GoogleCredential.FromStream(stream).CreateScoped(StorageService.Scope.DevstorageFullControl);
-			}
+			GoogleCredential credential = GoogleCredential.FromFile(serviceAccountPath).CreateScoped(StorageService.Scope.DevstorageFullControl);
 			// Create the Storage service. 
 			_storageService = new StorageService(new BaseClientService.Initializer()
 			{

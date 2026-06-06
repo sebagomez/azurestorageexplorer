@@ -140,7 +140,7 @@ namespace StorageLibrary.AWS
 				if (entry.Key == path)
 					continue;
 
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", entry.Size, CloudProvider.AWS));
+				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", entry.Size ?? 0, CloudProvider.AWS));
 			}
 
 			foreach (string commonPrefix in response.CommonPrefixes)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Services.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,6 @@ using Azure.Data.Tables;
 
 namespace StorageLibrary.Common
 {
-	[DataServiceKey("PartitionKey", "RowKey")]
 	public class TableEntityWrapper : ITableEntity
 	{
 		static string PROP_SEPARATOR = Environment.NewLine;
