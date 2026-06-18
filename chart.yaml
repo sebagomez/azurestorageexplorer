@@ -1,0 +1,77 @@
+---
+# Source: azurestorageexplorer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-azurestorageexplorer
+  labels:
+    helm.sh/chart: azurestorageexplorer-0.4.1
+    app.kubernetes.io/name: azurestorageexplorer
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/scheme: http
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: azurestorageexplorer
+    app.kubernetes.io/instance: release-name
+---
+# Source: azurestorageexplorer/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-azurestorageexplorer
+  labels:
+    helm.sh/chart: azurestorageexplorer-0.4.1
+    app.kubernetes.io/name: azurestorageexplorer
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: azurestorageexplorer
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: azurestorageexplorer
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: azurestorageexplorer
+          securityContext:
+            {}
+          image: "sebagomez/azurestorageexplorer:latest"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AZURITE
+              value: "true"
+            - name: AZURE_STORAGE_CONNECTIONSTRING
+              valueFrom:
+                secretKeyRef:
+                  name: azurite-connection-string
+                  key: connection-string
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}

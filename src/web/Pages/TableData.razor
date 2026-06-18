@@ -11,13 +11,15 @@
 else
 {
 
-	<div class="ui action input fullWidth">
-		<textarea @bind="InputQuery" class="queryarea" rows="3" placeholder="Search pattern..."></textarea>
-		<select @bind="QueryMode" style="height: 40px; margin-left: 3px;" class="ui button compact selection">
-			<option class="item" value="q" selected="">Search</option>
-			<option class="item" value="i">Insert</option>
-		</select>
-		<div style="height: 40px; margin-left: 3px; "class="ui button" @onclick="QueryData">Go</div>
+	<div style="display:flex; align-items:flex-start; gap:4px;">
+		<div class="ui action input fullWidth">
+			<textarea @bind="InputQuery" class="queryarea" rows="3" placeholder="Search pattern..."></textarea>
+			<select @bind="QueryMode" style="height: 40px; margin-left: 3px;" class="ui button compact selection">
+				<option class="item" value="q" selected="">Search</option>
+				<option class="item" value="i">Insert</option>
+			</select>
+			<button class="ui button" type="button" style="height: 40px; margin-left: 3px;" @onclick="QueryData">Go</button>
+		</div>
 		<div class="ui compact menu contextMenu">
 			<div class="ui simple dropdown item">
 				<i class="ellipsis vertical icon"></i>
