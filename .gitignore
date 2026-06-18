@@ -14,5 +14,6 @@ private*.data
 
 azurestorageexplorer.sln
 credentials.json
+.env
 .vscode/
 
