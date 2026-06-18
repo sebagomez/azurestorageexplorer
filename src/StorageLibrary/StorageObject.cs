@@ -1,4 +1,5 @@
 
+using System;
 using Azure;
 
 namespace StorageLibrary
@@ -19,10 +20,10 @@ namespace StorageLibrary
 			if (config.Provider != CloudProvider.Azure)
 				return;
 
-			IsAzurite = config.IsAzurite;
 			if (!string.IsNullOrEmpty(config.AzureConnectionString))
 			{
 				ConnectionString = config.AzureConnectionString;
+				IsAzurite = config.IsAzurite || IsAzuriteConnectionString(config.AzureConnectionString);
 			}
 			else if (config.AzureKey.Contains("SharedAccessSignature="))
 			{
@@ -30,6 +31,7 @@ namespace StorageLibrary
 			}
 			else
 			{
+				IsAzurite = config.IsAzurite;
 				Account = config.AzureAccount;
 				Key = config.AzureKey;
 				if (!string.IsNullOrEmpty(config.AzureEndpoint))
@@ -38,5 +40,9 @@ namespace StorageLibrary
 				ConnectionString = string.Format(CONNSTRING_TEMPLATE, Account, Key, Endpoint);
 			}
 		}
+
+		static bool IsAzuriteConnectionString(string connectionString) =>
+			connectionString.Contains("devstoreaccount1", StringComparison.OrdinalIgnoreCase) ||
+			connectionString.Contains("UseDevelopmentStorage=true", StringComparison.OrdinalIgnoreCase);
 	}
 }

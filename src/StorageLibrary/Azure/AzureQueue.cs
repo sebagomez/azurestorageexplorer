@@ -14,11 +14,17 @@ namespace StorageLibrary.Azure
 		public AzureQueue(StorageFactoryConfig config)
 		: base(config) { }
 
+		QueueClientOptions ClientOptions => IsAzurite
+			? new QueueClientOptions(QueueClientOptions.ServiceVersion.V2024_11_04)
+			: new QueueClientOptions();
+
+		QueueServiceClient ServiceClient => new QueueServiceClient(ConnectionString, ClientOptions);
+		QueueClient GetQueueClient(string queueName) => new QueueClient(ConnectionString, queueName, ClientOptions);
+
 		public async Task<List<QueueWrapper>> ListQueuesAsync()
 		{
-			QueueServiceClient client = new QueueServiceClient(ConnectionString);
 			List<QueueWrapper> results = new List<QueueWrapper>();
-			await foreach (var q in client.GetQueuesAsync())
+			await foreach (var q in ServiceClient.GetQueuesAsync())
 				results.Add(new QueueWrapper { Name = q.Name });
 
 			return results;
@@ -26,7 +32,7 @@ namespace StorageLibrary.Azure
 
 		public async Task<List<PeekedMessageWrapper>> GetAllMessagesAsync(string queueName)
 		{
-			QueueClient queueClient = new QueueClient(ConnectionString, queueName);
+			QueueClient queueClient = GetQueueClient(queueName);
 			PeekedMessage[] msgs = await queueClient.PeekMessagesAsync(queueClient.MaxPeekableMessages);
 
 			List<PeekedMessageWrapper> results = new List<PeekedMessageWrapper>();
@@ -39,28 +45,24 @@ namespace StorageLibrary.Azure
 
 		public async Task DequeueMessage(string queueName)
 		{
-			QueueClient queueClient = new QueueClient(ConnectionString, queueName);
-
+			QueueClient queueClient = GetQueueClient(queueName);
 			QueueMessage msg = await queueClient.ReceiveMessageAsync();
 			await queueClient.DeleteMessageAsync(msg.MessageId, msg.PopReceipt);
 		}
 
 		public async Task CreateAsync(string queueName)
 		{
-			QueueServiceClient client = new QueueServiceClient(ConnectionString);
-			await client.CreateQueueAsync(queueName);
+			await ServiceClient.CreateQueueAsync(queueName);
 		}
 
 		public async Task DeleteAsync(string queueName)
 		{
-			QueueClient queueClient = new QueueClient(ConnectionString, queueName);
-			await queueClient.DeleteAsync();
+			await GetQueueClient(queueName).DeleteAsync();
 		}
 
 		public async Task CreateMessageAsync(string queueName, string message)
 		{
-			QueueClient queueClient = new QueueClient(ConnectionString, queueName);
-			await queueClient.SendMessageAsync(message);
+			await GetQueueClient(queueName).SendMessageAsync(message);
 		}
 	}
 }

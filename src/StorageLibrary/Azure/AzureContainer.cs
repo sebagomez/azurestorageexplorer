@@ -16,12 +16,16 @@ namespace StorageLibrary.Azure
 		public AzureContainer(StorageFactoryConfig config)
 		: base(config) { }
 
+		BlobClientOptions ClientOptions => IsAzurite
+			? new BlobClientOptions(BlobClientOptions.ServiceVersion.V2024_11_04)
+			: new BlobClientOptions();
+
+		BlobServiceClient ServiceClient => new BlobServiceClient(ConnectionString, ClientOptions);
+
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-
 			List<CloudBlobContainerWrapper> results = new List<CloudBlobContainerWrapper>();
-			await foreach (var container in blobServiceClient.GetBlobContainersAsync())
+			await foreach (var container in ServiceClient.GetBlobContainersAsync())
 			{
 				results.Add(new CloudBlobContainerWrapper
 				{
@@ -34,8 +38,7 @@ namespace StorageLibrary.Azure
 
 		public async Task<List<BlobItemWrapper>> ListBlobsAsync(string containerName, string path)
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 
 			List<BlobItemWrapper> results = new List<BlobItemWrapper>();
 			await foreach (BlobHierarchyItem blobItem in container.GetBlobsByHierarchyAsync(BlobTraits.None, BlobStates.None, "/", path, CancellationToken.None))
@@ -61,50 +64,36 @@ namespace StorageLibrary.Azure
 
 		public async Task DeleteAsync(string containerName)
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
-
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 			await container.DeleteAsync();
 		}
 
 		public async Task CreateAsync(string containerName, bool publicAccess)
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
-
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 			PublicAccessType accessType = publicAccess ? PublicAccessType.BlobContainer : PublicAccessType.None;
 			await container.CreateAsync(accessType);
 		}
 
 		public async Task DeleteBlobAsync(string containerName, string blobName)
 		{
-
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
-
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 			BlobClient blob = container.GetBlobClient(blobName);
-
 			await blob.DeleteAsync();
 		}
 
 		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
-
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 			await container.UploadBlobAsync(blobName, fileContent);
 		}
 
 		public async Task<string> GetBlobAsync(string containerName, string blobName)
 		{
-			BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
-			BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
-
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
 			BlobClient blob = container.GetBlobClient(blobName);
-
 			string tmpPath = Util.File.GetTempFileName();
 			await blob.DownloadToAsync(tmpPath);
-
 			return tmpPath;
 		}
 	}

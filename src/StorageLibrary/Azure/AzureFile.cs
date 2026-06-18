@@ -17,14 +17,19 @@ namespace StorageLibrary.Azure
 		public AzureFile(StorageFactoryConfig config)
 		: base(config) { }
 
+		ShareClientOptions ClientOptions => IsAzurite
+			? new ShareClientOptions(ShareClientOptions.ServiceVersion.V2024_11_04)
+			: new ShareClientOptions();
+
+		ShareServiceClient ServiceClient => new ShareServiceClient(ConnectionString, ClientOptions);
+
 		public async Task<List<FileShareWrapper>> ListFileSharesAsync()
 		{
 			System.Threading.CancellationToken cancellationToken = new System.Threading.CancellationToken();
-			ShareServiceClient client = new ShareServiceClient(ConnectionString);
 
 			List<FileShareWrapper> items = new List<FileShareWrapper>();
 
-			var shares = client.GetSharesAsync(ShareTraits.None, ShareStates.None, null, cancellationToken);
+			var shares = ServiceClient.GetSharesAsync(ShareTraits.None, ShareStates.None, null, cancellationToken);
 			await foreach (var share in shares)
 				items.Add(new FileShareWrapper { Name = share.Name });
 
@@ -33,8 +38,6 @@ namespace StorageLibrary.Azure
 
 		public async Task<List<FileShareItemWrapper>> ListFilesAndDirsAsync(string share, string folder = null)
 		{
-			ShareClient client = new ShareClient(ConnectionString, share);
-
 			ShareDirectoryClient dir = GetShareDirectoryClient(share, folder);
 
 			List<FileShareItemWrapper> items = new List<FileShareItemWrapper>();
@@ -111,19 +114,17 @@ namespace StorageLibrary.Azure
 
 			}
 
-			ShareServiceClient client = new ShareServiceClient(ConnectionString);
-			await client.CreateShareAsync(share, options);
+			await ServiceClient.CreateShareAsync(share, options);
 		}
 
 		public async Task DeleteFileShareAsync(string share)
 		{
-			ShareServiceClient client = new ShareServiceClient(ConnectionString);
-			await client.DeleteShareAsync(share);
+			await ServiceClient.DeleteShareAsync(share);
 		}
 
 		private ShareDirectoryClient GetShareDirectoryClient(string share, string folder)
 		{
-			ShareClient client = new ShareClient(ConnectionString, share);
+			ShareClient client = new ShareClient(ConnectionString, share, ClientOptions);
 			return string.IsNullOrWhiteSpace(folder) ? client.GetRootDirectoryClient() : client.GetDirectoryClient(folder);
 		}
 
