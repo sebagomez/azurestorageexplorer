@@ -16,32 +16,32 @@ Or deploy it wherever you want thanks to [docker images](https://hub.docker.com/
 
 Original blog post from 2009! https://sgomez.blogspot.com/2009/11/mi-first-useful-azure-application.html
 
-Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 8 and ~~Angular~~.  
+Azure Storage Web Explorer makes it easier for developers to browse and manage Blobs, Queues and Tables from Azure Storage. You'll no longer have to install a local client to do that. It was originally developed in C# with asp.net and WebForms 2.0, but now it has been migrated to .NET ~~Core 2.1, 2.2, 3.1, 5.0, 6, 7~~ 10. Also dropped ~~Angular~~ along the way.  
 
-*Edit:* Sick and tired of all del npm module and dependency hell I moved this project to a Blazor Server app.
+*Edit:* Sick and tired of all the npm module and dependency hell I moved this project to a Blazor Server app.
 
 
 ## Login 
 
 To login just enter your account name and key or [Shared Access Signature](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview), or, a full [Connection String](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).  
 
-The Connection String can also allow you to connect to a local Azurite or potentionally (I have not been able to test it) to Azure Government.
+The Connection String can also allow you to connect to a local Azurite or potentially (I have not been able to test it) to Azure Government.
 
 ![Login](res/ASE_Login.png)
 
-### Environment Varibales
+### Environment Variables
 
 You can also set up these fields in environment variables and Azure Storage Explorer will go straight to the home page if it could successfully authenticate.
 
-These variables are `AZURE_STORAGE_CONNECTIONSTRING`, `AZURE_STORAGE_ACCOUNT`, `AZURE_STORAGE_KEY`, and `AZURE_STORAGE_ENDPOINT`. The connection string takes precedence over the others, meaning if you set it, no more variables will be read. On the other hand, if the connection string variable is not set, all the rest variables will be read and they all have to be present.
+These variables are `AZURE_STORAGE_CONNECTIONSTRING`, `AZURE_STORAGE_ACCOUNT`, `AZURE_STORAGE_KEY`, and `AZURE_STORAGE_ENDPOINT`. The connection string takes precedence over the others, meaning if you set it, no more variables will be read. On the other hand, if the connection string variable is not set, all the other variables will be read and they all have to be present.
 
 If you want to test it against [Azurite](https://github.com/Azure/Azurite) (either locally, via Docker, Docker Compose, or Kubernetes) you'll have to add the `AZURITE` variable set to `true`.
 
 #### AWS & GCP
 
-You can now also manager your AWS and GCP buckets. Just make sure you set the environment variable `CLOUD_PROVIDER` to either `AWS` or `GCP` and you also need to set up a few other environments depending the cloud provider.  
-If you want to connect to your AWS S3 account, you need to provider three environment variables `AWS_ACCESS_KEY`, `AWS_SECRET_KEY`, and `AWS_REGION`.  
-If in the other hand you want to connect to GCP, you need to donload the credentials file for your service account and set the `GCP_CREDENTIALS_FILE` environment variable to the full path to that file. 
+You can now also manage your AWS and GCP buckets. Just make sure you set the environment variable `CLOUD_PROVIDER` to either `AWS` or `GCP` and you also need to set up a few other variables depending on the cloud provider.  
+If you want to connect to your AWS S3 account, you need to provide three environment variables `AWS_ACCESS_KEY`, `AWS_SECRET_KEY`, and `AWS_REGION`.  
+On the other hand, if you want to connect to GCP, you need to download the credentials file for your service account and set the `GCP_CREDENTIALS_FILE` environment variable to the full path to that file. 
 
 ![](./res/AWSExplorer.png)
 
@@ -57,13 +57,13 @@ If in the other hand you want to connect to GCP, you need to donload the credent
 
 **Tables**: Create table and Entities. To create an Entity you'll have to add one property per line in the form of `<PropertyName>='<PropertyValue>'`
 
-If you don't set PertitionKey or RowKey default values will be used ("1" for PartitionKey and a current timestamp for RowKey).  
+If you don't set PartitionKey or RowKey default values will be used ("1" for PartitionKey and a current timestamp for RowKey).  
 For example to create a new movie:
 > PartitionKey=Action  
 RowKey=1  
 Title=Die Hard  
 
-You can also set the desired data type for a specific property setting the desired EEdm datatype as follows:
+You can also set the desired data type for a specific property setting the desired Edm datatype as follows:
 > Year=1978   
 Year@odata.type=Edm.Int32
 
@@ -80,15 +80,15 @@ Edm.Guid
 ```
 Anything else would be treated as a string.
 
-To query the entities from a table use the following syntax: `<PropertyName> [operator] <ProepertyValue>`
+To query the entities from a table use the following syntax: `<PropertyName> [operator] <PropertyValue>`
 Where the valid operators are:  *eq* (equals), *gt* (greater than), *ge* (greater or equal), *lt* (less than), *le* (less or equal) and *ne* (not equal).   
-Take a look at the [supported comparaison operators](https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators)  
+Take a look at the [supported comparison operators](https://docs.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators)  
 To query action movies use the following:
 > PartitionKey eq 'Action'  
 
 *Please note there's a <kbd>space</kbd> character before and after the **eq** operator.*
 
-If you don't write a query the system will retrieve every Entity on the Table
+If you don't write a query the system will retrieve every Entity on the Table.
 
 ## Build
 
@@ -101,7 +101,7 @@ just build
 
 ## Run locally
 
-`just publish` will publish the app to a bin folder in the root of the repo. Kestrell will kick in and you'll see in the terminal what port number was asigned, navigate to that port, in my case http://localhost:5000 and that's it!
+`just publish` will publish the app to a bin folder in the root of the repo. Kestrel will kick in and you'll see in the terminal what port number was assigned, navigate to that port, in my case http://localhost:5000 and that's it!
 
 ![CMD](res/local_run.png)
 
@@ -129,12 +129,12 @@ just compose
 
 ## Kubernetes
 
-A [deployment]() and a [service]() are available in the [k8s](./k8s/) folder. If you have `kubectl` locally configured with a cluster just apply them and you'll have an instance of Azure Storage Explorer running in your cluster.
+A [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and a [service](https://kubernetes.io/docs/concepts/services-networking/service/) are available in the [k8s](./k8s/) folder. If you have `kubectl` locally configured with a cluster just apply them and you'll have an instance of Azure Storage Explorer running in your cluster.
 
 ```sh
  kubectl apply -f ./k8s
 ```
-Port-forward to a local host to easyly test your set up
+Port-forward to a local host to easily test your set up
 
 ```sh
 kubectl port-forward svc/azurestorageexplorer 8080:8080
@@ -163,7 +163,7 @@ The helm chart provides a deployment and a service, you can enable port-forwardi
 kubectl port-forward service/azurestorageexplorer 8080:8080
 ```
 
-or, you can follow helm instructions the get the application URL:
+or, you can follow helm instructions to get the application URL:
 
 ```sh
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=azurestorageexplorer,app.kubernetes.io/instance=azurestorageexplorer" -o jsonpath="{.items[0].metadata.name}")
