@@ -26,18 +26,15 @@ namespace StorageLibrary.Google
 			GoogleCredential credential;
 			using (var stream = new FileStream(serviceAccountPath, FileMode.Open, FileAccess.Read))
 			{
-				credential = GoogleCredential.FromStream(stream).CreateScoped(StorageService.Scope.DevstorageFullControl);
+				var serviceAccountCredential = CredentialFactory.FromStream<ServiceAccountCredential>(stream);
+				_projectId = serviceAccountCredential.ProjectId;
+				credential = serviceAccountCredential.ToGoogleCredential().CreateScoped(StorageService.Scope.DevstorageFullControl);
 			}
-			// Create the Storage service. 
 			_storageService = new StorageService(new BaseClientService.Initializer()
 			{
 				HttpClientInitializer = credential,
 				ApplicationName = AppName,
 			});
-
-			var underlyingCredential = credential.UnderlyingCredential as ServiceAccountCredential;
-			if (underlyingCredential != null)
-				_projectId = underlyingCredential.ProjectId;
 		}
 
 		public async Task CreateAsync(string bucket, bool publicAccess)
@@ -144,6 +141,10 @@ namespace StorageLibrary.Google
 			var buckets = await _storageService.Buckets.List(_projectId).ExecuteAsync();
 
 			List<CloudBlobContainerWrapper> containers = new List<CloudBlobContainerWrapper>();
+
+			if (buckets.Items == null)
+				return containers;
+
 			foreach (var bucket in buckets.Items)
 			{
 				containers.Add(new CloudBlobContainerWrapper() { Name = bucket.Name });

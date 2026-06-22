@@ -135,15 +135,15 @@ namespace StorageLibrary.AWS
 
 			var uriTemplate = $"https://{bucket}.s3.{RegionEndpoint.USEast1.SystemName}.amazonaws.com/";
 
-			foreach (S3Object entry in response.S3Objects)
+			foreach (S3Object entry in response.S3Objects ?? [])
 			{
 				if (entry.Key == path)
 					continue;
 
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", entry.Size, CloudProvider.AWS));
+				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", entry.Size ?? 0, CloudProvider.AWS));
 			}
 
-			foreach (string commonPrefix in response.CommonPrefixes)
+			foreach (string commonPrefix in response.CommonPrefixes ?? [])
 				blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", 0, CloudProvider.AWS));
 
 			return blobs;
@@ -151,9 +151,12 @@ namespace StorageLibrary.AWS
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
+			ListBucketsResponse response = await _s3Client.ListBucketsAsync();
 			var buckets = new List<CloudBlobContainerWrapper>();
 
-			ListBucketsResponse response = await _s3Client.ListBucketsAsync();
+			if (response.Buckets == null)
+				return buckets;
+			
 			foreach (S3Bucket bucket in response.Buckets)
 			{
 				buckets.Add(new CloudBlobContainerWrapper() { Name = bucket.BucketName });

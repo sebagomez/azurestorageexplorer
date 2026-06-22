@@ -51,65 +51,58 @@ namespace web.Pages
 
 		protected override async Task OnInitializedAsync()
 		{
-			string? connString = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_CONNECTIONSTRING);
-			if (!string.IsNullOrEmpty(connString))
+			string? cloudProvider = Environment.GetEnvironmentVariable("CLOUD_PROVIDER");
+			if (!string.IsNullOrEmpty(cloudProvider))
 			{
-				Credentials cred = new Credentials { ConnectionString = connString };
-				if (await cred.IsAuthenticated(SessionStorage!))
-					NavManager!.NavigateTo("home");
+				if (cloudProvider.Equals("AWS", StringComparison.OrdinalIgnoreCase))
+				{
+					string? awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+					string? awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
+					string? awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+					if (!string.IsNullOrEmpty(awsAccessKey) && !string.IsNullOrEmpty(awsSecretKey) && !string.IsNullOrEmpty(awsRegion))
+					{
+						Credentials awsCredentials = new Credentials
+						{
+							Provider = "AWS",
+							AwsKey = awsAccessKey,
+							AwsSecret = awsSecretKey,
+							AwsRegion = awsRegion
+						};
+						if (await awsCredentials.IsAuthenticated(SessionStorage!))
+							NavManager!.NavigateTo("home");
+					}
+				}
+				else if (cloudProvider.Equals("GCP", StringComparison.OrdinalIgnoreCase))
+				{
+					string? gcpCredentials = Environment.GetEnvironmentVariable("GCP_CREDENTIALS_FILE");
+					if (!string.IsNullOrEmpty(gcpCredentials))
+					{
+						Credentials gcpCred = new Credentials { Provider = "GCP", GcpCredFile = gcpCredentials };
+						if (await gcpCred.IsAuthenticated(SessionStorage!))
+							NavManager!.NavigateTo("home");
+					}
+				}
 			}
 			else
 			{
-				string? account = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_ACCOUNT);
-				if (!string.IsNullOrEmpty(account))
+				string? connString = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_CONNECTIONSTRING);
+				if (!string.IsNullOrEmpty(connString))
 				{
+					Credentials cred = new Credentials { ConnectionString = connString };
+					if (await cred.IsAuthenticated(SessionStorage!))
+						NavManager!.NavigateTo("home");
+				}
+				else
+				{
+					string? account = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_ACCOUNT);
 					string? key = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_KEY);
-					if (!string.IsNullOrEmpty(key))
+					if (!string.IsNullOrEmpty(account) && !string.IsNullOrEmpty(key))
 					{
 						string? endpoint = Environment.GetEnvironmentVariable(Util.AZURE_STORAGE_ENDPOINT);
-						if (!string.IsNullOrEmpty(endpoint))
-						{
-							Credentials cred = new Credentials { Account = account, Key = key, Endpoint = endpoint };
-							if (await cred.IsAuthenticated(SessionStorage!))
-								NavManager!.NavigateTo("home");
-						}
+						Credentials cred = new Credentials { Account = account, Key = key, Endpoint = endpoint };
+						if (await cred.IsAuthenticated(SessionStorage!))
+							NavManager!.NavigateTo("home");
 					}
-				}
-				else //check if it's AWS or GCP
-				{
-					string? cloudProvider = Environment.GetEnvironmentVariable("CLOUD_PROVIDER");
-					if (!string.IsNullOrEmpty(cloudProvider))
-					{
-						if (cloudProvider.Equals("AWS", StringComparison.OrdinalIgnoreCase))
-						{
-							string? awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-							string? awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
-							string? awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
-							if (!string.IsNullOrEmpty(awsAccessKey) && !string.IsNullOrEmpty(awsSecretKey) && !string.IsNullOrEmpty(awsRegion))
-							{
-								Credentials awsCredentials = new Credentials
-								{
-									Provider = "AWS",
-									AwsKey = awsAccessKey,
-									AwsSecret = awsSecretKey,
-									AwsRegion = awsRegion
-								};
-								if (await awsCredentials.IsAuthenticated(SessionStorage!))
-									NavManager!.NavigateTo("home");
-							}
-						}
-						else if (cloudProvider.Equals("GCP", StringComparison.OrdinalIgnoreCase))
-						{
-							string? gcpCredentials = Environment.GetEnvironmentVariable("GCP_CREDENTIALS_FILE");
-							if (!string.IsNullOrEmpty(gcpCredentials))
-							{
-								Credentials gcpCred = new Credentials { Provider = "GCP", GcpCredFile = gcpCredentials };
-								if (await gcpCred.IsAuthenticated(SessionStorage!))
-									NavManager!.NavigateTo("home");
-							}
-						}
-					}
-
 				}
 			}
 		}
