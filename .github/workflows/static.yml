@@ -38,6 +38,7 @@ jobs:
       - name: Prepare Pages content
         run: |
           mkdir -p ./public
+          cp -r res ./public/res
           cat > /tmp/template.html << 'EOF'
           <!DOCTYPE html>
           <html>
@@ -47,23 +48,24 @@ jobs:
             <title>$title$</title>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
             <style>
-              html { width: 100%; }
-              body {
+              body { margin: 0; padding: 0; }
+              .container {
                 box-sizing: border-box;
-                width: 100%;
                 max-width: 980px;
                 margin: 0 auto;
                 padding: 45px;
               }
               @media (max-width: 767px) {
-                body { padding: 15px; font-size: 14px; }
+                .container { padding: 15px; font-size: 14px; }
                 img { max-width: 100%; height: auto; }
                 table { display: block; overflow-x: auto; }
               }
             </style>
           </head>
-          <body class="markdown-body">
+          <body>
+          <div class="container markdown-body">
           $body$
+          </div>
           </body>
           </html>
           EOF
