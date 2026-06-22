@@ -48,7 +48,7 @@ jobs:
             <title>$title$</title>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
             <style>
-              body { margin: 0; padding: 0; }
+              body { margin: 0; padding: 0; background-color: var(--color-canvas-default, #ffffff); }
               .container {
                 box-sizing: border-box;
                 max-width: 980px;
