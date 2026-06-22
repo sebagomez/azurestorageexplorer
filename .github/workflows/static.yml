@@ -33,11 +33,32 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Prepare Pages content
+        run: |
+          mkdir -p ./public
+          cat > /tmp/template.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>$title$</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
+            <style>
+              body { box-sizing: border-box; max-width: 980px; margin: 0 auto; padding: 45px; }
+              @media (max-width: 767px) { body { padding: 15px; } }
+            </style>
+          </head>
+          <body class="markdown-body">
+          $body$
+          </body>
+          </html>
+          EOF
+          pandoc README.md -o ./public/index.html --template=/tmp/template.html --metadata title="Azure Storage Explorer"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './README.md'
+          path: './public'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
