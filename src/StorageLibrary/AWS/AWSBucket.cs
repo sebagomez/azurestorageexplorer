@@ -17,8 +17,10 @@ namespace StorageLibrary.AWS
 	internal class AWSBucket : StorageObject, IContainer, IDisposable
 	{
 		protected AmazonS3Client _s3Client;
+		private readonly string _region;
 		public AWSBucket(StorageFactoryConfig config): base(config)
 		{
+			_region = config.AwsRegion;
 			var credentials = new BasicAWSCredentials(config.AwsKey, config.AwsSecret);
 			_s3Client = new AmazonS3Client(credentials, RegionEndpoint.GetBySystemName(config.AwsRegion));
 		}
@@ -133,7 +135,7 @@ namespace StorageLibrary.AWS
 			var blobs = new List<BlobItemWrapper>();
 			var response = await _s3Client.ListObjectsV2Async(request);
 
-			var uriTemplate = $"https://{bucket}.s3.{RegionEndpoint.USEast1.SystemName}.amazonaws.com/";
+			var uriTemplate = $"https://{bucket}.s3.{_region}.amazonaws.com/";
 
 			foreach (S3Object entry in response.S3Objects ?? [])
 			{
