@@ -15,8 +15,8 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.29.1" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.27.1" />
     <PackageReference Include="Azure.Data.Tables" Version="12.11.0" />
-	<PackageReference Include="AWSSDK.Core" Version="4.0.9.6" />
-	<PackageReference Include="AWSSDK.S3" Version="4.0.25.2" />
+	<PackageReference Include="AWSSDK.Core" Version="4.0.100.2" />
+	<PackageReference Include="AWSSDK.S3" Version="4.0.100.2" />
 	<PackageReference Include="Google.Apis.Auth" Version="1.75.0" />
 	<PackageReference Include="Google.Cloud.Storage.V1" Version="4.15.0" />
   </ItemGroup>
