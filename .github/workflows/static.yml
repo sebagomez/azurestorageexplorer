@@ -72,7 +72,7 @@ jobs:
           EOF
           pandoc README.md -o ./public/index.html --template=/tmp/template.html --metadata title="Azure Storage Explorer"
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: './public'
       - name: Deploy to GitHub Pages
