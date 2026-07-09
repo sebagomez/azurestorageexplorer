@@ -83,6 +83,16 @@ entries:
     - https://github.com/sebagomez/azurestorageexplorer/releases/download/azurestorageexplorer-2.7.1/azurestorageexplorer-2.7.1.tgz
     version: 2.7.1
   - apiVersion: v2
+    appVersion: 3.2.3
+    created: "2026-07-09T02:54:14.514303959Z"
+    description: Explore your Azure Storage objects with this Helm chart.
+    digest: ad7c3dc47c07792afb6660f677b5eff4af301f2c7655b32f4cfca7be4f461da9
+    name: azurestorageexplorer
+    type: application
+    urls:
+    - https://github.com/sebagomez/azurestorageexplorer/releases/download/azurestorageexplorer-0.4.323/azurestorageexplorer-0.4.323.tgz
+    version: 0.4.323
+  - apiVersion: v2
     appVersion: 3.2.2
     created: "2026-07-08T02:04:55.43231022Z"
     description: Explore your Azure Storage objects with this Helm chart.
@@ -452,4 +462,4 @@ entries:
     urls:
     - https://github.com/sebagomez/azurestorageexplorer/releases/download/azurestorageexplorer-0.2.0/azurestorageexplorer-0.2.0.tgz
     version: 0.2.0
-generated: "2026-07-08T02:04:55.433056226Z"
+generated: "2026-07-09T02:54:14.515012759Z"
