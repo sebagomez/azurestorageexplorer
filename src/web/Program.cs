@@ -1,6 +1,5 @@
 using System.Reflection;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using web;
 
 internal class Program
 {
@@ -8,9 +7,14 @@ internal class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
+		// Add services to the container (Blazor Web App / interactive server components).
+		builder.Services.AddRazorComponents()
+			.AddInteractiveServerComponents();
+
+		// Razor Pages is kept only to serve the static /Error page. Interactivity is non-prerendered
+		// (see App.razor), so a Blazor-routed error page would render blank until a circuit connects;
+		// a plain Razor Page renders instantly even when the app is failing.
 		builder.Services.AddRazorPages();
-		builder.Services.AddServerSideBlazor();
 
 		var app = builder.Build();
 
@@ -41,7 +45,7 @@ internal class Program
 		// Configure the HTTP request pipeline.
 		if (!app.Environment.IsDevelopment())
 		{
-			app.UseExceptionHandler("/Error");
+			app.UseExceptionHandler("/Error", createScopeForErrors: true);
 			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 			app.UseHsts();
 		}
@@ -50,12 +54,14 @@ internal class Program
 
 		app.UseStaticFiles();
 
-		app.UseRouting();
+		app.UseAntiforgery();
 
 		app.MapGet("/version", () => Results.Json(new { version }));
 
-		app.MapBlazorHub();
-		app.MapFallbackToPage("/_Host");
+		app.MapRazorPages();
+
+		app.MapRazorComponents<App>()
+			.AddInteractiveServerRenderMode();
 
 		app.Run();
 	}
