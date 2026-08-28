@@ -1,0 +1,34 @@
+# Runs the unit tests in a container, so they don't depend on a working local SDK.
+#
+# The context must be the repo root, because StorageLibTests.csproj references
+# ../../src/StorageLibrary - a ./src context cannot reach tests/:
+#
+#   docker build -f src/TestDockerfile -t azurestorageexplorer-tests:local .
+#   docker run --rm azurestorageexplorer-tests:local
+#
+# Extra dotnet test arguments are appended to the run, e.g.
+#   docker run --rm azurestorageexplorer-tests:local --filter ClassName~ContainersTests
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /repo
+
+COPY src/ ./src/
+COPY tests/ ./tests/
+
+# There is no .dockerignore at the repo root, so the host's obj/ and bin/ come along
+# with the copy. Their assets files hold absolute host paths and a possibly different
+# SDK version, which makes restore fail or silently reuse stale output - so start clean.
+RUN find . -type d \( -name obj -o -name bin \) -prune -exec rm -rf {} +
+
+# Restore and compile at image build time: a compile error then fails the build, and
+# each `docker run` only has to execute the tests.
+RUN dotnet restore ./tests/StorageLibTests/StorageLibTests.csproj
+RUN dotnet build ./tests/StorageLibTests/StorageLibTests.csproj --no-restore
+
+# The tests drive the in-memory mocks (the parameterless StorageFactory sets Mock=true),
+# so no credentials, no Azurite, no environment variables are needed.
+#
+# ENTRYPOINT rather than RUN so a failing test is a non-zero `docker run` exit code
+# instead of an unbuildable image, and so the suite can be re-run without rebuilding.
+ENTRYPOINT ["dotnet", "test", "./tests/StorageLibTests/StorageLibTests.csproj", "--no-build"]
