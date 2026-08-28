@@ -25,16 +25,28 @@ test:
 
 # Build Docker image as azurestorageexplorer:local
 dbuild:
-  docker build --tag azurestorageexplorer:local ./src
+  #!/bin/bash
+  BUILD=$(date +%Y%m%d%H%M%S)
+  echo Building azurestorageexplorer:local with BUILD=$BUILD
+  docker build --build-arg BUILD=$BUILD --tag azurestorageexplorer:local ./src
 
 # Launches the local docker image (azurestorageexplorer:local) at http://localhost:8080
 drun:
   echo App will run on http://localhost:8080
-  docker run --rm -p 8080:8080 --name azurestorageexplorer azurestorageexplorer:local
+  docker run --rm -p 127.0.0.1:8080:8080 --name azurestorageexplorer azurestorageexplorer:local
 
-# Launches a docker compose with azurestorageexplorer:local and azurite
+dbuildrun:
+	just dbuild && just drun
+
+# Extra dotnet test args go after a --, e.g. just dtest -- --filter ClassName~ContainersTests
+# Runs the unit tests in a container, so no local dotnet SDK is needed
+dtest *ARGS:
+  docker build -f ./src/TestDockerfile --tag azurestorageexplorer-tests:local .
+  docker run --rm azurestorageexplorer-tests:local {{ARGS}}
+
+# Builds and launches a docker compose with azurestorageexplorer:local and azurite
 compose:
-  docker-compose -f ./docker-compose/azurestorageexplorer.yaml up 
+  docker-compose -f ./docker-compose/azurestorageexplorer.yaml up --build 
 
 # Stops de docker compose
 uncompose:
