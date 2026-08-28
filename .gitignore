@@ -16,4 +16,4 @@ azurestorageexplorer.sln
 credentials.json
 .env
 .vscode/
-
+.claude/
