@@ -46,12 +46,100 @@ Azure Storage Explorer is a web-based application for managing Azure Storage res
 ```
 azurestorageexplorer/
 ├── justfile                 # Build automation commands
-├── docker-compose.yml       # Docker Compose manifest for Azurite + Explorer
+├── docker-compose/
+│   └── azurestorageexplorer.yaml   # Azurite + Explorer manifest
+├── helm/                    # Helm chart
 ├── k8s/                     # Kubernetes manifests
 │   ├── deployment.yaml
 │   └── service.yaml
-└── src/                     # .NET 10.0 Blazor Server application
+├── src/
+│   ├── Dockerfile
+│   ├── StorageLibrary/      # Cloud-agnostic storage abstraction library
+│   └── web/                 # .NET 10.0 Blazor Web App
+└── tests/
+    └── StorageLibTests/     # MSTest unit tests for StorageLibrary
 ```
+
+## Architecture
+
+The solution has two projects and one test project:
+
+- **`src/StorageLibrary/`** — cloud-agnostic storage abstraction library
+- **`src/web/`** — Blazor Server app that references StorageLibrary
+- **`tests/StorageLibTests/`** — MSTest unit tests for StorageLibrary (uses `azure.data` file for credentials, not environment variables)
+
+### StorageLibrary
+
+The core abstraction is `StorageFactory`, which creates provider-specific implementations based on `StorageFactoryConfig`. Four interfaces define the contract:
+
+| Interface | Azure impl | AWS impl | GCP impl |
+|-----------|-----------|----------|----------|
+| `IContainer` | `AzureContainer` | `AWSBucket` | `GCPBucket` |
+| `IQueue` | `AzureQueue` | — | — |
+| `ITable` | `AzureTable` | — | — |
+| `IFile` | `AzureFile` | — | — |
+
+Mock implementations live in `Mocks/` and are used when `MOCK=true` env var is set or when `StorageFactory()` is called with no arguments. `Common/` contains provider-neutral wrapper types (`BlobItemWrapper`, `QueueWrapper`, `TableEntityWrapper`, etc.) used as return values across the interface layer.
+
+**Never derive an item's identity from its URL.** `BlobItemWrapper` and `FileShareItemWrapper`
+take the container/share and the item's name as constructor arguments, because the caller
+always has both; `Url` is carried for display and equality only and is never parsed.
+`Common/StorageItemName.Split` turns the name into `Path` + `Name`, and `Path + Name ==
+FullName` always holds. URLs cannot be parsed reliably here: the account name sits in the host
+on Azure but in the *path* on Azurite and custom endpoints, and names arrive percent-encoded.
+Getting this wrong is what made listing blobs throw
+`length ('-3') must be a non-negative value`.
+
+Nullable reference types are enabled in `src/web` only, **not** in `StorageLibrary` — a `?` annotation there emits CS8632.
+
+### Blazor Web App
+
+`BaseComponent` is the base class for all storage pages. On init it loads `Credentials` from `ProtectedSessionStorage`, redirects to `/login` if missing, and builds a `StorageFactory` via `Util.GetStorageFactory()`.
+
+`Login.razor.cs` checks environment variables on init and auto-authenticates if they are present, bypassing the login form.
+
+Credentials are stored in browser session storage (encrypted by ASP.NET's Data Protection) under `wasm_*` keys.
+
+A `BASEPATH` environment variable can set a path prefix for reverse proxy deployments.
+
+Prometheus metrics are exposed via `prometheus-net.AspNetCore` and counters are incremented via `BaseComponent.Increment()`.
+
+### Blob uploads
+
+Blob uploads try to go **browser → storage** first, so the bytes never cross the Blazor
+circuit. `IContainer.GetBlobUploadUrlAsync` mints a 15-minute SAS scoped to the single
+blob with `Create | Write`, and `uploadBlobToSasUrl` (in `App.razor`) `PUT`s the file
+directly. There is no setting to turn this on — it is attempted whenever possible.
+
+It falls back to uploading through the server (`CreateBlobAsync`, capped at
+`Util.MAX_UPLOAD_SIZE` — 10 MB unless `MAX_SERVER_UPLOAD_MEGS` says otherwise) whenever
+the direct attempt cannot be made or never reaches storage:
+
+- The credentials cannot sign. Only account+key or a connection string containing
+  `AccountKey=` can; signing in *with* a SAS cannot mint another one.
+- The provider is AWS, GCP, or the mocks — presigned URLs are not wired up there yet.
+- The `PUT` fails at the network level, most often **no CORS rule** on the account.
+
+Direct upload therefore needs a CORS rule on the storage account, for the explorer's own
+origin, allowing `PUT` plus the `x-ms-blob-type`, `content-type`, and `if-none-match`
+headers:
+
+```bash
+az storage cors add --services b --methods PUT OPTIONS \
+  --origins http://localhost:8080 \
+  --allowed-headers x-ms-blob-type content-type if-none-match \
+  --max-age 3600 --account-name <account> --account-key <key>
+```
+
+Two things worth knowing:
+
+- Under `just compose` the URL is signed against the compose hostname `azurite`, which
+  the browser cannot resolve, so uploads always fall back. That is expected.
+- A SAS in a URL is a credential. Anything derived from an exception message must go
+  through `Util.RedactSignatures()` before it is displayed or logged.
+
+File shares (`Files.razor`) upload through the server only — Azure Files needs
+`ShareSasBuilder` and a different protocol (Create File + Put Range).
 
 ## Authentication & Configuration
 
@@ -82,7 +170,12 @@ The application supports multiple authentication methods:
 - `CLOUD_PROVIDER=GCP`
 - `GCP_CREDENTIALS_FILE` - Full path to service account credentials file
 
-**Note:** If `AZURE_STORAGE_CONNECTIONSTRING` is set, other Azure variables are ignored. Otherwise, all three (account, key, endpoint) must be present.
+**Hosting & development:**
+- `MOCK` - Set to `true` to use the in-memory mock implementations
+- `BASEPATH` - URL path prefix for reverse proxy deployments (e.g. `/explorer`)
+- `MAX_SERVER_UPLOAD_MEGS` - Size cap in MB for uploads routed **through the server** (default `10`). Direct browser-to-storage uploads ignore it. Read once at startup; a non-positive or unparseable value falls back to the default.
+
+**Note:** If `AZURE_STORAGE_CONNECTIONSTRING` is set, other Azure variables are ignored. Otherwise, all three (account, key, endpoint) must be present. `AZURE_STORAGE_ENDPOINT` defaults to `core.windows.net`.
 
 ## Building and Running
 
@@ -93,13 +186,17 @@ The application supports multiple authentication methods:
 ### Local Development
 
 ```bash
-# Build the project
-just build
+just build        # build src/web/web.csproj
+just publish      # release build to ./bin, then runs via Kestrel on http://localhost:5000
+just test         # run tests/StorageLibTests/StorageLibTests.csproj
+just dbuild       # build Docker image as azurestorageexplorer:local (stamps BUILD with a timestamp)
+just drun         # run local Docker image at http://localhost:8080
+just compose      # docker-compose with Azurite + explorer (pre-authenticated)
+```
 
-# Publish to bin folder
-just publish
-
-# Application will start with Kestrel, typically on http://localhost:5000
+Run a specific test class:
+```bash
+dotnet test ./tests/StorageLibTests/StorageLibTests.csproj --filter "ClassName=StorageLibTests.ContainersTests"
 ```
 
 ### Docker
