@@ -1,15 +1,18 @@
-﻿using System;
-using System.Web;
+using System;
 
 namespace StorageLibrary.Common
 {
 	public class FileShareItemWrapper : IEquatable<FileShareItemWrapper>, IComparable<FileShareItemWrapper>
 	{
 		Uri m_internalUri;
-		public string Name { get => HttpUtility.UrlDecode(m_internalUri.Segments[m_internalUri.Segments.Length - 1]); }
-		public string Path { get => m_internalUri.LocalPath.Substring(FileShare.Length + 1, m_internalUri.LocalPath.Length - FileShare.Length - Name.Length - 1); }
-		public string FileShare { get => m_internalUri.Segments[1]; }
-		public string FullName { get => $"{Path}{Name}"; }
+		public string Name { get; private set; }
+		public string Path { get; private set; }
+		public string FileShare { get; private set; }
+
+		/// <summary>
+		/// The item's name relative to its share, exactly as the provider reported it.
+		/// </summary>
+		public string FullName { get; private set; }
 		public string Url
 		{
 			get { return m_internalUri.OriginalString; }
@@ -20,11 +23,19 @@ namespace StorageLibrary.Common
 		public decimal SizeInKBs { get => (decimal)Size / 1024; }
 		public decimal SizeInMBs { get => (decimal)Size / 1024 / 1024; }
 
-		public FileShareItemWrapper(string url, bool isFile, long? size)
+		/// <summary>
+		/// The URL is kept only for display and equality; it is never parsed. See
+		/// <see cref="BlobItemWrapper"/> for why the caller supplies the identity instead.
+		/// </summary>
+		public FileShareItemWrapper(string url, string fileShare, string fullName, bool isFile, long? size)
 		{
 			Url = url;
-			Size = size.HasValue ? size.Value : 0;
+			FileShare = fileShare;
+			FullName = fullName;
 			IsFile = isFile;
+			Size = size.HasValue ? size.Value : 0;
+
+			(Path, Name) = StorageItemName.Split(fullName);
 		}
 
 		public int CompareTo(FileShareItemWrapper other)

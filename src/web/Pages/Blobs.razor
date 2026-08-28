@@ -1,6 +1,19 @@
 @inherits web.Pages.BaseComponent
 
-<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+<Error @bind-HasError="HasError" ErrorMessage=@ErrorMessage />
+
+@if (Uploading)
+{
+	<div class="web-upload">
+		@if (UploadPercent >= 0)
+		{
+			<div class="ui small blue progress">
+				<div class="bar" style="width:@UploadPercent%"></div>
+			</div>
+		}
+		<em>@UploadStatus</em>
+	</div>
+}
 
 @if (CurrentContainer is null)
 {
@@ -20,9 +33,9 @@ else
 			<th style="min-width: 100px" >@CurrentPath</th>
 			<th>
 				<div style="display:flex;justify-content: space-around;">
-					<InputFile class="ui button" OnChange="@LoadFile"/>
+					<InputFile @ref="BlobFileInput" class="ui button" OnChange="@LoadFile"/>
 					<input @bind-value="UploadFolder" placeholder="Upload to folder" />
-					<button class="ui button" type="button" @onclick="UploadBlob">Upload</button>
+					<button class="ui button @(Uploading ? "loading disabled" : "")" type="button" @onclick="UploadBlob">Upload</button>
 				</div>
 			</th>
 			<th>
@@ -50,7 +63,7 @@ else
 	@foreach (var Folder in AzureContainerFolders)
 	{
 		<tr>
-			<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder.Url))">@Folder.Name</a></td>
+			<td colspan="3" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, Folder))">@Folder.Name</a></td>
 			<td style="display:none">@Folder.Url</td>
 		</tr>
 	}
@@ -73,8 +86,8 @@ else
 					<div class="ui simple dropdown item">
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
-							<div class="item" @onclick="@(e => DownloadBlob(e, Blob.Url))"><i class="download icon"></i>Download</div>
-							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob.Url))">
+							<div class="item" @onclick="@(e => DownloadBlob(e, Blob))"><i class="download icon"></i>Download</div>
+							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteBlob(e, Blob))">
 								<i class="trash icon"></i>Delete
 							</div>
 						</div>

@@ -12,14 +12,10 @@ namespace StorageLibrary
 {
 	public class StorageFactory
 	{
-		static StorageFactory Instance;
-
 		public IQueue Queues { get; private set; }
 		public IContainer Containers { get; set; }
 		public ITable Tables { get; set; }
 		public IFile Files { get; set; }
-
-		StorageFactoryConfig m_currentConfig;
 
 		public StorageFactory()
 		: this(new StorageFactoryConfig { Mock = true })
@@ -27,7 +23,6 @@ namespace StorageLibrary
 
 		public StorageFactory(StorageFactoryConfig config)
 		{
-			m_currentConfig = config;
 			if (config.Mock)
 			{
 				Queues = new MockQueue();
@@ -55,13 +50,6 @@ namespace StorageLibrary
 						throw new ApplicationException($"Invalid provider: {config.Provider}");
 				}
 			}
-
-			Instance = this;
-		}
-
-		public static BlobItemWrapper GetBlobItemWrapper(string url, long size = 0)
-		{
-			return new BlobItemWrapper(url, size, Instance.m_currentConfig.Provider, Instance.m_currentConfig.IsAzurite);
 		}
 	}
 

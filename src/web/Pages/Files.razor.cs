@@ -71,6 +71,13 @@ namespace web.Pages
 
 		public async Task UploadFile()
 		{
+			if (FileToUpload is null)
+			{
+				HasError = true;
+				ErrorMessage = "No file selected";
+				return;
+			}
+
 			try
 			{
 				using (Stream fileStream = FileToUpload!.OpenReadStream(Util.MAX_UPLOAD_SIZE))
@@ -106,7 +113,9 @@ namespace web.Pages
 
 		public async Task MoveUp()
 		{
-			int parentSlash = CurrentPath.LastIndexOf("/", CurrentPath.Length - 2);
+			// Max() because a file-share CurrentPath has no trailing slash, so it can be a
+			// single character - Length-2 would then be a negative start index.
+			int parentSlash = CurrentPath.LastIndexOf("/", Math.Max(CurrentPath.Length - 2, 0));
 			if (parentSlash < 0)
 				CurrentPath = "";
 			else
@@ -116,9 +125,8 @@ namespace web.Pages
 			await LoadFiles();
 		}
 
-		public async Task EnterFolder(EventArgs args, string fileUrl)
+		public async Task EnterFolder(EventArgs args, FileShareItemWrapper file)
 		{
-			FileShareItemWrapper file = new FileShareItemWrapper(fileUrl, false, null);
 			CurrentPath = file.FullName;
 
 			StateHasChanged();
@@ -142,12 +150,11 @@ namespace web.Pages
 			}
 		}
 
-		public async Task DownloadFile(EventArgs args, string url)
+		public async Task DownloadFile(EventArgs args, FileShareItemWrapper file)
 		{
 			string path = "";
 			try
 			{
-				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
 				path = await AzureStorage!.Files.GetFileAsync(CurrentFileShare, file.Name, file.Path);
 
 				FileStream fileStream = File.OpenRead(path);
@@ -170,12 +177,10 @@ namespace web.Pages
 
 		}
 
-		public async Task DeleteFile(EventArgs args, string url)
+		public async Task DeleteFile(EventArgs args, FileShareItemWrapper file)
 		{
 			try
 			{
-				FileShareItemWrapper file = new FileShareItemWrapper(url, true, 0);
-
 				await AzureStorage!.Files.DeleteFileAsync(CurrentFileShare, file.Name, file.Path);
 				await LoadFiles();
 			}

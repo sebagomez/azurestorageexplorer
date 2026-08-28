@@ -100,8 +100,8 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Share '{share}' does not exist");
 
 				List<FileShareItemWrapper> results = new List<FileShareItemWrapper>();
-				foreach(string url in MockUtils.GetItems(share, folder))
-					results.Add(new FileShareItemWrapper(url, !url.EndsWith("/"), MockUtils.NewRandomSize));
+				foreach(string itemName in MockUtils.GetItems(share, folder))
+					results.Add(new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{share}/{itemName}", share, itemName, !itemName.EndsWith("/"), MockUtils.NewRandomSize));
 
 				return results;
 			});

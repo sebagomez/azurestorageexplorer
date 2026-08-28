@@ -34,6 +34,10 @@ namespace StorageLibrary.Mocks
 
 		public static Dictionary<string, List<string>> FolderStructure { get => s_folderStructure; }
 
+		/// <summary>
+		/// Yields the names of the items directly under <paramref name="folder"/>, relative to
+		/// the container/share. Callers build whatever URL they need from them.
+		/// </summary>
 		public static IEnumerable<string> GetItems(string key, string folder)
 		{
 			foreach (string val in MockUtils.FolderStructure[key])
@@ -65,14 +69,14 @@ namespace StorageLibrary.Mocks
 					}
 
 					if (inCurrentDir)
-						yield return $"{MockUtils.FAKE_URL}/{key}/{val}";
+						yield return val;
 				}
 				else
 				{
 					if (dirs.Length > 1)
 						continue;
 
-					yield return $"{MockUtils.FAKE_URL}/{key}/{val}";
+					yield return val;
 				}
 			}
 		}

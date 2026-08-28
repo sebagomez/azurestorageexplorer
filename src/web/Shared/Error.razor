@@ -1,5 +1,8 @@
 
-	<div class="web-error-ui ui red message" style="display:none" @attributes="this.ErrorAtts">@ErrorMessage</div>
+	<div class="web-error-ui ui red message" style="@HiddenStyle">
+		<i class="dismiss close icon" title="Dismiss" @onclick="DismissAsync"></i>
+		@ErrorMessage
+	</div>
 
 
 @code
@@ -7,22 +10,18 @@
 	[Parameter]
 	public bool HasError { get; set; } = false;
 	[Parameter]
+	public EventCallback<bool> HasErrorChanged { get; set; }
+	[Parameter]
 	public string? ErrorMessage { get; set; }
 
-	private Dictionary<string, object> ErrorAtts = new Dictionary<string, object>();
+	// Kept in the DOM and hidden rather than removed: Semantic UI zeroes top margins
+	// via :first-child (.ui.table, .ui.menu, .ui.segment...), which is structural and
+	// ignores position:fixed, so adding/removing this element shifts the page content.
+	private string? HiddenStyle => HasError ? null : "display:none";
 
-	protected override async Task OnParametersSetAsync()
+	private async Task DismissAsync()
 	{
-		if (HasError && ErrorAtts.ContainsKey("style"))
-		{
-			ErrorAtts.Remove("style");
-			await Task.Delay(5 * 1000);
-			ErrorAtts.Add("style", "display:none");
-		}
-	}
-	protected override void OnInitialized()
-	{
-		if (! ErrorAtts.ContainsKey("style"))
-			ErrorAtts.Add("style", "display:none");
+		HasError = false;
+		await HasErrorChanged.InvokeAsync(false);
 	}
 }

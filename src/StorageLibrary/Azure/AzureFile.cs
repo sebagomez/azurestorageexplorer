@@ -42,13 +42,17 @@ namespace StorageLibrary.Azure
 
 			List<FileShareItemWrapper> items = new List<FileShareItemWrapper>();
 
+			// The listing only reports leaf names, so the parent has to come from what we were
+			// asked for. Trimmed because callers are inconsistent about the trailing slash.
+			string parent = string.IsNullOrWhiteSpace(folder) ? string.Empty : $"{folder.Trim('/')}/";
+
 			var files = dir.GetFilesAndDirectoriesAsync();
 			await foreach (var file in files)
 			{
 				var uriBuilder = new UriBuilder(dir.Uri);
 				uriBuilder.Path += $"/{file.Name}";
 				var uri = uriBuilder.Uri;
-				items.Add(new FileShareItemWrapper(uri.AbsoluteUri, !file.IsDirectory, file.FileSize));
+				items.Add(new FileShareItemWrapper(uri.AbsoluteUri, share, $"{parent}{file.Name}", !file.IsDirectory, file.FileSize));
 			}
 
 			return items;

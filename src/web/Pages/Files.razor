@@ -1,6 +1,6 @@
 @inherits web.Pages.BaseComponent
 
-<Error HasError=@HasError ErrorMessage=@ErrorMessage />
+<Error @bind-HasError="HasError" ErrorMessage=@ErrorMessage />
 
 
 @if (CurrentFileShare is null)
@@ -56,7 +56,7 @@ else
 	@foreach (var dir in AzureFileShareDirectories)
 	{
 		<tr>
-			<td colspan="4" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, dir.Url))">@dir.Name</a></td>
+			<td colspan="4" class="table-text"><a class="link" @onclick="@(e => EnterFolder(e, dir))">@dir.Name</a></td>
 			<td style="display:none">@dir.Url</td>
 		</tr>
 	}
@@ -79,8 +79,8 @@ else
 					<div class="ui simple dropdown item">
 						<i class="ellipsis vertical icon"></i>
 						<div class="menu">
-							<div class="item" @onclick="@(e => DownloadFile(e, file.Url))"><i class="download icon"></i>Download</div>
-							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteFile(e, file.Url))">
+							<div class="item" @onclick="@(e => DownloadFile(e, file))"><i class="download icon"></i>Download</div>
+							<div class="red item" style="color: firebrick !important;" @onclick="@(e => DeleteFile(e, file))">
 								<i class="trash icon"></i>Delete
 							</div>
 						</div>
