@@ -41,11 +41,11 @@ namespace StorageLibTests
 		public async Task GetShareFiles()
 		{
 			string fileShareName = "one";
-			List<FileShareItemWrapper> expected = new List<FileShareItemWrapper>
+			List<string> expected = new List<string>
 			{
-				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:1", true, MockUtils.NewRandomSize),
-				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:2", true, MockUtils.NewRandomSize),
-				new FileShareItemWrapper($"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:3", true, MockUtils.NewRandomSize)
+				$"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:1",
+				$"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:2",
+				$"{MockUtils.FAKE_URL}/{fileShareName}/fromOne:3"
 			};
 
 			StorageFactory factory = new StorageFactory();
@@ -53,7 +53,28 @@ namespace StorageLibTests
 
 			Assert.HasCount(expected.Count, files, $"Different amount returned. {string.Join(",", files)}");
 			for (int i = 0; i < expected.Count; i++)
-				Assert.AreEqual(files[i].Url, expected[i].Url, $"Different objecte returned. Expected '{expected[i].Url}' got '{files[i].Url}'");
+				Assert.AreEqual(files[i].Url, expected[i], $"Different objecte returned. Expected '{expected[i]}' got '{files[i].Url}'");
+		}
+
+		/// <summary>
+		/// Same round-trip guarantee as for blobs: Path and Name must reproduce the name the
+		/// provider gave us. DownloadFile and DeleteFile pass Path as the directory, so a
+		/// wrong split silently reads from the wrong folder.
+		/// </summary>
+		[TestMethod]
+		public async Task FileNamesRoundTrip()
+		{
+			StorageFactory factory = new StorageFactory();
+			List<FileShareItemWrapper> files = await factory.Files.ListFilesAndDirsAsync("brothers", "seba/");
+
+			Assert.HasCount(3, files, $"Unexpected listing for 'seba/'. {string.Join(",", files)}");
+
+			foreach (FileShareItemWrapper file in files)
+			{
+				Assert.AreEqual("brothers", file.FileShare, $"Wrong share for '{file.FullName}'");
+				Assert.AreEqual(file.FullName, $"{file.Path}{file.Name}", $"Path+Name does not reproduce FullName for '{file.FullName}'");
+				Assert.AreEqual("seba/", file.Path, $"Wrong path for '{file.FullName}'");
+			}
 		}
 
 		[TestMethod]

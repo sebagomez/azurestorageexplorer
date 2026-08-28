@@ -117,7 +117,7 @@ namespace StorageLibrary.Google
 			var listObjects = await listRequest.ExecuteAsync();
 
 			List<BlobItemWrapper> blobs = new List<BlobItemWrapper>();
-			string uriTemplate = $"https://storage.cloud.google.com/sebagomeztestbucket/";
+			string uriTemplate = $"https://storage.cloud.google.com/{bucket}/";
 			if (listObjects.Items != null)
 			{
 				foreach (var obj in listObjects.Items)
@@ -125,13 +125,13 @@ namespace StorageLibrary.Google
 					if (obj.Name == path)
 						continue;
 
-					blobs.Add(new BlobItemWrapper($"{uriTemplate}{obj.Name}", (long)obj.Size, CloudProvider.GCP));
+					blobs.Add(new BlobItemWrapper($"{uriTemplate}{obj.Name}", bucket, obj.Name, true, (long)obj.Size, CloudProvider.GCP));
 				}
 			}
 
 			if (listObjects.Prefixes != null)
 				foreach (string commonPrefix in listObjects.Prefixes)
-					blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", 0, CloudProvider.GCP));
+					blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.GCP));
 
 			return blobs;
 		}
@@ -151,6 +151,13 @@ namespace StorageLibrary.Google
 			}
 
 			return containers;
+		}
+
+		// Signed PUT URLs (UrlSigner) are not wired up yet; callers fall back to
+		// uploading through the server.
+		public Task<string> GetBlobUploadUrlAsync(string bucket, string objectName, TimeSpan validFor)
+		{
+			return Task.FromResult<string>(null);
 		}
 
 		public void Dispose()

@@ -1,16 +1,19 @@
-﻿using System;
-using System.Web;
+using System;
 
 namespace StorageLibrary.Common
 {
 	public class BlobItemWrapper : IEquatable<BlobItemWrapper>, IComparable<BlobItemWrapper>
 	{
 		Uri m_internalUri;
-		bool m_isAzurite = false;
 		public string Name { get; private set; }
 		public string Path { get; private set; }
 		public string Container { get; private set; }
-		public string FullName { get => $"{Path}{Name}"; }
+
+		/// <summary>
+		/// The blob's name relative to its container, exactly as the provider reported it.
+		/// This is what every read/delete call expects back.
+		/// </summary>
+		public string FullName { get; private set; }
 		public bool IsFile { get; private set; }
 		public string Url
 		{
@@ -26,37 +29,22 @@ namespace StorageLibrary.Common
 
 		public decimal SizeInMBs { get => (decimal)Size / 1024 / 1024; }
 
-		public BlobItemWrapper(string url) : this(url, 0, CloudProvider.Azure) { }
-
-		public BlobItemWrapper(string url, long size, CloudProvider provider, bool fromAzurite = false)
+		/// <summary>
+		/// The URL is kept only for display and equality; it is never parsed. Container,
+		/// name and kind come from the caller, which already has them - deriving them from
+		/// the URL cannot be done reliably, since the account name sits in the host for
+		/// Azure and in the path for Azurite, and names may be percent-encoded.
+		/// </summary>
+		public BlobItemWrapper(string url, string container, string fullName, bool isFile, long size, CloudProvider provider)
 		{
 			Url = url;
+			Container = container;
+			FullName = fullName;
+			IsFile = isFile;
 			Size = size;
 			Provider = provider;
-			m_isAzurite = fromAzurite;
-			IsFile = !m_internalUri.Segments[m_internalUri.Segments.Length - 1].EndsWith(System.IO.Path.AltDirectorySeparatorChar);
-			Name = HttpUtility.UrlDecode(m_internalUri.Segments[m_internalUri.Segments.Length - 1]);
 
-			switch (provider)
-			{
-				case CloudProvider.Azure:
-					Container = m_isAzurite ? m_internalUri.Segments[2] : m_internalUri.Segments[1];
-					int containerPos = m_internalUri.LocalPath.IndexOf(Container) + Container.Length;
-					Path = m_internalUri.LocalPath.Substring(containerPos, (m_internalUri.LocalPath.Length) - (containerPos) - Name.Length);
-					break;
-				case CloudProvider.AWS:
-					Container = m_internalUri.Host.Split('.')[0];
-					Path = m_internalUri.LocalPath.Substring(1, m_internalUri.LocalPath.Length - 1 - Name.Length);
-					break;
-				case CloudProvider.GCP:
-					Container = m_internalUri.Segments[1];
-					int bucketPos = m_internalUri.LocalPath.IndexOf(Container) + Container.Length;
-					Path = m_internalUri.LocalPath.Substring(bucketPos, (m_internalUri.LocalPath.Length) - (bucketPos) - Name.Length);
-					break;
-				default:
-					throw new ApplicationException($"Invalid provider: {provider}");
-			}
-
+			(Path, Name) = StorageItemName.Split(fullName);
 		}
 
 		public int CompareTo(BlobItemWrapper other)

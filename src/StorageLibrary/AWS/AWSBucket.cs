@@ -142,11 +142,11 @@ namespace StorageLibrary.AWS
 				if (entry.Key == path)
 					continue;
 
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", entry.Size ?? 0, CloudProvider.AWS));
+				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", bucket, entry.Key, true, entry.Size ?? 0, CloudProvider.AWS));
 			}
 
 			foreach (string commonPrefix in response.CommonPrefixes ?? [])
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", 0, CloudProvider.AWS));
+				blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.AWS));
 
 			return blobs;
 		}
@@ -167,6 +167,13 @@ namespace StorageLibrary.AWS
 			return buckets;
 		}
 	
+		// Presigned PUT URLs (GetPreSignedURL) are not wired up yet; callers fall back
+		// to uploading through the server.
+		public Task<string> GetBlobUploadUrlAsync(string bucket, string key, TimeSpan validFor)
+		{
+			return Task.FromResult<string>(null);
+		}
+
 		public void Dispose()
     	{
         	_s3Client?.Dispose();

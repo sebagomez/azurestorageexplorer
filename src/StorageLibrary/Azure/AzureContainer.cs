@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 
 using StorageLibrary.Common;
 using StorageLibrary.Interfaces;
@@ -48,11 +50,11 @@ namespace StorageLibrary.Azure
 				{
 					BlobClient blobClient = container.GetBlobClient(blobItem.Blob.Name);
 
-					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, blobItem.Blob.Properties.ContentLength.HasValue ? blobItem.Blob.Properties.ContentLength.Value : 0, CloudProvider.Azure, IsAzurite);
+					wrapper = new BlobItemWrapper(blobClient.Uri.AbsoluteUri, containerName, blobItem.Blob.Name, true, blobItem.Blob.Properties.ContentLength.HasValue ? blobItem.Blob.Properties.ContentLength.Value : 0, CloudProvider.Azure);
 				}
 				else if (blobItem.IsPrefix)
 				{
-					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", 0, CloudProvider.Azure, IsAzurite);
+					wrapper = new BlobItemWrapper($"{container.Uri}/{blobItem.Prefix}", containerName, blobItem.Prefix, false, 0, CloudProvider.Azure);
 				}
 
 				if (wrapper != null && !results.Contains(wrapper))
@@ -95,6 +97,29 @@ namespace StorageLibrary.Azure
 			string tmpPath = Util.File.GetTempFileName();
 			await blob.DownloadToAsync(tmpPath);
 			return tmpPath;
+		}
+
+		public Task<string> GetBlobUploadUrlAsync(string containerName, string blobName, TimeSpan validFor)
+		{
+			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
+			BlobClient blob = container.GetBlobClient(blobName);
+
+			// Only true when the client holds a shared key credential. Accounts reached
+			// through a SAS cannot sign a new one, so the caller falls back to uploading
+			// through the server.
+			if (!blob.CanGenerateSasUri)
+				return Task.FromResult<string>(null);
+
+			BlobSasBuilder builder = new BlobSasBuilder(BlobSasPermissions.Create | BlobSasPermissions.Write, DateTimeOffset.UtcNow.Add(validFor))
+			{
+				BlobContainerName = containerName,
+				BlobName = blobName,
+				Resource = "b",
+				StartsOn = DateTimeOffset.UtcNow.AddMinutes(-5), // tolerate clock skew
+				Protocol = IsAzurite ? SasProtocol.HttpsAndHttp : SasProtocol.Https
+			};
+
+			return Task.FromResult(blob.GenerateSasUri(builder).ToString());
 		}
 	}
 }

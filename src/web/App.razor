@@ -29,7 +29,11 @@
     <script>
         window.downloadFileFromStream = async (fileName, contentStreamReference) => {
             const arrayBuffer = await contentStreamReference.arrayBuffer();
-            const blob = new Blob([arrayBuffer]);
+            // The type is explicit on purpose: an untyped Blob is sniffed as text/plain,
+            // and when the download name has no extension the browser appends one from
+            // the type - so an extensionless blob would be saved as "<name>.txt".
+            // application/octet-stream has no canonical extension, so the name is kept verbatim.
+            const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
             const url = URL.createObjectURL(blob);
             const anchorElement = document.createElement('a');
             anchorElement.href = url;
@@ -37,6 +41,51 @@
             anchorElement.click();
             anchorElement.remove();
             URL.revokeObjectURL(url);
+        }
+
+        // Uploads the file currently selected in inputEl straight to storage, so the
+        // bytes never cross the Blazor circuit. Reports 'retryable' when the request
+        // never reached storage (CORS preflight refused, offline, DNS) so the caller
+        // can safely fall back to uploading through the server.
+        // XMLHttpRequest rather than fetch: only xhr exposes upload progress events.
+        window.uploadBlobToSasUrl = (inputEl, url, progress) => {
+            const file = inputEl?.files?.[0];
+            if (!file)
+                return Promise.resolve({ ok: false, retryable: false, status: 0, error: 'No file selected' });
+
+            return new Promise(resolve => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', url, true);
+                xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob');
+                xhr.setRequestHeader('If-None-Match', '*');
+                xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+
+                // Report whole percentages only, to keep circuit chatter bounded.
+                let reported = -1;
+                xhr.upload.onprogress = e => {
+                    if (!progress || !e.lengthComputable)
+                        return;
+
+                    const percent = Math.floor((e.loaded / e.total) * 100);
+                    if (percent !== reported) {
+                        reported = percent;
+                        progress.invokeMethodAsync('ReportUploadProgress', percent);
+                    }
+                };
+
+                xhr.onload = () => resolve({
+                    ok: xhr.status >= 200 && xhr.status < 300,
+                    retryable: false,
+                    status: xhr.status,
+                    error: xhr.statusText
+                });
+
+                // Fires for CORS refusals too, which is exactly what should fall back.
+                xhr.onerror = () => resolve({ ok: false, retryable: true, status: 0, error: 'network error' });
+                xhr.onabort = () => resolve({ ok: false, retryable: true, status: 0, error: 'aborted' });
+
+                xhr.send(file);
+            });
         }
     </script>
 </body>

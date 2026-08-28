@@ -30,8 +30,8 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
 				List<BlobItemWrapper> results = new List<BlobItemWrapper>();
-				foreach(string url in MockUtils.GetItems(containerName, path))
-					results.Add(new BlobItemWrapper(url, MockUtils.NewRandomSize, CloudProvider.Azure));
+				foreach(string blobName in MockUtils.GetItems(containerName, path))
+					results.Add(new BlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{blobName}", containerName, blobName, !blobName.EndsWith("/"), MockUtils.NewRandomSize, CloudProvider.Azure));
 
 				return results;
 			});
@@ -72,11 +72,11 @@ namespace StorageLibrary.Mocks
 				if (MockUtils.FolderStructure[containerName].Contains(blobName))
 					throw new InvalidOperationException($"Blob '{blobName}' already exists in Container '{containerName}'");
 
-				BlobItemWrapper blob = StorageFactory.GetBlobItemWrapper($"{MockUtils.FAKE_URL}/{containerName}/{blobName}");
-				if (!MockUtils.FolderStructure[containerName].Contains(blob.Path))
-					MockUtils.FolderStructure[containerName].Add(blob.Path);
+				(string path, _) = StorageItemName.Split(blobName);
+				if (!string.IsNullOrEmpty(path) && !MockUtils.FolderStructure[containerName].Contains(path))
+					MockUtils.FolderStructure[containerName].Add(path);
 
-				MockUtils.FolderStructure[containerName].Add(blob.FullName);
+				MockUtils.FolderStructure[containerName].Add(blobName);
 			});
 		}
 
@@ -103,6 +103,12 @@ namespace StorageLibrary.Mocks
 
 				MockUtils.FolderStructure.Remove(containerName);
 			});
+		}
+
+		// There is nothing to upload to; callers fall back to CreateBlobAsync.
+		public Task<string> GetBlobUploadUrlAsync(string containerName, string blobName, TimeSpan validFor)
+		{
+			return Task.FromResult<string>(null);
 		}
 	}
 }
