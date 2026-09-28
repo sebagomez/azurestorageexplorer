@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
+using Google.Apis.Upload;
 using Google.Apis.Storage.v1;
 using Google.Apis.Storage.v1.Data;
 using GoogleStorageObject = Google.Apis.Storage.v1.Data.Object;
@@ -71,7 +74,7 @@ namespace StorageLibrary.Google
 			await setIamPolicyRequest.ExecuteAsync();
 		}
 
-		public async Task CreateBlobAsync(string bucket, string objectName, Stream fileContent)
+		public async Task CreateBlobAsync(string bucket, string objectName, Stream fileContent, bool overwrite = false)
 		{
 			var uploadRequest = new GoogleStorageObject()
 			{
@@ -81,7 +84,19 @@ namespace StorageLibrary.Google
 
 			var mediaUpload = new ObjectsResource.InsertMediaUpload(_storageService, uploadRequest, bucket, fileContent, "application/octet-stream");
 
-			await mediaUpload.UploadAsync();
+			// Generation 0 means "no live object": the upload fails with 412 when it exists.
+			if (!overwrite)
+				mediaUpload.IfGenerationMatch = 0;
+
+			// UploadAsync does not throw. It reports a failure in the returned progress.
+			IUploadProgress progress = await mediaUpload.UploadAsync();
+			if (progress.Status == UploadStatus.Failed)
+			{
+				if (!overwrite && progress.Exception is GoogleApiException api && api.HttpStatusCode == HttpStatusCode.PreconditionFailed)
+					throw new BlobAlreadyExistsException(bucket, objectName, api);
+
+				throw progress.Exception ?? new IOException($"Upload of '{objectName}' to '{bucket}' failed");
+			}
 		}
 
 		public async Task DeleteAsync(string bucket)
@@ -114,41 +129,55 @@ namespace StorageLibrary.Google
 			listRequest.Prefix = path;
 			listRequest.Delimiter = "/";
 
-			var listObjects = await listRequest.ExecuteAsync();
-
 			List<BlobItemWrapper> blobs = new List<BlobItemWrapper>();
 			string uriTemplate = $"https://storage.cloud.google.com/{bucket}/";
-			if (listObjects.Items != null)
+
+			// GCS returns at most 1,000 items for each request.
+			Objects listObjects;
+			do
 			{
-				foreach (var obj in listObjects.Items)
+				listObjects = await listRequest.ExecuteAsync();
+
+				if (listObjects.Items != null)
 				{
-					if (obj.Name == path)
-						continue;
+					foreach (var obj in listObjects.Items)
+					{
+						// Skip only the folder placeholder object ("folder/"). A prefix that is
+						// the full name of a file must still return that file.
+						if (obj.Name == path && path.EndsWith("/"))
+							continue;
 
-					blobs.Add(new BlobItemWrapper($"{uriTemplate}{obj.Name}", bucket, obj.Name, true, (long)obj.Size, CloudProvider.GCP));
+						blobs.Add(new BlobItemWrapper($"{uriTemplate}{obj.Name}", bucket, obj.Name, true, (long)(obj.Size ?? 0), CloudProvider.GCP));
+					}
 				}
-			}
 
-			if (listObjects.Prefixes != null)
-				foreach (string commonPrefix in listObjects.Prefixes)
-					blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.GCP));
+				if (listObjects.Prefixes != null)
+					foreach (string commonPrefix in listObjects.Prefixes)
+						blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.GCP));
+
+				listRequest.PageToken = listObjects.NextPageToken;
+			}
+			while (!string.IsNullOrEmpty(listObjects.NextPageToken));
 
 			return blobs;
 		}
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
-			var buckets = await _storageService.Buckets.List(_projectId).ExecuteAsync();
-
 			List<CloudBlobContainerWrapper> containers = new List<CloudBlobContainerWrapper>();
+			var listRequest = _storageService.Buckets.List(_projectId);
 
-			if (buckets.Items == null)
-				return containers;
-
-			foreach (var bucket in buckets.Items)
+			Buckets buckets;
+			do
 			{
-				containers.Add(new CloudBlobContainerWrapper() { Name = bucket.Name });
+				buckets = await listRequest.ExecuteAsync();
+
+				foreach (var bucket in buckets.Items ?? [])
+					containers.Add(new CloudBlobContainerWrapper() { Name = bucket.Name });
+
+				listRequest.PageToken = buckets.NextPageToken;
 			}
+			while (!string.IsNullOrEmpty(buckets.NextPageToken));
 
 			return containers;
 		}
