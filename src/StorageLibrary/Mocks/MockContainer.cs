@@ -62,7 +62,7 @@ namespace StorageLibrary.Mocks
 			});
 		}
 
-		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
+		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent, bool overwrite = false)
 		{
 			await Task.Run(() =>
 			{
@@ -70,7 +70,12 @@ namespace StorageLibrary.Mocks
 					throw new NullReferenceException($"Container '{containerName}' does not exist");
 
 				if (MockUtils.FolderStructure[containerName].Contains(blobName))
-					throw new InvalidOperationException($"Blob '{blobName}' already exists in Container '{containerName}'");
+				{
+					if (!overwrite)
+						throw new BlobAlreadyExistsException(containerName, blobName);
+
+					return;
+				}
 
 				(string path, _) = StorageItemName.Split(blobName);
 				if (!string.IsNullOrEmpty(path) && !MockUtils.FolderStructure[containerName].Contains(path))

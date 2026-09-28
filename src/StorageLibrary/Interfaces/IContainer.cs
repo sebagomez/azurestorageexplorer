@@ -14,7 +14,12 @@ namespace StorageLibrary.Interfaces
 		Task DeleteAsync(string containerName);
 		Task CreateAsync(string containerName, bool publicAccess);
 		Task DeleteBlobAsync(string containerName, string blobName);
-		Task CreateBlobAsync(string containerName, string blobName, Stream fileContent);
+		/// <summary>
+		/// Uploads a blob. When <paramref name="overwrite"/> is false and the blob exists,
+		/// throws <see cref="BlobAlreadyExistsException"/>. The provider does the check in
+		/// the same request as the upload, so it cannot race with another writer.
+		/// </summary>
+		Task CreateBlobAsync(string containerName, string blobName, Stream fileContent, bool overwrite = false);
 		Task<string> GetBlobAsync(string containerName, string blobName);
 		/// <summary>
 		/// Gets a pre-signed URL the browser can upload a single blob to directly,

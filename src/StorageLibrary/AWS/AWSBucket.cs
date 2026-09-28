@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -69,7 +70,7 @@ namespace StorageLibrary.AWS
 			await _s3Client.PutBucketPolicyAsync(putBucketPolicyRequest);
 		}
 
-		public async Task CreateBlobAsync(string bucket, string key, Stream fileContent)
+		public async Task CreateBlobAsync(string bucket, string key, Stream fileContent, bool overwrite = false)
 		{
 			var putRequest = new PutObjectRequest
 			{
@@ -78,7 +79,18 @@ namespace StorageLibrary.AWS
 				InputStream = fileContent
 			};
 
-			await _s3Client.PutObjectAsync(putRequest);
+			// S3 conditional write: the request fails with 412 when the key exists.
+			if (!overwrite)
+				putRequest.IfNoneMatch = "*";
+
+			try
+			{
+				await _s3Client.PutObjectAsync(putRequest);
+			}
+			catch (AmazonS3Exception ex) when (!overwrite && ex.StatusCode == HttpStatusCode.PreconditionFailed)
+			{
+				throw new BlobAlreadyExistsException(bucket, key, ex);
+			}
 		}
 
 		public async Task DeleteAsync(string bucket)
@@ -133,36 +145,53 @@ namespace StorageLibrary.AWS
 
 
 			var blobs = new List<BlobItemWrapper>();
-			var response = await _s3Client.ListObjectsV2Async(request);
-
 			var uriTemplate = $"https://{bucket}.s3.{_region}.amazonaws.com/";
 
-			foreach (S3Object entry in response.S3Objects ?? [])
+			// S3 returns at most 1,000 keys for each request.
+			ListObjectsV2Response response;
+			do
 			{
-				if (entry.Key == path)
-					continue;
+				response = await _s3Client.ListObjectsV2Async(request);
 
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", bucket, entry.Key, true, entry.Size ?? 0, CloudProvider.AWS));
+				foreach (S3Object entry in response.S3Objects ?? [])
+				{
+					// Skip only the folder placeholder object ("folder/"). A prefix that is
+					// the full name of a file must still return that file.
+					if (entry.Key == path && path.EndsWith("/"))
+						continue;
+
+					blobs.Add(new BlobItemWrapper($"{uriTemplate}{entry.Key}", bucket, entry.Key, true, entry.Size ?? 0, CloudProvider.AWS));
+				}
+
+				foreach (string commonPrefix in response.CommonPrefixes ?? [])
+					blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.AWS));
+
+				request.ContinuationToken = response.NextContinuationToken;
 			}
-
-			foreach (string commonPrefix in response.CommonPrefixes ?? [])
-				blobs.Add(new BlobItemWrapper($"{uriTemplate}{commonPrefix}", bucket, commonPrefix, false, 0, CloudProvider.AWS));
+			while (response.IsTruncated == true);
 
 			return blobs;
 		}
 
 		public async Task<List<CloudBlobContainerWrapper>> ListContainersAsync()
 		{
-			ListBucketsResponse response = await _s3Client.ListBucketsAsync();
 			var buckets = new List<CloudBlobContainerWrapper>();
 
-			if (response.Buckets == null)
-				return buckets;
-			
-			foreach (S3Bucket bucket in response.Buckets)
+			// S3 returns a continuation token only when MaxBuckets is set. 10,000 is the
+			// API maximum, so most accounts need one request.
+			var request = new ListBucketsRequest { MaxBuckets = 10000 };
+
+			ListBucketsResponse response;
+			do
 			{
-				buckets.Add(new CloudBlobContainerWrapper() { Name = bucket.BucketName });
+				response = await _s3Client.ListBucketsAsync(request);
+
+				foreach (S3Bucket bucket in response.Buckets ?? [])
+					buckets.Add(new CloudBlobContainerWrapper() { Name = bucket.BucketName });
+
+				request.ContinuationToken = response.ContinuationToken;
 			}
+			while (!string.IsNullOrEmpty(response.ContinuationToken));
 
 			return buckets;
 		}

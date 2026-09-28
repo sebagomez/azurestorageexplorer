@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
@@ -84,10 +85,20 @@ namespace StorageLibrary.Azure
 			await blob.DeleteAsync();
 		}
 
-		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent)
+		public async Task CreateBlobAsync(string containerName, string blobName, Stream fileContent, bool overwrite = false)
 		{
 			BlobContainerClient container = ServiceClient.GetBlobContainerClient(containerName);
-			await container.UploadBlobAsync(blobName, fileContent);
+			BlobClient blob = container.GetBlobClient(blobName);
+			try
+			{
+				// overwrite: false sends If-None-Match: *, so the service rejects the
+				// upload when the blob exists.
+				await blob.UploadAsync(fileContent, overwrite);
+			}
+			catch (RequestFailedException ex) when (!overwrite && ex.ErrorCode == BlobErrorCode.BlobAlreadyExists)
+			{
+				throw new BlobAlreadyExistsException(containerName, blobName, ex);
+			}
 		}
 
 		public async Task<string> GetBlobAsync(string containerName, string blobName)
