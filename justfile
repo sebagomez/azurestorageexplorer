@@ -56,7 +56,7 @@ uncompose:
 # Run the skyfs CLI, e.g. just cli ls az://  (arguments go straight to skyfs)
 # UseAppHost=false runs it through the signed dotnet host, which works on machines that block unsigned binaries
 cli *ARGS:
-  dotnet run --project ./src/SkyFs -p:UseAppHost=false -- {{ARGS}}
+  dotnet run --project ./src/cli -p:UseAppHost=false -- {{ARGS}}
 
 # Run the skyfs CLI unit tests (no cloud account needed)
 cli-test:
@@ -64,4 +64,4 @@ cli-test:
 
 # Publish skyfs as a single self-contained binary to ./bin/skyfs
 cli-publish:
-  dotnet publish ./src/SkyFs/SkyFs.csproj --configuration Release -o ./bin/skyfs -p:PublishSingleFile=true --self-contained
+  dotnet publish ./src/cli/cli.csproj --configuration Release -o ./bin/skyfs -p:PublishSingleFile=true --self-contained

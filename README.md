@@ -90,6 +90,19 @@ To query action movies use the following:
 
 If you don't write a query the system will retrieve every Entity on the Table.
 
+## skyfs CLI
+
+`skyfs` is a command-line tool that uses the same storage library as the web app. It lists, copies, moves, and deletes files on the local disk, Azure Blob Storage, AWS S3, and Google Cloud Storage. It copies in every direction, also from one cloud to a different cloud, and all the configured providers are active at the same time.
+
+```sh
+just cli ls                                       # containers of every configured provider
+just cli cp ./report.pdf az://docs/2024/          # local → Azure
+just cli cp -r s3://bucket/images/ gs://bucket/   # AWS → GCP
+just cli mv az://box/old.txt ./                   # Azure → local, then delete the source
+```
+
+See the [skyfs README](./src/cli/README.md) for the configuration, all commands and options, and more examples.
+
 ## Build
 
 To build this repo make sure you install [.NET 10.0 SDK](https://dotnet.microsoft.com/en-us/download). I'm also using [just](https://github.com/casey/just) and this [justfile](./justfile) to make my life easier.
