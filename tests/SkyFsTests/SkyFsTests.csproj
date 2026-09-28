@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\cli\SkyFs.csproj" />
+    <ProjectReference Include="..\..\src\cli\cli.csproj" />
     <ProjectReference Include="..\..\src\StorageLibrary\StorageLibrary.csproj" />
   </ItemGroup>
 
