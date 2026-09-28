@@ -25,7 +25,11 @@ jobs:
     - uses: actions/setup-dotnet@v6
       with:
         dotnet-version: '10.0.x'
-    - name: Local Build
+    - name: Local Web Build
       run: dotnet build --configuration $config ./src/web/web.csproj
+    - name: Local Cli Build
+      run: dotnet build --configuration $config ./src/cli/cli.csproj
     - name: Run Tests
-      run: dotnet test ./tests/StorageLibTests/StorageLibTests.csproj
+      run:  | 
+        dotnet test ./tests/StorageLibTests/StorageLibTests.csproj
+        dotnet test ./tests/SkyFsTests/SkyFsTests.csproj
